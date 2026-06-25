@@ -55,8 +55,9 @@ body {
 }
 
 .logo {
-  width: 150px;
-  margin-bottom: 34px;
+  width: 300px;
+  height: auto;
+  margin-bottom: 40px;
 }
 
 .eyebrow {
