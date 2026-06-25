@@ -16,12 +16,13 @@ body {
   background: rgba(255, 250, 242, 0.92);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: sticky;
   top: 0;
   z-index: 99;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #eadcc8;
+}
 }
 
 .nav-logo {
@@ -58,7 +59,7 @@ nav a {
 }
 
 .hero-logo {
-  width: 210px;
+  width: 180px;
   margin-bottom: 24px;
 }
 
