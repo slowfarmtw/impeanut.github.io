@@ -25,7 +25,8 @@ body {
 }
 
 .nav-logo {
-  width: 88px;
+    width: 70px;
+    height: auto;
 }
 
 nav {
