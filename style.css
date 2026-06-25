@@ -1,71 +1,169 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>花生一生｜Peanut Life</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+:root {
+  --bg: #f7f1e7;
+  --card: #fffaf2;
+  --brown: #4a2f1b;
+  --brown-light: #8b6a42;
+  --gold: #b08a4a;
+  --border: #e5d7c1;
+}
 
-<body>
-  <header class="hero">
-    <p class="eyebrow">PEANUT LIFE</p>
-    <h1>花生一生</h1>
-    <p class="subtitle">來自雲林元長的花生故事</p>
+* {
+  box-sizing: border-box;
+}
 
-    <a class="main-btn" href="https://lin.ee/你的LINE連結">加入 LINE 下單</a>
-  </header>
+body {
+  margin: 0;
+  font-family: "Noto Serif TC", "Noto Sans TC", serif;
+  background: var(--bg);
+  color: var(--brown);
+  line-height: 1.8;
+}
 
-  <main class="container">
-    <section class="intro">
-      <h2>從土地開始的一顆花生</h2>
-      <p>
-        我們來自雲林元長，從種植、乾燥、烘焙到包裝，
-        記錄每一批花生的風味與品質。
-      </p>
-    </section>
+.hero {
+  text-align: center;
+  padding: 90px 20px 70px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(176,138,74,.18), transparent 28%),
+    radial-gradient(circle at 85% 15%, rgba(139,106,66,.13), transparent 24%),
+    linear-gradient(180deg, #fffaf2 0%, #f7f1e7 100%);
+}
 
-    <section class="grid">
-      <a class="card" href="products.html">
-        <div class="icon">🥜</div>
-        <h3>產品介紹</h3>
-        <p>原味炒花生、輕焙花生與未來禮盒系列。</p>
-      </a>
+.eyebrow {
+  letter-spacing: 8px;
+  color: var(--gold);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-      <a class="card" href="story.html">
-        <div class="icon">📖</div>
-        <h3>品牌故事</h3>
-        <p>從從農農與花生一生的起點。</p>
-      </a>
+h1 {
+  font-size: 54px;
+  letter-spacing: 12px;
+  margin: 0;
+  font-weight: 700;
+}
 
-      <a class="card" href="knowledge.html">
-        <div class="icon">💡</div>
-        <h3>花生知識</h3>
-        <p>花生營養、保存方式與食用知識。</p>
-      </a>
+.subtitle {
+  font-size: 20px;
+  margin: 18px 0 32px;
+  color: var(--brown-light);
+}
 
-      <a class="card" href="farm.html">
-        <div class="icon">🌱</div>
-        <h3>產地日誌</h3>
-        <p>播種、採收、曝曬與烘焙紀錄。</p>
-      </a>
+.main-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: var(--brown);
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  letter-spacing: 2px;
+  box-shadow: 0 10px 24px rgba(74,47,27,.18);
+}
 
-      <a class="card" href="inspection.html">
-        <div class="icon">🛡️</div>
-        <h3>檢驗專區</h3>
-        <p>黃麴毒素、農藥殘留與品質管理。</p>
-      </a>
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 45px 22px 70px;
+}
 
-      <a class="card order" href="https://lin.ee/你的LINE連結">
-        <div class="icon">🛒</div>
-        <h3>我要下單</h3>
-        <p>透過 LINE 或表單完成訂購。</p>
-      </a>
-    </section>
-  </main>
+.intro {
+  max-width: 760px;
+  margin: 0 auto 42px;
+  text-align: center;
+}
 
-  <footer>
-    © 2026 花生一生 Peanut Life｜從從農農
-  </footer>
-</body>
-</html>
+.intro h2 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.intro p {
+  font-size: 17px;
+  color: #5f4935;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.card {
+  display: block;
+  min-height: 220px;
+  padding: 32px 26px;
+  border-radius: 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--brown);
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(74,47,27,.08);
+  transition: .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(74,47,27,.14);
+}
+
+.icon {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: #f2e6d4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.card h3 {
+  font-size: 24px;
+  margin: 8px 0;
+  letter-spacing: 2px;
+}
+
+.card p {
+  color: #6a513b;
+  margin: 0;
+}
+
+.card.order {
+  background: linear-gradient(180deg, #fff8ed 0%, #f2dfc2 100%);
+  border-color: #d4b982;
+}
+
+footer {
+  text-align: center;
+  padding: 32px 16px;
+  background: #eadcc8;
+  color: #5a422e;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 70px 18px 50px;
+  }
+
+  h1 {
+    font-size: 36px;
+    letter-spacing: 7px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
