@@ -1,101 +1,71 @@
-body {
-  margin: 0;
-  font-family: "Noto Serif TC", "Noto Sans TC", serif;
-  background: #f7f1e7;
-  color: #3b2a1e;
-  line-height: 1.8;
-}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>花生一生｜Peanut Life</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-.hero {
-  min-height: 70vh;
-  background: linear-gradient(
-    rgba(247, 241, 231, 0.75),
-    rgba(247, 241, 231, 0.9)
-  ),
-  url("images/peanut-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 40px 20px;
-}
+<body>
+  <header class="hero">
+    <p class="eyebrow">PEANUT LIFE</p>
+    <h1>花生一生</h1>
+    <p class="subtitle">來自雲林元長的花生故事</p>
 
-.hero h1 {
-  font-size: 48px;
-  letter-spacing: 8px;
-  margin-bottom: 10px;
-}
+    <a class="main-btn" href="https://lin.ee/你的LINE連結">加入 LINE 下單</a>
+  </header>
 
-.hero p {
-  font-size: 20px;
-  margin-bottom: 30px;
-}
+  <main class="container">
+    <section class="intro">
+      <h2>從土地開始的一顆花生</h2>
+      <p>
+        我們來自雲林元長，從種植、乾燥、烘焙到包裝，
+        記錄每一批花生的風味與品質。
+      </p>
+    </section>
 
-.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  background: #6b4b2f;
-  color: white;
-  text-decoration: none;
-  border-radius: 999px;
-}
+    <section class="grid">
+      <a class="card" href="products.html">
+        <div class="icon">🥜</div>
+        <h3>產品介紹</h3>
+        <p>原味炒花生、輕焙花生與未來禮盒系列。</p>
+      </a>
 
-.intro {
-  max-width: 760px;
-  margin: 70px auto;
-  padding: 0 24px;
-  text-align: center;
-}
+      <a class="card" href="story.html">
+        <div class="icon">📖</div>
+        <h3>品牌故事</h3>
+        <p>從從農農與花生一生的起點。</p>
+      </a>
 
-.intro h2 {
-  font-size: 30px;
-  margin-bottom: 20px;
-}
+      <a class="card" href="knowledge.html">
+        <div class="icon">💡</div>
+        <h3>花生知識</h3>
+        <p>花生營養、保存方式與食用知識。</p>
+      </a>
 
-.cards {
-  max-width: 1100px;
-  margin: 0 auto 80px;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-}
+      <a class="card" href="farm.html">
+        <div class="icon">🌱</div>
+        <h3>產地日誌</h3>
+        <p>播種、採收、曝曬與烘焙紀錄。</p>
+      </a>
 
-.card {
-  background: #fffaf2;
-  border: 1px solid #e2d3bd;
-  border-radius: 18px;
-  padding: 28px;
-  text-decoration: none;
-  color: #3b2a1e;
-  transition: 0.2s;
-}
+      <a class="card" href="inspection.html">
+        <div class="icon">🛡️</div>
+        <h3>檢驗專區</h3>
+        <p>黃麴毒素、農藥殘留與品質管理。</p>
+      </a>
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
+      <a class="card order" href="https://lin.ee/你的LINE連結">
+        <div class="icon">🛒</div>
+        <h3>我要下單</h3>
+        <p>透過 LINE 或表單完成訂購。</p>
+      </a>
+    </section>
+  </main>
 
-.card h3 {
-  margin-top: 0;
-  font-size: 22px;
-}
-
-footer {
-  text-align: center;
-  padding: 30px;
-  background: #eadcc8;
-  font-size: 14px;
-}
-
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 36px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-}
+  <footer>
+    © 2026 花生一生 Peanut Life｜從從農農
+  </footer>
+</body>
+</html>
