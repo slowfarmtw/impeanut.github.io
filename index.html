@@ -1,139 +1,99 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>花生一生 | Peanut Life</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>花生一生｜Peanut Life</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-<header class="hero">
+<header class="nav">
+  <img src="logo.png" class="nav-logo" alt="花生一生 Logo">
 
-<div class="overlay">
-
-<p class="small-title">FROM YUNLIN, TAIWAN</p>
-
-<h1>花生一生</h1>
-
-<p class="subtitle">
-來自雲林元長，用心做好每一顆花生。
-</p>
-
-<a href="https://lin.ee/SqQN3Jl" target="_blank">
-
-<img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
-alt="加入LINE好友"
-class="line-btn">
-
-</a>
-
-</div>
-
+  <nav>
+    <a href="#home">首頁</a>
+    <a href="#product">產品介紹</a>
+    <a href="#story">品牌故事</a>
+    <a href="#quality">品質檢驗</a>
+    <a class="nav-btn" href="https://lin.ee/SqQN3Jl" target="_blank">加入 LINE</a>
+  </nav>
 </header>
 
-<section class="intro">
+<section class="hero" id="home">
+  <div class="hero-text">
+    <img src="logo.png" class="hero-logo" alt="花生一生 Logo">
 
-<h2>從土地開始的一顆花生</h2>
+    <p class="eyebrow">FROM YUNLIN YUANCHANG</p>
 
-<p>
+    <h1>來自雲林元長<br>用心做好每一顆花生</h1>
 
-我們相信，一顆好的花生，來自好的土地。
+    <p class="hero-desc">
+      從土地、採收、乾燥到烘焙，記錄每一批花生的風味與品質。
+    </p>
 
-從種植、採收、乾燥、烘焙到包裝，
+    <a href="https://lin.ee/SqQN3Jl" target="_blank">
+      <img class="line-img" src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入好友">
+    </a>
+  </div>
 
-我們一步一步記錄，只為呈現最純粹的風味。
-
-</p>
-
+  <div class="hero-image">
+    <img src="hero.jpg" alt="花生產品照片">
+  </div>
 </section>
 
-<section class="grid">
+<section class="features">
+  <div class="feature">
+    <div class="icon">🌱</div>
+    <h3>在地種植</h3>
+    <p>來自雲林元長，從土地開始記錄。</p>
+  </div>
 
-<a href="products.html" class="card">
+  <div class="feature">
+    <div class="icon">🔥</div>
+    <h3>用心烘焙</h3>
+    <p>以穩定火候呈現花生自然香氣。</p>
+  </div>
 
-<div class="emoji">🥜</div>
+  <div class="feature">
+    <div class="icon">🧪</div>
+    <h3>品質檢驗</h3>
+    <p>重視保存、檢驗與食用安心。</p>
+  </div>
 
-<h3>產品介紹</h3>
+  <div class="feature">
+    <div class="icon">🎁</div>
+    <h3>美味分享</h3>
+    <p>日常泡茶、送禮分享都適合。</p>
+  </div>
+</section>
 
-<p>查看目前販售商品與價格。</p>
+<section class="cards">
+  <a href="products.html" class="card" id="product">
+    <h2>產品介紹</h2>
+    <p>原味炒花生、輕焙花生與未來禮盒系列。</p>
+  </a>
 
-</a>
+  <a href="story.html" class="card" id="story">
+    <h2>品牌故事</h2>
+    <p>從從農農與花生一生的起點。</p>
+  </a>
 
-<a href="story.html" class="card">
+  <a href="knowledge.html" class="card">
+    <h2>花生知識</h2>
+    <p>營養、保存與食用小知識。</p>
+  </a>
 
-<div class="emoji">📖</div>
-
-<h3>品牌故事</h3>
-
-<p>了解花生一生的開始。</p>
-
-</a>
-
-<a href="knowledge.html" class="card">
-
-<div class="emoji">💡</div>
-
-<h3>花生知識</h3>
-
-<p>營養、保存方式與食用建議。</p>
-
-</a>
-
-<a href="farm.html" class="card">
-
-<div class="emoji">🌱</div>
-
-<h3>產地日誌</h3>
-
-<p>種植、採收、烘焙紀錄。</p>
-
-</a>
-
-<a href="inspection.html" class="card">
-
-<div class="emoji">🧪</div>
-
-<h3>SGS檢驗</h3>
-
-<p>檢驗報告與品質管理。</p>
-
-</a>
-
-<a href="https://lin.ee/SqQN3Jl" class="card order">
-
-<div class="emoji">🛒</div>
-
-<h3>我要下單</h3>
-
-<p>立即加入 LINE 訂購。</p>
-
-</a>
-
+  <a href="inspection.html" class="card" id="quality">
+    <h2>品質檢驗</h2>
+    <p>黃麴毒素、農藥殘留與品質管理。</p>
+  </a>
 </section>
 
 <footer>
-
-<p>
-
-© 2026 花生一生 Peanut Life
-
-</p>
-
+  © 2026 花生一生 Peanut Life｜從從農農
 </footer>
 
 </body>
-
 </html>
