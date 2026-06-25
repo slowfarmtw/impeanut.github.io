@@ -31,9 +31,19 @@ body {
 }
 
 .nav a {
+
   color: #3f2a1b;
+
   text-decoration: none;
-  font-size: 14px;
+
+  font-size: 17px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.5px;
+
+  transition: .25s;
+
 }
 
 .nav .line-link {
