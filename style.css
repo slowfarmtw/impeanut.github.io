@@ -58,9 +58,8 @@ nav a {
   gap: 40px;
 }
 
-.hero-logo {
-  width: 180px;
-  margin-bottom: 24px;
+.hero-logo{
+    width:220px;
 }
 
 .eyebrow {
