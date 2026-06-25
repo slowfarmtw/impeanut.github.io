@@ -6,6 +6,18 @@ box-sizing:border-box;
 
 body{
 
+font-family:'Noto Sans TC',sans-serif;
+
+}
+
+h1,h2,h3{
+
+font-family:'Noto Serif TC',serif;
+
+letter-spacing:4px;
+
+}  
+
 background:#F8F4ED;
 
 font-family:"Noto Sans TC",sans-serif;
