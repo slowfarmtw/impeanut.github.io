@@ -187,6 +187,41 @@ body {
   object-fit: cover;
   aspect-ratio: 4 / 5;
 }
+.story-section {
+  background: #FFF7EA;
+  padding: 120px 40px;
+}
+
+.story-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section-label {
+  font-size: 14px;
+  letter-spacing: 0.28em;
+  color: #C98545;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.story-inner h2 {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1.45;
+  color: #3E2A1F;
+  font-weight: 700;
+}
+
+.story-inner p {
+  margin: 34px auto 0;
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 2.1;
+  color: #5A3928;
+  font-weight: 500;
+}
 
 /* Mobile */
 
@@ -327,5 +362,29 @@ body {
   .hero-image {
     border-radius: 20px;
     aspect-ratio: 1 / 1.08;
+    }
+      .story-section {
+    padding: 88px 32px;
+  }
+
+  .story-inner {
+    text-align: left;
+  }
+
+  .section-label {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    margin-bottom: 20px;
+  }
+
+  .story-inner h2 {
+    font-size: 28px;
+    line-height: 1.55;
+  }
+
+  .story-inner p {
+    font-size: 15px;
+    line-height: 2;
+    margin-top: 26px;
   }
 }
