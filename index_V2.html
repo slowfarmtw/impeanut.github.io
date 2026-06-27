@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>花生一生｜PEANUT LIFE</title>
+  <meta name="description" content="花生一生，來自雲林元長。從土地、乾燥、烘焙到保存，用心做好每一顆花生。" />
 
-  <link rel="stylesheet" href="style_V2.css?v=20" />
+  <link rel="stylesheet" href="style_V2.css?v=31" />
 </head>
 
 <body>
@@ -14,19 +15,20 @@
   <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
-      <a href="#top" class="logo">
+      <a href="#top" class="logo" aria-label="回到首頁">
         <img src="logo.png" alt="花生一生 Peanut Life Logo">
       </a>
 
-      <nav class="desktop-nav">
+      <nav class="desktop-nav" aria-label="主選單">
         <a href="#story">品牌故事</a>
-        <a href="#products">產品規劃</a>
         <a href="#quality">品質流程</a>
+        <a href="#products">產品規劃</a>
+        <a href="#value">品牌理念</a>
         <a href="#contact">聯絡我們</a>
-        <a href="#line">加入 LINE</a>
+        <a href="#line" class="nav-line-link">加入 LINE</a>
       </nav>
 
-      <button class="menu-button" id="menuButton" aria-label="開啟選單">
+      <button class="menu-button" id="menuButton" aria-label="開啟選單" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -35,8 +37,9 @@
 
     <div class="mobile-menu" id="mobileMenu">
       <a href="#story">品牌故事</a>
-      <a href="#products">產品規劃</a>
       <a href="#quality">品質流程</a>
+      <a href="#products">產品規劃</a>
+      <a href="#value">品牌理念</a>
       <a href="#contact">聯絡我們</a>
       <a href="#line" class="mobile-line-button">加入 LINE</a>
     </div>
@@ -52,12 +55,14 @@
           <div class="hero-line"></div>
 
           <div class="hero-text">
+            <p class="eyebrow">FROM YUNLIN YUANCHANG</p>
+
             <h1>
               一顆花生，<br>
               也可以被好好對待。
             </h1>
 
-            <p>
+            <p class="hero-desc">
               來自雲林元長，從土地、乾燥、烘焙到保存，
               重新整理花生該有的風味與價值。
             </p>
@@ -78,13 +83,13 @@
     </section>
 
     <!-- Brand Story -->
-    <section id="story" class="story-section">
+    <section id="story" class="page-section story-section">
       <div class="section-inner story-inner">
-        <p class="section-label">BRAND STORY</p>
+        <div class="section-kicker">BRAND STORY</div>
 
-        <h2>從一把花生，一壺熱茶開始。</h2>
+        <h2 class="section-title">從一把花生，一壺熱茶開始。</h2>
 
-        <div class="story-text">
+        <div class="section-copy">
           <p>
             小時候，花生對我來說是一種很安定的味道。阿公坐在客廳，一把花生配著熱茶，招待來家裡的客人朋友。那種從容、溫暖、慢慢聊天的畫面，成為我們重新做花生品牌的起點。
           </p>
@@ -97,96 +102,126 @@
     </section>
 
     <!-- Quality Process -->
-    <section id="quality" class="quality-section">
+    <section id="quality" class="page-section quality-section">
       <div class="section-inner">
-        <p class="section-label">QUALITY PROCESS</p>
-
-        <h2>從土地到入口，每一步都影響風味。</h2>
+        <div class="section-head">
+          <div class="section-kicker">QUALITY PROCESS</div>
+          <h2 class="section-title">從土地到入口，每一步都影響風味。</h2>
+          <p class="section-desc">
+            花生不是只要炒熟就好。採收後的乾燥、篩選、烘焙與保存，都會影響最後入口的香氣、口感與穩定度。
+          </p>
+        </div>
 
         <div class="process-grid">
-          <div class="process-card">
+          <article class="process-card">
             <span>01</span>
             <h3>種植</h3>
             <p>從雲林元長的土地開始，理解每一季花生的狀態。</p>
-          </div>
+          </article>
 
-          <div class="process-card">
+          <article class="process-card">
             <span>02</span>
             <h3>採收</h3>
             <p>掌握採收後的保存與乾燥時機，穩定原料品質。</p>
-          </div>
+          </article>
 
-          <div class="process-card">
+          <article class="process-card">
             <span>03</span>
             <h3>乾燥</h3>
             <p>控制含水率，降低保存風險，也影響後續烘焙表現。</p>
-          </div>
+          </article>
 
-          <div class="process-card">
+          <article class="process-card">
             <span>04</span>
             <h3>篩選</h3>
             <p>去除不良粒與瑕疵粒，讓每一批產品更穩定。</p>
-          </div>
+          </article>
 
-          <div class="process-card">
+          <article class="process-card">
             <span>05</span>
             <h3>烘焙</h3>
             <p>記錄時間、溫度與風味差異，建立屬於花生的烘焙曲線。</p>
-          </div>
+          </article>
 
-          <div class="process-card">
+          <article class="process-card">
             <span>06</span>
             <h3>包裝</h3>
             <p>重視密封、保存與出貨狀態，讓風味被好好保留下來。</p>
-          </div>
+          </article>
         </div>
       </div>
     </section>
 
     <!-- Products -->
-    <section id="products" class="products-section">
+    <section id="products" class="page-section products-section">
       <div class="section-inner">
-        <p class="section-label">PRODUCT PLAN</p>
-
-        <h2>第一批，我們先從最單純的花生開始。</h2>
+        <div class="section-head">
+          <div class="section-kicker">PRODUCT PLAN</div>
+          <h2 class="section-title">第一批，我們先從最單純的花生開始。</h2>
+          <p class="section-desc">
+            先把最基礎的原味與烘焙做好，再慢慢延伸到送禮、節慶與更完整的產品線。
+          </p>
+        </div>
 
         <div class="product-grid">
-          <div class="product-card">
+          <article class="product-card">
+            <div class="product-tag">Daily</div>
             <h3>原味炒花生</h3>
             <p>
               適合日常泡茶、聊天、分享。保留花生本身的香氣，不靠重調味取勝。
             </p>
-          </div>
+          </article>
 
-          <div class="product-card">
+          <article class="product-card">
+            <div class="product-tag">Roast</div>
             <h3>輕焙花生</h3>
             <p>
               香氣較細緻，口感較溫和。適合想感受花生原味層次的人。
             </p>
-          </div>
+          </article>
 
-          <div class="product-card">
+          <article class="product-card">
+            <div class="product-tag">Gift</div>
             <h3>節慶禮盒</h3>
             <p>
               未來規劃年節、企業與伴手禮需求，讓花生從日常零嘴成為有份量的送禮選擇。
             </p>
-          </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Contact / LINE -->
-    <section id="contact" class="contact-section">
+    <!-- Value -->
+    <section id="value" class="page-section value-section">
+      <div class="section-inner value-inner">
+        <div class="value-block">
+          <div class="section-kicker">OUR VALUE</div>
+          <h2 class="section-title">花生很日常，但不代表它只能普通。</h2>
+        </div>
+
+        <div class="value-copy">
+          <p>
+            很多人對花生的印象，是便宜、隨手、吃過就忘。但對我們來說，花生有土地、有季節、有乾燥、有烘焙，也有每一批不同的香氣。
+          </p>
+          <p>
+            我們想把這些細節整理出來，讓一顆常見的花生，也能被重新看見。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="page-section contact-section">
       <div class="section-inner contact-inner">
-        <p class="section-label">CONTACT</p>
+        <div class="section-kicker">CONTACT</div>
 
-        <h2>第一批花生，準備中。</h2>
+        <h2 class="section-title">第一批花生，準備中。</h2>
 
-        <p>
+        <p class="section-desc">
           新品上市、預購通知、禮盒合作與企業送禮需求，都可以先加入官方 LINE 聯繫。
         </p>
 
-        <a id="line" href="https://lin.ee/SqQN3JI" target="_blank" class="big-line-button">
+        <a id="line" href="https://lin.ee/SqQN3JI" target="_blank" rel="noopener" class="big-line-button">
           加入官方 LINE
         </a>
       </div>
@@ -197,15 +232,26 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
+      <div class="footer-brand">
         <strong>花生一生 PEANUT LIFE</strong>
         <p>來自雲林元長，用心做好每一顆花生。</p>
       </div>
 
-      <a href="#top">回到上方</a>
+      <div class="footer-links">
+        <a href="#story">品牌故事</a>
+        <a href="#quality">品質流程</a>
+        <a href="#products">產品規劃</a>
+        <a href="#value">品牌理念</a>
+        <a href="#contact">聯絡我們</a>
+        <a href="#top">回到上方</a>
+      </div>
+
+      <p class="footer-copy">© 2026 花生一生 PEANUT LIFE. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="script-v2.js?v=20"></script>
+  <a href="#top" class="back-top" aria-label="回到上方">↑</a>
+
+  <script src="script-v2.js?v=31"></script>
 </body>
 </html>
