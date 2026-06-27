@@ -96,7 +96,7 @@ body {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   align-items: center;
-  gap: 90px;
+  gap: 100px;
 }
 
 .hero-content {
@@ -129,6 +129,7 @@ body {
   line-height: 2;
   color: var(--text-sub);
   font-weight: 500;
+  max-width: 620px;
 }
 
 .hero-actions {
