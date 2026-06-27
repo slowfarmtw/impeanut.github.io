@@ -39,7 +39,7 @@ body {
 }
 
 .logo img {
-  height: 58px;
+  height: 70px;
   display: block;
 }
 
@@ -164,7 +164,7 @@ body {
 .hero-image-wrap {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 720px;
   margin-left: auto;
 }
 
@@ -196,7 +196,7 @@ body {
   }
 
   .logo img {
-    height: 54px;
+    height: 70px;
   }
 
   .desktop-nav {
@@ -312,9 +312,9 @@ body {
   }
 
   .hero-image-wrap {
-    width: 88%;
-    max-width: 320px;
-    margin: 64px auto 0;
+    width: 92%;
+    max-width: 360px;
+    margin: 48px auto 0;
   }
 
   .image-card-bg {
