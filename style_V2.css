@@ -39,7 +39,7 @@ body {
 }
 
 .logo img {
-  height: 70px;
+  height: 78px;
   display: block;
 }
 
@@ -191,7 +191,7 @@ body {
 
 @media (max-width: 768px) {
   .header-inner {
-    height: 80px;
+    height: 106px;
     padding: 0 24px;
   }
 
@@ -210,7 +210,7 @@ body {
   .mobile-menu {
     display: none;
     position: absolute;
-    top: 80px;
+    top: 106px;
     left: 0;
     width: 100%;
     min-height: 430px;
