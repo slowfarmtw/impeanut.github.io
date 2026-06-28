@@ -39,7 +39,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 90px;
+  height: 88px;
   padding: 0 6vw;
   background: rgba(255, 248, 234, 0.92);
   backdrop-filter: blur(12px);
@@ -58,9 +58,13 @@ a {
 }
 
 .logo-area img {
-  width: 64px;
-  height: 64px;
+
+  width: 220px;
+
+  height: auto;
+
   object-fit: contain;
+
 }
 
 .site-nav {
@@ -406,11 +410,11 @@ a {
     height: 80px;
     padding: 0 20px;
   }
-  .logo-area img {
+.logo-area img {
 
-    width: 76px;
+    width: 160px;
 
-    height: 76px;
+    height: auto;
 
   }
   .menu-toggle {
