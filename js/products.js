@@ -9,9 +9,7 @@ async function loadProducts() {
     container.innerHTML = "";
 
     products.forEach(product => {
-      const status = String(product.status).trim().toUpperCase();
-
-      if (status !== "TRUE") return;
+  
 
       container.innerHTML += `
         <div class="product-detail">
