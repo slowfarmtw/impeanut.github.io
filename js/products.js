@@ -4,6 +4,7 @@ async function loadProducts() {
   try {
     const response = await fetch(API_URL);
     const products = await response.json();
+    console.log(products);
 
     container.innerHTML = "";
 
