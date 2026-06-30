@@ -6,7 +6,7 @@ const PRODUCTS = [
     description: "以乾烘焙保留花生自然香氣，適合泡茶、聊天與日常分享。",
     weight: "80g",
     price: 180,
-    image: "placeholder.png",
+    image: "products/placeholder.png",
     category: "原味花生",
     status: true
   },
