@@ -1,0 +1,151 @@
+/* =========================
+   Mobile CSS
+========================= */
+
+@media (max-width: 900px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .site-header {
+    height: 80px;
+    padding: 0 20px;
+  }
+
+  .logo-area img {
+    width: 130px;
+    height: auto;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    background: var(--cream);
+    border-bottom: 1px solid rgba(62, 47, 34, 0.08);
+  }
+
+  .site-nav.active {
+    display: flex;
+  }
+
+  .site-nav a {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(62, 47, 34, 0.08);
+  }
+
+  .hero-section,
+  .section,
+  .product-detail-layout,
+  .cart-layout,
+  .checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-section,
+  .section,
+  .cart-page,
+  .checkout-page,
+  .product-detail-page {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .page-hero {
+    padding: 88px 20px 64px !important;
+  }
+
+  #productList,
+  .card-grid,
+  .product-grid,
+  .step-grid,
+  .timeline {
+    grid-template-columns: 1fr !important;
+  }
+
+  .checkout-layout,
+  #cartContent {
+    width: 100% !important;
+  }
+
+  .checkout-summary,
+  .cart-summary {
+    position: static !important;
+    order: -1;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .checkout-form,
+  .checkout-summary,
+  .cart-summary,
+  .product-detail-layout {
+    padding: 24px !important;
+  }
+
+  .cart-item {
+    grid-template-columns: 90px 1fr !important;
+  }
+
+  .cart-item-image {
+    width: 90px !important;
+  }
+
+  .cart-item-quantity {
+    justify-content: flex-start !important;
+    grid-column: 2;
+  }
+
+  .cart-item-subtotal {
+    text-align: left !important;
+    grid-column: 2;
+  }
+
+  .checkout-steps {
+    width: 100% !important;
+    margin-bottom: 32px !important;
+  }
+
+  .checkout-step p {
+    font-size: 13px !important;
+  }
+
+  .product-detail-info h1,
+  .checkout-heading h1,
+  .cart-heading h1 {
+    font-size: 32px !important;
+  }
+
+  .product-detail-price {
+    font-size: 28px !important;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .site-footer {
+    grid-template-columns: 1fr !important;
+    padding: 48px 24px !important;
+    gap: 32px !important;
+  }
+}
