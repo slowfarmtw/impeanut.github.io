@@ -120,13 +120,21 @@ fetch(ORDER_API_URL, {
   body: JSON.stringify(order)
 })
 .then(function () {
-  console.log("fetch 已執行完成，但 no-cors 無法確認後端是否成功");
 
-  message.textContent = "訂單已送出，請稍候確認後台資料。";
+  console.log("訂單已送出");
+
+  localStorage.removeItem("peanutCart");
+
+  localStorage.removeItem("peanutOrderDraft");
+
+  message.textContent = "訂單已送出，我們會盡快與您確認。";
 
   setTimeout(function () {
+
     window.location.href = "thank-you.html";
-  }, 3000);
+
+  }, 1200);
+
 })
 .catch(function (error) {
   console.error("訂單送出失敗：", error);
