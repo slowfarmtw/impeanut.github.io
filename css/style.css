@@ -706,4 +706,9 @@ a {
     font-size: 28px;
   }
 }
+  .cart-message {
+  margin-top: 14px;
+  color: #6b8e3d;
+  font-weight: 700;
+}
 }
