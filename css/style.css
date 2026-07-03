@@ -926,4 +926,135 @@ a {
   color: #5c4634;
   text-decoration: underline;
 }
+  .checkout-page {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 36px;
+  align-items: start;
+}
+
+.checkout-form,
+.checkout-summary {
+  background: #fffaf2;
+  border: 1px solid rgba(92, 70, 52, 0.12);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 12px 30px rgba(92, 70, 52, 0.08);
+}
+
+.checkout-form h2,
+.checkout-summary h2 {
+  margin-bottom: 24px;
+  color: #3f2f24;
+}
+
+.checkout-form label {
+  display: block;
+  margin-bottom: 18px;
+  color: #5c4634;
+  font-weight: 700;
+}
+
+.checkout-form input,
+.checkout-form select,
+.checkout-form textarea {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 14px;
+  border: 1px solid rgba(92, 70, 52, 0.25);
+  border-radius: 10px;
+  background: #fff;
+  color: #3f2f24;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.checkout-form textarea {
+  resize: vertical;
+}
+
+.checkout-submit-btn {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: #5c4634;
+  color: #fffaf2;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.checkout-submit-btn:hover {
+  background: #7c6146;
+}
+
+.checkout-message {
+  margin-top: 16px;
+  color: #6b8e3d;
+  font-weight: 700;
+}
+
+.checkout-summary {
+  position: sticky;
+  top: 100px;
+}
+
+.checkout-summary-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(92, 70, 52, 0.18);
+}
+
+.checkout-summary-item p {
+  margin-top: 4px;
+  color: #6b8e3d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.checkout-summary-row,
+.checkout-summary-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(92, 70, 52, 0.22);
+}
+
+.checkout-summary-total {
+  font-size: 20px;
+  font-weight: 800;
+  border-bottom: none;
+  margin-top: 8px;
+}
+
+.checkout-summary-note {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #9A7A58;
+  line-height: 1.7;
+}
+
+.checkout-empty a {
+  color: #5c4634;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-summary {
+    position: static;
+  }
+}
 }
