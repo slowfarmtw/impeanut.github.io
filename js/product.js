@@ -126,7 +126,7 @@ function loadProductDetail() {
   addToCartBtn.addEventListener("click", function () {
     addToCart(product, quantity);
 
-    cartMessage.textContent = "已加入購物車。";
+    cartMessage.innerHTML = '已加入購物車。<a href="cart.html">查看購物車</a>';
 
     setTimeout(function () {
       cartMessage.textContent = "";
