@@ -6,7 +6,7 @@ const PRODUCTS = [
     description: "以乾烘焙保留花生自然香氣，適合泡茶、聊天與日常分享。",
     weight: "80g",
     price: 180,
-    image: "images/products/placeholder.png",
+    image: "products/placeholder.png",
     category: "原味花生",
     status: true
   },
@@ -17,7 +17,7 @@ const PRODUCTS = [
     description: "以花生本身風味為核心，朝滑順口感與穩定品質開發。",
     weight: "250g",
     price: 280,
-    image: "images/products/peanut-butter.png",
+    image: "products/peanut-butter.png",
     category: "花生醬",
     status: true
   }
