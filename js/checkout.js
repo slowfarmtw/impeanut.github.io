@@ -111,6 +111,11 @@ function handleCheckoutSubmit() {
 saveOrderDraft(order);
 
 message.textContent = "訂單送出中，請稍候...";
+    if (typeof ORDER_API_URL === "undefined" || !ORDER_API_URL) {
+  console.error("ORDER_API_URL 沒有設定，請確認 checkout.html 是否有載入 js/config.js");
+  message.textContent = "系統設定尚未完成，請聯絡我們。";
+  return;
+}
 
 console.log("ORDER_API_URL：", ORDER_API_URL);
 console.log("準備送出的訂單：", order);
