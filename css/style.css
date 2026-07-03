@@ -1080,3 +1080,61 @@ a {
     gap: 32px !important;
   }
 }
+/* =========================
+   Footer Force Fix
+========================= */
+
+footer.site-footer,
+.site-footer {
+  width: 100% !important;
+  padding: 64px 6vw 48px !important;
+  background-color: #3E2F22 !important;
+  color: #FFF8EA !important;
+  display: grid !important;
+  grid-template-columns: 2fr 1fr 1fr !important;
+  gap: 48px !important;
+  align-items: start !important;
+  margin: 0 !important;
+}
+
+footer.site-footer h3,
+footer.site-footer h4,
+.site-footer h3,
+.site-footer h4 {
+  color: #FFF8EA !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  font-weight: 800 !important;
+}
+
+footer.site-footer p,
+.site-footer p {
+  color: #FFF8EA !important;
+  opacity: 0.85 !important;
+  margin: 0 !important;
+  line-height: 1.8 !important;
+}
+
+footer.site-footer a,
+.site-footer a {
+  display: block !important;
+  color: #FFF8EA !important;
+  opacity: 0.9 !important;
+  margin-bottom: 8px !important;
+  text-decoration: none !important;
+}
+
+footer.site-footer a:hover,
+.site-footer a:hover {
+  opacity: 1 !important;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 900px) {
+  footer.site-footer,
+  .site-footer {
+    grid-template-columns: 1fr !important;
+    padding: 48px 24px !important;
+    gap: 32px !important;
+  }
+}
