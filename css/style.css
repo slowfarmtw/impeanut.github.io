@@ -1033,3 +1033,50 @@ a {
   width: 100%;
   background: #fffaf2;
   border: 1px solid rgba(92, 70,
+/* =========================
+   Footer Fix
+========================= */
+
+.site-footer {
+  padding: 64px 6vw 48px !important;
+  background: var(--brown) !important;
+  color: var(--cream) !important;
+  display: grid !important;
+  grid-template-columns: 2fr 1fr 1fr !important;
+  gap: 48px !important;
+  align-items: start !important;
+}
+
+.site-footer h3,
+.site-footer h4 {
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  color: var(--cream) !important;
+}
+
+.site-footer p {
+  margin: 0 !important;
+  opacity: 0.85 !important;
+  line-height: 1.8 !important;
+}
+
+.site-footer a {
+  display: block !important;
+  margin-bottom: 8px !important;
+  color: var(--cream) !important;
+  opacity: 0.9 !important;
+  text-decoration: none !important;
+}
+
+.site-footer a:hover {
+  opacity: 1 !important;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 900px) {
+  .site-footer {
+    grid-template-columns: 1fr !important;
+    padding: 48px 24px !important;
+    gap: 32px !important;
+  }
+}
