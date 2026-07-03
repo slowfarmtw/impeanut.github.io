@@ -17,7 +17,7 @@ const PRODUCTS = [
     description: "以花生本身風味為核心，朝滑順口感與穩定品質開發。",
     weight: "250g",
     price: 280,
-    image: "products/peanut-butter.png",
+    image: "products/peanut butter.png",
     category: "花生醬",
     status: true
   }
