@@ -104,11 +104,32 @@ function handleCheckoutSubmit() {
       createdAt: new Date().toISOString()
     };
 
-    saveOrderDraft(order);
+saveOrderDraft(order);
 
-    message.textContent = "訂單資料已建立，下一步會接上正式送出功能。";
+message.textContent = "訂單送出中，請稍候...";
 
-    console.log("訂單資料：", order);
+fetch(ORDER_API_URL, {
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "text/plain;charset=utf-8"
+  },
+  body: JSON.stringify(order)
+})
+.then(function () {
+  localStorage.removeItem("peanutCart");
+  localStorage.removeItem("peanutOrderDraft");
+
+  message.textContent = "訂單已送出，我們會盡快與您確認。";
+
+  setTimeout(function () {
+    window.location.href = "thank-you.html";
+  }, 1200);
+})
+.catch(function (error) {
+  console.error("訂單送出失敗：", error);
+  message.textContent = "訂單送出失敗，請稍後再試，或直接聯絡我們。";
+});
   });
 }
 
