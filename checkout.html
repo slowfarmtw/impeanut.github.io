@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>填寫訂購資料｜花生一生</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo-area">
+      <img src="images/logo.png" alt="花生一生 Logo">
+    </a>
+
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html">首頁</a>
+      <a href="about.html">品牌理念</a>
+      <a href="products.html">產品介紹</a>
+      <a href="cart.html">購物車</a>
+      <a href="order.html">訂購方式</a>
+      <a href="contact.html">聯絡我們</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section checkout-page">
+      <div class="section-heading">
+        <p class="section-label">CHECKOUT</p>
+        <h1>填寫訂購資料</h1>
+        <p>請確認商品內容，並填寫收件資料。</p>
+      </div>
+
+      <div class="checkout-layout">
+
+        <form class="checkout-form" id="checkoutForm">
+          <h2>收件資料</h2>
+
+          <label>
+            姓名
+            <input type="text" id="customerName" required>
+          </label>
+
+          <label>
+            手機
+            <input type="tel" id="customerPhone" required>
+          </label>
+
+          <label>
+            Email
+            <input type="email" id="customerEmail">
+          </label>
+
+          <label>
+            收件方式
+            <select id="deliveryMethod" required>
+              <option value="">請選擇</option>
+              <option value="宅配">宅配</option>
+              <option value="7-11 店到店">7-11 店到店</option>
+              <option value="全家店到店">全家店到店</option>
+              <option value="面交">面交</option>
+            </select>
+          </label>
+
+          <label>
+            收件地址 / 超商店名
+            <input type="text" id="customerAddress" required>
+          </label>
+
+          <label>
+            付款方式
+            <select id="paymentMethod" required>
+              <option value="">請選擇</option>
+              <option value="銀行轉帳">銀行轉帳</option>
+              <option value="貨到付款">貨到付款</option>
+              <option value="面交付款">面交付款</option>
+            </select>
+          </label>
+
+          <label>
+            備註
+            <textarea id="customerNote" rows="4" placeholder="例如：希望出貨前先通知、指定到貨時間等"></textarea>
+          </label>
+
+          <button type="submit" class="checkout-submit-btn">
+            確認送出訂單
+          </button>
+
+          <p class="checkout-message" id="checkoutMessage"></p>
+        </form>
+
+        <aside class="checkout-summary">
+          <h2>訂單摘要</h2>
+          <div id="checkoutSummary">
+            <p>訂單載入中...</p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <h3>從從農農｜花生一生</h3>
+      <p>來自雲林元長的花生品牌，重新整理一顆花生的價值。</p>
+    </div>
+
+    <div>
+      <h4>網站導覽</h4>
+      <a href="index.html">首頁</a>
+      <a href="about.html">品牌理念</a>
+      <a href="products.html">產品介紹</a>
+      <a href="cart.html">購物車</a>
+      <a href="order.html">訂購方式</a>
+      <a href="contact.html">聯絡我們</a>
+    </div>
+
+    <div>
+      <h4>追蹤我們</h4>
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">LINE 官方帳號</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/checkout.js"></script>
+
+</body>
+</html>
