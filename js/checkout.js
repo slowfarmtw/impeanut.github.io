@@ -108,6 +108,9 @@ saveOrderDraft(order);
 
 message.textContent = "訂單送出中，請稍候...";
 
+console.log("ORDER_API_URL：", ORDER_API_URL);
+console.log("準備送出的訂單：", order);
+
 fetch(ORDER_API_URL, {
   method: "POST",
   mode: "no-cors",
@@ -117,14 +120,13 @@ fetch(ORDER_API_URL, {
   body: JSON.stringify(order)
 })
 .then(function () {
-  localStorage.removeItem("peanutCart");
-  localStorage.removeItem("peanutOrderDraft");
+  console.log("fetch 已執行完成，但 no-cors 無法確認後端是否成功");
 
-  message.textContent = "訂單已送出，我們會盡快與您確認。";
+  message.textContent = "訂單已送出，請稍候確認後台資料。";
 
   setTimeout(function () {
     window.location.href = "thank-you.html";
-  }, 1200);
+  }, 3000);
 })
 .catch(function (error) {
   console.error("訂單送出失敗：", error);
