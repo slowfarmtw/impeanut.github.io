@@ -1140,4 +1140,28 @@ a {
     font-size: 32px;
   }
 }
+  .order-id-box {
+  margin: 28px auto 0;
+  padding: 20px 24px;
+  max-width: 420px;
+  border-radius: 18px;
+  background: #f3eadb;
+  border: 1px solid rgba(92, 70, 52, 0.12);
+}
+
+.order-id-box span {
+  display: block;
+  margin-bottom: 8px;
+  color: #6b8e3d;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.order-id-box strong {
+  display: block;
+  color: #3f2f24;
+  font-size: 24px;
+  letter-spacing: 0.04em;
+}
 }
