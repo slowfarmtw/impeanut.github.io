@@ -11,7 +11,7 @@ function loadProducts() {
     container.innerHTML += `
       <article class="product-card">
         <div class="product-image-wrap">
-          <img src="images/${product.image || "placeholder.jpg"}" alt="${product.name}">
+          <img src="images/${product.image || "placeholder.png"}" alt="${product.name}">
         </div>
 
         <div class="product-card-body">
