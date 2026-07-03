@@ -88,8 +88,12 @@ function handleCheckoutSubmit() {
     const total = cart.reduce((sum, item) => {
       return sum + item.price * item.quantity;
     }, 0);
+    const orderId = "PL" + new Date().toISOString()
+  .replace(/[-:TZ.]/g, "")
+  .slice(0, 14);
 
     const order = {
+      orderId: orderId,
       customer: {
         name: document.getElementById("customerName").value.trim(),
         phone: document.getElementById("customerPhone").value.trim(),
@@ -120,21 +124,18 @@ fetch(ORDER_API_URL, {
   body: JSON.stringify(order)
 })
 .then(function () {
-
   console.log("訂單已送出");
 
-  localStorage.removeItem("peanutCart");
+  localStorage.setItem("peanutLastOrderId", orderId);
 
+  localStorage.removeItem("peanutCart");
   localStorage.removeItem("peanutOrderDraft");
 
   message.textContent = "訂單已送出，我們會盡快與您確認。";
 
   setTimeout(function () {
-
     window.location.href = "thank-you.html";
-
   }, 1200);
-
 })
 .catch(function (error) {
   console.error("訂單送出失敗：", error);
