@@ -28,34 +28,61 @@
 
   <main>
     <section class="section checkout-page">
-      <div class="section-heading">
-        <p class="section-label">CHECKOUT</p>
-        <h1>填寫訂購資料</h1>
-        <p>請確認商品內容，並填寫收件資料。</p>
-      </div>
 
-      <div class="checkout-layout">
+  <div class="checkout-steps">
+    <div class="checkout-step done">
+      <span>1</span>
+      <p>確認商品</p>
+    </div>
 
-        <form class="checkout-form" id="checkoutForm">
-          <h2>收件資料</h2>
+    <div class="checkout-step active">
+      <span>2</span>
+      <p>填寫資料</p>
+    </div>
 
+    <div class="checkout-step">
+      <span>3</span>
+      <p>完成訂單</p>
+    </div>
+  </div>
+
+  <div class="section-heading checkout-heading">
+    <p class="section-label">CHECKOUT</p>
+    <h1>填寫訂購資料</h1>
+    <p>請確認商品內容，並填寫收件與付款資訊。</p>
+  </div>
+
+  <div class="checkout-layout">
+
+    <form class="checkout-form" id="checkoutForm">
+
+      <div class="checkout-form-section">
+        <h2>收件資料</h2>
+
+        <div class="form-grid">
           <label>
-            姓名
+            姓名 <span>*</span>
             <input type="text" id="customerName" required>
           </label>
 
           <label>
-            手機
+            手機 <span>*</span>
             <input type="tel" id="customerPhone" required>
           </label>
+        </div>
 
-          <label>
-            Email
-            <input type="email" id="customerEmail">
-          </label>
+        <label>
+          Email
+          <input type="email" id="customerEmail" placeholder="選填，用於訂單通知">
+        </label>
+      </div>
 
+      <div class="checkout-form-section">
+        <h2>配送方式</h2>
+
+        <div class="form-grid">
           <label>
-            收件方式
+            收件方式 <span>*</span>
             <select id="deliveryMethod" required>
               <option value="">請選擇</option>
               <option value="宅配">宅配</option>
@@ -66,12 +93,7 @@
           </label>
 
           <label>
-            收件地址 / 超商店名
-            <input type="text" id="customerAddress" required>
-          </label>
-
-          <label>
-            付款方式
+            付款方式 <span>*</span>
             <select id="paymentMethod" required>
               <option value="">請選擇</option>
               <option value="銀行轉帳">銀行轉帳</option>
@@ -79,28 +101,43 @@
               <option value="面交付款">面交付款</option>
             </select>
           </label>
+        </div>
 
-          <label>
-            備註
-            <textarea id="customerNote" rows="4" placeholder="例如：希望出貨前先通知、指定到貨時間等"></textarea>
-          </label>
-
-          <button type="submit" class="checkout-submit-btn">
-            確認送出訂單
-          </button>
-
-          <p class="checkout-message" id="checkoutMessage"></p>
-        </form>
-
-        <aside class="checkout-summary">
-          <h2>訂單摘要</h2>
-          <div id="checkoutSummary">
-            <p>訂單載入中...</p>
-          </div>
-        </aside>
-
+        <label>
+          收件地址 / 超商店名 <span>*</span>
+          <input type="text" id="customerAddress" required placeholder="請填寫完整地址，或超商門市名稱">
+        </label>
       </div>
-    </section>
+
+      <div class="checkout-form-section">
+        <h2>備註</h2>
+
+        <label>
+          訂單備註
+          <textarea id="customerNote" rows="4" placeholder="例如：希望出貨前先通知、指定到貨時間等"></textarea>
+        </label>
+      </div>
+
+      <button type="submit" class="checkout-submit-btn">
+        確認送出訂單
+      </button>
+
+      <p class="checkout-message" id="checkoutMessage"></p>
+    </form>
+
+    <aside class="checkout-summary">
+      <div class="checkout-summary-header">
+        <h2>訂單摘要</h2>
+        <a href="cart.html">返回購物車</a>
+      </div>
+
+      <div id="checkoutSummary">
+        <p>訂單載入中...</p>
+      </div>
+    </aside>
+
+  </div>
+</section>
   </main>
 
   <footer class="site-footer">
