@@ -3,13 +3,41 @@ function getProductIdFromUrl() {
   return params.get("id");
 }
 
+function getCart() {
+  return JSON.parse(localStorage.getItem("peanutCart")) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem("peanutCart", JSON.stringify(cart));
+}
+
+function addToCart(product, quantity) {
+  const cart = getCart();
+
+  const existingItem = cart.find(item => item.id === product.id);
+
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      weight: product.weight,
+      quantity: quantity
+    });
+  }
+
+  saveCart(cart);
+}
+
 function loadProductDetail() {
   const container = document.getElementById("productDetail");
 
   if (!container) return;
 
   const productId = getProductIdFromUrl();
-
   const product = PRODUCTS.find(item => item.id === productId);
 
   if (!product) {
@@ -52,14 +80,16 @@ function loadProductDetail() {
         </div>
 
         <div class="product-detail-actions">
-          <button class="quantity-btn" type="button">－</button>
-          <span class="quantity-number">1</span>
-          <button class="quantity-btn" type="button">＋</button>
+          <button class="quantity-btn" type="button" id="decreaseQty">－</button>
+          <span class="quantity-number" id="quantityNumber">1</span>
+          <button class="quantity-btn" type="button" id="increaseQty">＋</button>
         </div>
 
-        <button class="primary-btn" type="button">
+        <button class="primary-btn" type="button" id="addToCartBtn">
           加入購物車
         </button>
+
+        <p class="cart-message" id="cartMessage"></p>
 
         <div class="product-detail-note">
           <h3>商品資訊</h3>
@@ -72,6 +102,36 @@ function loadProductDetail() {
       </div>
     </div>
   `;
+
+  let quantity = 1;
+
+  const quantityNumber = document.getElementById("quantityNumber");
+  const increaseQty = document.getElementById("increaseQty");
+  const decreaseQty = document.getElementById("decreaseQty");
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  const cartMessage = document.getElementById("cartMessage");
+
+  increaseQty.addEventListener("click", function () {
+    quantity += 1;
+    quantityNumber.textContent = quantity;
+  });
+
+  decreaseQty.addEventListener("click", function () {
+    if (quantity > 1) {
+      quantity -= 1;
+      quantityNumber.textContent = quantity;
+    }
+  });
+
+  addToCartBtn.addEventListener("click", function () {
+    addToCart(product, quantity);
+
+    cartMessage.textContent = "已加入購物車。";
+
+    setTimeout(function () {
+      cartMessage.textContent = "";
+    }, 2000);
+  });
 }
 
 loadProductDetail();
