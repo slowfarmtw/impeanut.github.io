@@ -130,7 +130,7 @@ a {
 .section {
   padding: 96px 6vw;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr;
   gap: 56px;
   align-items: center;
 }
