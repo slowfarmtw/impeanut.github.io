@@ -921,4 +921,9 @@ a {
     grid-column: 2;
   }
 }
+  .cart-message a {
+  margin-left: 8px;
+  color: #5c4634;
+  text-decoration: underline;
+}
 }
