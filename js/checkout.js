@@ -1,3 +1,8 @@
+const SHIPPING_FEES = {
+  home: 80,      // 宅配
+  store: 60,     // 超商取貨
+  pickup: 0      // 面交
+};
 function getCart() {
   return JSON.parse(localStorage.getItem("peanutCart")) || [];
 }
