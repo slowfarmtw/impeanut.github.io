@@ -1,3 +1,5 @@
+let currentCategory = "全部";
+
 function renderArticles() {
   const container = document.getElementById("articleList");
 
@@ -5,7 +7,12 @@ function renderArticles() {
 
   container.innerHTML = "";
 
-  ARTICLES.forEach(article => {
+  const filteredArticles = ARTICLES.filter(article => {
+    if (currentCategory === "全部") return true;
+    return article.category === currentCategory;
+  });
+
+  filteredArticles.forEach(article => {
     container.innerHTML += `
       <article class="article-card">
         <div class="article-card-image">
@@ -27,9 +34,30 @@ function renderArticles() {
     `;
   });
 
-  if (container.innerHTML === "") {
-    container.innerHTML = "<p>目前尚無文章。</p>";
+  if (filteredArticles.length === 0) {
+    container.innerHTML = `
+      <div class="empty-articles">
+        <h2>這個分類目前尚無文章</h2>
+        <p>我們會慢慢整理更多花生知識與品牌紀錄。</p>
+      </div>
+    `;
   }
 }
 
+function setupCategoryFilter() {
+  const buttons = document.querySelectorAll(".category-card");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", function () {
+      currentCategory = this.dataset.category;
+
+      buttons.forEach(btn => btn.classList.remove("active"));
+      this.classList.add("active");
+
+      renderArticles();
+    });
+  });
+}
+
+setupCategoryFilter();
 renderArticles();
