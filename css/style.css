@@ -1101,3 +1101,30 @@ a {
   color: #5c4634;
   margin-top: 6px;
 }
+/* =========================
+   Product Detail Page Force Fix
+========================= */
+
+#productDetail {
+  width: 100%;
+  display: block;
+}
+
+#productDetail .product-detail-page {
+  width: 100%;
+  display: block !important;
+}
+
+#productDetail .product-top-card {
+  width: min(1120px, calc(100% - 80px)) !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
+
+@media (max-width: 900px) {
+  #productDetail .product-top-card {
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+  }
+}
