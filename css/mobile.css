@@ -149,3 +149,20 @@
     gap: 32px !important;
   }
 }
+.article-category-section {
+  padding: 48px 20px 10px !important;
+}
+
+.article-category-grid {
+  width: 100% !important;
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+}
+
+.category-card {
+  padding: 22px !important;
+}
+
+.category-card strong {
+  font-size: 22px !important;
+}
