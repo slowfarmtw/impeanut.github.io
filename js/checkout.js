@@ -14,6 +14,20 @@ function saveOrderDraft(order) {
 function formatPrice(price) {
   return `NT$ ${Number(price).toLocaleString()}`;
 }
+function getShippingFee(deliveryMethod) {
+  if (!deliveryMethod) return 0;
+  return SHIPPING_FEES[deliveryMethod] ?? 0;
+}
+
+function getDeliveryMethodText(deliveryMethod) {
+  const map = {
+    home: "宅配",
+    store: "超商取貨",
+    pickup: "面交"
+  };
+
+  return map[deliveryMethod] || deliveryMethod || "";
+}
 
 function renderCheckoutSummary() {
   const container = document.getElementById("checkoutSummary");
@@ -30,6 +44,60 @@ function renderCheckoutSummary() {
     `;
     return;
   }
+
+  let subtotal = 0;
+
+  const itemsHtml = cart.map(item => {
+    const itemSubtotal = Number(item.price) * Number(item.quantity);
+    subtotal += itemSubtotal;
+
+    return `
+      <div class="checkout-summary-item">
+        <div>
+          <strong>${item.name}</strong>
+          <p>${item.weight || ""} × ${item.quantity}</p>
+        </div>
+        <strong>${formatPrice(itemSubtotal)}</strong>
+      </div>
+    `;
+  }).join("");
+
+  const deliveryMethod = document.getElementById("deliveryMethod")?.value || "";
+  const shippingFee = getShippingFee(deliveryMethod);
+  const grandTotal = subtotal + shippingFee;
+
+  const shippingText = deliveryMethod
+    ? formatPrice(shippingFee)
+    : "請先選擇配送方式";
+
+  container.innerHTML = `
+    <div class="checkout-summary-header">
+      <h2>訂單摘要</h2>
+      <a href="cart.html">返回購物車</a>
+    </div>
+
+    ${itemsHtml}
+
+    <div class="checkout-summary-row">
+      <span>商品小計</span>
+      <strong>${formatPrice(subtotal)}</strong>
+    </div>
+
+    <div class="checkout-summary-row">
+      <span>運費</span>
+      <strong>${shippingText}</strong>
+    </div>
+
+    <div class="checkout-summary-total">
+      <span>合計</span>
+      <strong>${formatPrice(grandTotal)}</strong>
+    </div>
+
+    <div class="checkout-summary-note">
+      配送方式不同，運費會自動更新。宅配 NT$ 80、超商取貨 NT$ 60、面交免運。
+    </div>
+  `;
+}
 
   let total = 0;
 
