@@ -1,4 +1,4 @@
-const SHIPPING_FEES = {
+ const SHIPPING_FEES = {
   home: 80,
   store: 60,
   pickup: 0
@@ -85,33 +85,28 @@ function renderCheckoutSummary() {
     ? formatPrice(shippingFee)
     : "請先選擇配送方式";
 
-  container.innerHTML = `
-    <div class="checkout-summary-header">
-      <h2>訂單摘要</h2>
-      <a href="cart.html">返回購物車</a>
-    </div>
+ container.innerHTML = `
+  ${itemsHtml}
 
-    ${itemsHtml}
+  <div class="checkout-summary-row">
+    <span>商品小計</span>
+    <strong>${formatPrice(subtotal)}</strong>
+  </div>
 
-    <div class="checkout-summary-row">
-      <span>商品小計</span>
-      <strong>${formatPrice(subtotal)}</strong>
-    </div>
+  <div class="checkout-summary-row">
+    <span>運費</span>
+    <strong>${shippingText}</strong>
+  </div>
 
-    <div class="checkout-summary-row">
-      <span>運費</span>
-      <strong>${shippingText}</strong>
-    </div>
+  <div class="checkout-summary-total">
+    <span>合計</span>
+    <strong>${formatPrice(grandTotal)}</strong>
+  </div>
 
-    <div class="checkout-summary-total">
-      <span>合計</span>
-      <strong>${formatPrice(grandTotal)}</strong>
-    </div>
-
-    <div class="checkout-summary-note">
-      宅配 NT$ 80、超商取貨 NT$ 60、面交免運。選擇配送方式後，合計金額會自動更新。
-    </div>
-  `;
+  <div class="checkout-summary-note">
+    宅配 NT$ 80、超商取貨 NT$ 60、面交免運。選擇配送方式後，合計金額會自動更新。
+  </div>
+`;
 }
 
 function handleCheckoutSubmit() {
