@@ -3,6 +3,12 @@ function loadProducts() {
 
   if (!container) return;
 
+  if (typeof PRODUCTS === "undefined") {
+    container.innerHTML = "<p>商品資料載入失敗，請稍後再試。</p>";
+    console.error("找不到 PRODUCTS，請確認 data/products.js 是否有載入");
+    return;
+  }
+
   container.innerHTML = "";
 
   PRODUCTS.forEach(product => {
@@ -33,7 +39,7 @@ function loadProducts() {
           </div>
 
           <div class="product-buy-row">
-            <div class="product-list-qty" data-product-id="${product.id}">
+            <div class="product-list-qty">
               <button type="button" class="list-qty-minus">−</button>
               <span class="list-qty-number">1</span>
               <button type="button" class="list-qty-plus">＋</button>
@@ -70,35 +76,50 @@ function setupProductListActions() {
 
     let quantity = 1;
 
-    if (minusBtn) {
-      minusBtn.addEventListener("click", function () {
-        if (quantity > 1) {
-          quantity -= 1;
-          qtyNumber.textContent = quantity;
-        }
-      });
-    }
-
-    if (plusBtn) {
-      plusBtn.addEventListener("click", function () {
-        quantity += 1;
+    minusBtn.addEventListener("click", function () {
+      if (quantity > 1) {
+        quantity -= 1;
         qtyNumber.textContent = quantity;
-      });
-    }
+      }
+    });
 
-    if (addBtn) {
-      addBtn.addEventListener("click", function () {
-        const productId = this.dataset.productId;
-        const product = PRODUCTS.find(item => item.id === productId);
+    plusBtn.addEventListener("click", function () {
+      quantity += 1;
+      qtyNumber.textContent = quantity;
+    });
 
-        if (!product) return;
+    addBtn.addEventListener("click", function () {
+      const productId = this.dataset.productId;
+      const product = PRODUCTS.find(item => item.id === productId);
 
+      if (!product) return;
+
+      if (typeof peanutAddToCart === "function") {
         peanutAddToCart(product, quantity);
+      } else {
+        const cart = JSON.parse(localStorage.getItem("peanutCart")) || [];
+        const existingItem = cart.find(item => item.id === product.id);
 
-        quantity = 1;
-        qtyNumber.textContent = quantity;
-      });
-    }
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: Number(product.price),
+            image: product.image,
+            weight: product.weight,
+            quantity: quantity
+          });
+        }
+
+        localStorage.setItem("peanutCart", JSON.stringify(cart));
+        alert("已加入購物車");
+      }
+
+      quantity = 1;
+      qtyNumber.textContent = quantity;
+    });
   });
 }
 
