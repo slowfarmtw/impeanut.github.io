@@ -158,28 +158,32 @@ function handleCheckoutSubmit() {
       return;
     }
 
-    const total = cart.reduce((sum, item) => {
-      return sum + item.price * item.quantity;
-    }, 0);
+   const subtotal = cart.reduce((sum, item) => {
+  return sum + Number(item.price) * Number(item.quantity);
+}, 0);
+
+const shippingFee = getShippingFee(deliveryMethod);
+const total = subtotal + shippingFee;
     const orderId = "PL" + new Date().toISOString()
   .replace(/[-:TZ.]/g, "")
   .slice(0, 14);
 
-    const order = {
-      orderId: orderId,
-      customer: {
-        name: document.getElementById("customerName").value.trim(),
-        phone: document.getElementById("customerPhone").value.trim(),
-        email: document.getElementById("customerEmail").value.trim(),
-        deliveryMethod: document.getElementById("deliveryMethod").value,
-        address: document.getElementById("customerAddress").value.trim(),
-        paymentMethod: document.getElementById("paymentMethod").value,
-        note: document.getElementById("customerNote").value.trim()
-      },
-      items: cart,
-      total: total,
-      createdAt: new Date().toISOString()
-    };
+  const order = {
+  orderId: orderId,
+  customer: {
+    name,
+    phone,
+    email,
+    deliveryMethod: getDeliveryMethodText(deliveryMethod),
+    address,
+    paymentMethod,
+    note
+  },
+  items: cart,
+  subtotal: subtotal,
+  shippingFee: shippingFee,
+  total: total
+};
 
 saveOrderDraft(order);
 
@@ -223,4 +227,9 @@ fetch(API_URL, {
 }
 
 renderCheckoutSummary();
+const deliveryMethodSelect = document.getElementById("deliveryMethod");
+
+if (deliveryMethodSelect) {
+  deliveryMethodSelect.addEventListener("change", renderCheckoutSummary);
+}
 handleCheckoutSubmit();
