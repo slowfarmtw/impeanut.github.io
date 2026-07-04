@@ -9,6 +9,13 @@ function getCart() {
 
 function saveCart(cart) {
   localStorage.setItem("peanutCart", JSON.stringify(cart));
+  window.dispatchEvent(new Event("peanutCartUpdated"));
+
+if (typeof peanutOpenCartDrawer === "function") {
+
+  peanutOpenCartDrawer();
+
+}
 }
 
 function addToCart(product, quantity) {
