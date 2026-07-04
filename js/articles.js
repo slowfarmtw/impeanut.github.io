@@ -48,14 +48,22 @@ function setupCategoryFilter() {
   const buttons = document.querySelectorAll(".category-card");
 
   buttons.forEach(button => {
-    button.addEventListener("click", function () {
-      currentCategory = this.dataset.category;
+   button.addEventListener("click", function () {
+  currentCategory = this.dataset.category;
 
-      buttons.forEach(btn => btn.classList.remove("active"));
-      this.classList.add("active");
+  buttons.forEach(btn => btn.classList.remove("active"));
+  this.classList.add("active");
 
-      renderArticles();
+  renderArticles();
+
+  const articleList = document.getElementById("articleList");
+  if (articleList) {
+    articleList.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
     });
+  }
+});
   });
 }
 
