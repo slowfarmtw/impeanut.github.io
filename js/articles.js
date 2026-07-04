@@ -17,10 +17,10 @@ function renderArticles() {
       <article class="article-card">
         <div class="article-card-image">
           <img 
-            src="images/${article.image || "placeholder.png"}" 
-            alt="${article.title}"
-            onerror="this.src='images/placeholder.png'"
-          >
+  src="images/${article.image || "articles/article-placeholder.jpg"}" 
+  alt="${article.title}"
+  onerror="this.onerror=null; this.src='images/articles/article-placeholder.jpg';"
+>
         </div>
 
         <div class="article-card-body">
