@@ -411,3 +411,35 @@
     margin-bottom: 4px;
   }
 }
+/* =========================
+   Life River Overlap Fix
+========================= */
+
+@media (min-width: 901px) {
+  .life-river-map {
+    height: 1750px !important;
+  }
+
+  .life-river-section {
+    padding-bottom: 180px !important;
+  }
+
+  .river-step[style*="87%"] {
+    top: 82% !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .life-river-map {
+    height: auto !important;
+  }
+
+  .life-river-section {
+    padding-bottom: 90px !important;
+  }
+
+  .river-step {
+    position: relative !important;
+    top: auto !important;
+  }
+}
