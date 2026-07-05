@@ -40,6 +40,19 @@
   opacity: 1;
   text-decoration: underline;
 }
+.footer-social {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.footer-social img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
 
 @media (max-width: 900px) {
   .site-footer {
