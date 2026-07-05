@@ -309,3 +309,105 @@
     border-radius: 28px;
   }
 }
+/* =========================
+   Life River Layout Final Fix
+========================= */
+
+/* 電腦版：讓河流更清楚、卡片不要太擠 */
+@media (min-width: 901px) {
+  .life-river-map {
+    width: min(1180px, 100%);
+    height: 1500px;
+    margin: 0 auto;
+  }
+
+  .river-line {
+    width: 190px;
+  }
+
+  .river-line path {
+    stroke-width: 6;
+    stroke-dasharray: 16 18;
+  }
+
+  .river-step {
+    width: 38%;
+    gap: 26px;
+  }
+
+  .step-left {
+    left: 3%;
+  }
+
+  .step-right {
+    right: 3%;
+  }
+
+  .river-card {
+    padding: 22px;
+    border-radius: 26px;
+  }
+
+  .river-image {
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+  }
+
+  .river-card h3 {
+    font-size: 24px;
+  }
+
+  .river-card p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .river-dot {
+    width: 54px;
+    height: 54px;
+  }
+}
+
+/* 手機版：一欄是對的，但圖片與卡片高度要壓縮 */
+@media (max-width: 900px) {
+  .life-river-map {
+    gap: 22px;
+  }
+
+  .river-step {
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+  }
+
+  .river-dot {
+    width: 46px;
+    height: 46px;
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .river-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .river-image {
+    aspect-ratio: 16 / 9;
+    margin-bottom: 14px;
+  }
+
+  .river-card h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .river-card p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .river-text span {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+}
