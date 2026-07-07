@@ -1,4 +1,6 @@
-let products = [
+const STORAGE_KEY = "brandOSProducts";
+
+const defaultProducts = [
   {
     name: "原味烘焙花生",
     desc: "80g｜日常泡茶零食",
@@ -28,6 +30,8 @@ let products = [
   }
 ];
 
+let products = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultProducts;
+
 const tableBody = document.getElementById("productTableBody");
 const searchInput = document.getElementById("productSearch");
 const statusFilter = document.getElementById("statusFilter");
@@ -37,6 +41,10 @@ const openProductModal = document.getElementById("openProductModal");
 const closeProductModal = document.getElementById("closeProductModal");
 const cancelProductModal = document.getElementById("cancelProductModal");
 const productForm = document.getElementById("productForm");
+
+function saveProducts() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+}
 
 function formatPrice(price) {
   return `NT$ ${Number(price).toLocaleString()}`;
@@ -112,7 +120,7 @@ function createProduct(event) {
   };
 
   products.unshift(newProduct);
-
+  saveProducts();
   renderProducts();
   closeModal();
 }
@@ -123,9 +131,7 @@ cancelProductModal.addEventListener("click", closeModal);
 productForm.addEventListener("submit", createProduct);
 
 productModal.addEventListener("click", event => {
-  if (event.target === productModal) {
-    closeModal();
-  }
+  if (event.target === productModal) closeModal();
 });
 
 searchInput.addEventListener("input", renderProducts);
