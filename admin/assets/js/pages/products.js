@@ -39,7 +39,7 @@ const defaultProducts = [
   }
 ];
 
-let products = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultProducts;
+let products = loadProducts();
 let editingProductId = null;
 
 const tableBody = document.getElementById("productTableBody");
@@ -51,15 +51,39 @@ const openProductModal = document.getElementById("openProductModal");
 const closeProductModal = document.getElementById("closeProductModal");
 const cancelProductModal = document.getElementById("cancelProductModal");
 const productForm = document.getElementById("productForm");
+const modalTitle = document.getElementById("productModalTitle");
 
-const modalTitle = document.querySelector(".modal-header h3");
+function loadProducts() {
+  const savedProducts = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+  if (!savedProducts || !Array.isArray(savedProducts)) {
+    return defaultProducts;
+  }
+
+  return savedProducts.map(product => normalizeProduct(product));
+}
+
+function normalizeProduct(product) {
+  return {
+    id: product.id || createId(),
+    name: product.name || "",
+    desc: product.desc || "",
+    category: product.category || "",
+    price: Number(product.price) || 0,
+    stock: Number(product.stock) || 0,
+    status: product.status || "草稿",
+    icon: product.icon || "🥜",
+    createdAt: product.createdAt || new Date().toISOString(),
+    updatedAt: product.updatedAt || new Date().toISOString()
+  };
+}
 
 function saveProducts() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
 }
 
 function createId() {
-  return `p-${Date.now()}`;
+  return `p-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 function formatPrice(price) {
@@ -87,6 +111,15 @@ function renderProducts() {
     return matchKeyword && matchStatus;
   });
 
+  if (filteredProducts.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="6">目前沒有符合條件的商品。</td>
+      </tr>
+    `;
+    return;
+  }
+
   tableBody.innerHTML = filteredProducts.map(product => `
     <tr>
       <td>
@@ -107,7 +140,10 @@ function renderProducts() {
         </span>
       </td>
       <td>
-        <button class="action-btn" onclick="editProduct('${product.id}')">編輯</button>
+        <div class="action-group">
+          <button class="action-btn" onclick="editProduct('${product.id}')">編輯</button>
+          <button class="action-btn delete-btn" onclick="deleteProduct('${product.id}')">刪除</button>
+        </div>
       </td>
     </tr>
   `).join("");
@@ -136,15 +172,39 @@ function fillForm(product) {
 
 function editProduct(id) {
   const product = products.find(item => item.id === id);
-  if (!product) return;
+
+  if (!product) {
+    alert("找不到這個商品。");
+    return;
+  }
 
   editingProductId = id;
   fillForm(product);
   openModal("edit");
 }
 
+function deleteProduct(id) {
+  const product = products.find(item => item.id === id);
+
+  if (!product) {
+    alert("找不到這個商品。");
+    return;
+  }
+
+  const confirmDelete = confirm(`確定要刪除「${product.name}」嗎？`);
+
+  if (!confirmDelete) return;
+
+  products = products.filter(item => item.id !== id);
+
+  saveProducts();
+  renderProducts();
+}
+
 function handleProductSubmit(event) {
   event.preventDefault();
+
+  const now = new Date().toISOString();
 
   const formData = {
     name: document.getElementById("productName").value.trim(),
@@ -154,8 +214,13 @@ function handleProductSubmit(event) {
     stock: Number(document.getElementById("productStock").value),
     status: document.getElementById("productStatus").value,
     icon: "🥜",
-    updatedAt: new Date().toISOString()
+    updatedAt: now
   };
+
+  if (!formData.name || !formData.category) {
+    alert("請填寫商品名稱與分類。");
+    return;
+  }
 
   if (editingProductId) {
     products = products.map(product => {
@@ -170,7 +235,7 @@ function handleProductSubmit(event) {
     products.unshift({
       id: createId(),
       ...formData,
-      createdAt: new Date().toISOString()
+      createdAt: now
     });
   }
 
@@ -185,18 +250,19 @@ cancelProductModal.addEventListener("click", closeModal);
 productForm.addEventListener("submit", handleProductSubmit);
 
 productModal.addEventListener("click", event => {
-  if (event.target === productModal) closeModal();
+  if (event.target === productModal) {
+    closeModal();
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !productModal.classList.contains("hidden")) {
+    closeModal();
+  }
 });
 
 searchInput.addEventListener("input", renderProducts);
 statusFilter.addEventListener("change", renderProducts);
-
-products = products.map(product => ({
-  id: product.id || createId(),
-  createdAt: product.createdAt || new Date().toISOString(),
-  updatedAt: product.updatedAt || new Date().toISOString(),
-  ...product
-}));
 
 saveProducts();
 renderProducts();

@@ -119,6 +119,11 @@
   color: #a06060;
 }
 
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
 .action-btn {
   border: 1px solid var(--color-border);
   background: var(--color-surface);
@@ -129,8 +134,8 @@
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
+.delete-btn {
+  color: var(--color-danger);
 }
 
 .modal-backdrop {
@@ -142,6 +147,10 @@
   justify-content: center;
   padding: 24px;
   z-index: 999;
+}
+
+.modal-backdrop.hidden {
+  display: none;
 }
 
 .modal {
@@ -206,9 +215,11 @@
 }
 
 @media (max-width: 820px) {
-  .products-toolbar,
-  .form-row {
+  .products-toolbar {
     flex-direction: column;
+  }
+
+  .form-row {
     grid-template-columns: 1fr;
   }
 
@@ -223,7 +234,4 @@
   .modal {
     padding: 22px;
   }
-}
-.modal-backdrop.hidden {
-  display: none;
 }
