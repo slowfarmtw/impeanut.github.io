@@ -2,35 +2,45 @@ const STORAGE_KEY = "brandOSProducts";
 
 const defaultProducts = [
   {
+    id: "p001",
     name: "原味烘焙花生",
     desc: "80g｜日常泡茶零食",
     category: "烘焙花生",
     price: 100,
     stock: 230,
     status: "上架",
-    icon: "🥜"
+    icon: "🥜",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
+    id: "p002",
     name: "花生糖",
     desc: "150g｜節慶伴手禮",
     category: "花生糖",
     price: 150,
     stock: 88,
     status: "上架",
-    icon: "🍬"
+    icon: "🍬",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
+    id: "p003",
     name: "原味花生醬",
     desc: "250g｜無糖少添加",
     category: "花生醬",
     price: 250,
     stock: 36,
     status: "草稿",
-    icon: "🥄"
+    icon: "🥄",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ];
 
 let products = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultProducts;
+let editingProductId = null;
 
 const tableBody = document.getElementById("productTableBody");
 const searchInput = document.getElementById("productSearch");
@@ -42,8 +52,14 @@ const closeProductModal = document.getElementById("closeProductModal");
 const cancelProductModal = document.getElementById("cancelProductModal");
 const productForm = document.getElementById("productForm");
 
+const modalTitle = document.querySelector(".modal-header h3");
+
 function saveProducts() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+}
+
+function createId() {
+  return `p-${Date.now()}`;
 }
 
 function formatPrice(price) {
@@ -91,44 +107,82 @@ function renderProducts() {
         </span>
       </td>
       <td>
-        <button class="action-btn">編輯</button>
+        <button class="action-btn" onclick="editProduct('${product.id}')">編輯</button>
       </td>
     </tr>
   `).join("");
 }
 
-function openModal() {
+function openModal(mode = "create") {
   productModal.classList.remove("hidden");
+  modalTitle.textContent = mode === "edit" ? "編輯商品" : "新增商品";
 }
 
 function closeModal() {
   productModal.classList.add("hidden");
   productForm.reset();
+  editingProductId = null;
+  modalTitle.textContent = "新增商品";
 }
 
-function createProduct(event) {
+function fillForm(product) {
+  document.getElementById("productName").value = product.name;
+  document.getElementById("productDesc").value = product.desc;
+  document.getElementById("productCategory").value = product.category;
+  document.getElementById("productPrice").value = product.price;
+  document.getElementById("productStock").value = product.stock;
+  document.getElementById("productStatus").value = product.status;
+}
+
+function editProduct(id) {
+  const product = products.find(item => item.id === id);
+  if (!product) return;
+
+  editingProductId = id;
+  fillForm(product);
+  openModal("edit");
+}
+
+function handleProductSubmit(event) {
   event.preventDefault();
 
-  const newProduct = {
+  const formData = {
     name: document.getElementById("productName").value.trim(),
     desc: document.getElementById("productDesc").value.trim(),
     category: document.getElementById("productCategory").value.trim(),
     price: Number(document.getElementById("productPrice").value),
     stock: Number(document.getElementById("productStock").value),
     status: document.getElementById("productStatus").value,
-    icon: "🥜"
+    icon: "🥜",
+    updatedAt: new Date().toISOString()
   };
 
-  products.unshift(newProduct);
+  if (editingProductId) {
+    products = products.map(product => {
+      if (product.id !== editingProductId) return product;
+
+      return {
+        ...product,
+        ...formData
+      };
+    });
+  } else {
+    products.unshift({
+      id: createId(),
+      ...formData,
+      createdAt: new Date().toISOString()
+    });
+  }
+
   saveProducts();
   renderProducts();
   closeModal();
 }
 
-openProductModal.addEventListener("click", openModal);
+openProductModal.addEventListener("click", () => openModal("create"));
 closeProductModal.addEventListener("click", closeModal);
 cancelProductModal.addEventListener("click", closeModal);
-productForm.addEventListener("submit", createProduct);
+productForm.addEventListener("submit", handleProductSubmit);
 
 productModal.addEventListener("click", event => {
   if (event.target === productModal) closeModal();
@@ -137,4 +191,12 @@ productModal.addEventListener("click", event => {
 searchInput.addEventListener("input", renderProducts);
 statusFilter.addEventListener("change", renderProducts);
 
+products = products.map(product => ({
+  id: product.id || createId(),
+  createdAt: product.createdAt || new Date().toISOString(),
+  updatedAt: product.updatedAt || new Date().toISOString(),
+  ...product
+}));
+
+saveProducts();
 renderProducts();
