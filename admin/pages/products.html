@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>商品管理｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/pages/products.css" />
 </head>
 
 <body>
@@ -36,15 +38,42 @@
       <header class="topbar">
         <div>
           <h2>商品管理</h2>
-          <p>管理商品、價格、狀態與上架內容</p>
+          <p>管理商品、價格、庫存與上下架狀態</p>
         </div>
+
+        <button class="product-add-btn">＋ 新增商品</button>
       </header>
 
-      <section class="panel">
-        <h3>商品管理頁已建立</h3>
-        <p>下一步會加入商品列表、新增商品按鈕與商品資料表。</p>
+      <section class="products-toolbar">
+        <input id="productSearch" type="text" placeholder="搜尋商品名稱、分類或狀態..." />
+
+        <select id="statusFilter">
+          <option value="all">全部狀態</option>
+          <option value="上架">上架</option>
+          <option value="草稿">草稿</option>
+          <option value="停售">停售</option>
+        </select>
+      </section>
+
+      <section class="products-table-card">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>商品</th>
+              <th>分類</th>
+              <th>售價</th>
+              <th>庫存</th>
+              <th>狀態</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+
+          <tbody id="productTableBody"></tbody>
+        </table>
       </section>
     </main>
   </div>
+
+  <script src="../assets/js/pages/products.js"></script>
 </body>
 </html>
