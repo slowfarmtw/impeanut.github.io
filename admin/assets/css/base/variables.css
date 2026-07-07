@@ -1,1 +1,47 @@
+:root {
+  /* Brand Colors */
+  --color-bg: #f8f6f2;
+  --color-surface: #fffdf8;
+  --color-surface-soft: #f1ebe1;
 
+  --color-primary: #8c6a4a;
+  --color-primary-dark: #6f4f35;
+  --color-primary-soft: #e7d8c5;
+
+  --color-secondary: #a9967a;
+  --color-border: #e7dfd3;
+
+  --color-text: #3e3a35;
+  --color-muted: #756d63;
+  --color-light-text: #9a9085;
+
+  --color-success: #7fa88c;
+  --color-warning: #c8a66a;
+  --color-danger: #b97b73;
+
+  /* Font */
+  --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+
+  /* Space */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Shadow */
+  --shadow-sm: 0 4px 12px rgba(90, 65, 40, 0.06);
+  --shadow-md: 0 12px 32px rgba(90, 65, 40, 0.08);
+  --shadow-lg: 0 20px 48px rgba(90, 65, 40, 0.12);
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --header-height: 72px;
+}
