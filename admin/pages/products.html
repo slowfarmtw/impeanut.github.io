@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>商品管理｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
@@ -41,7 +40,7 @@
           <p>管理商品、價格、庫存與上下架狀態</p>
         </div>
 
-        <button class="product-add-btn">＋ 新增商品</button>
+        <button id="openProductModal" class="product-add-btn">＋ 新增商品</button>
       </header>
 
       <section class="products-toolbar">
@@ -72,6 +71,63 @@
         </table>
       </section>
     </main>
+  </div>
+
+  <div id="productModal" class="modal-backdrop hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3>新增商品</h3>
+          <p>新增後會先顯示在商品管理列表中</p>
+        </div>
+        <button id="closeProductModal" class="modal-close">×</button>
+      </div>
+
+      <form id="productForm" class="product-form">
+        <label>
+          商品名稱
+          <input id="productName" type="text" required placeholder="例如：原味烘焙花生" />
+        </label>
+
+        <label>
+          商品副標題
+          <input id="productDesc" type="text" placeholder="例如：80g｜日常泡茶零食" />
+        </label>
+
+        <div class="form-row">
+          <label>
+            分類
+            <input id="productCategory" type="text" required placeholder="例如：烘焙花生" />
+          </label>
+
+          <label>
+            狀態
+            <select id="productStatus">
+              <option value="上架">上架</option>
+              <option value="草稿">草稿</option>
+              <option value="停售">停售</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>
+            售價
+            <input id="productPrice" type="number" min="0" required placeholder="100" />
+          </label>
+
+          <label>
+            庫存
+            <input id="productStock" type="number" min="0" required placeholder="50" />
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelProductModal" class="btn-secondary">取消</button>
+          <button type="submit" class="btn-primary">儲存商品</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="../assets/js/pages/products.js"></script>
