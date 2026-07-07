@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>商品管理｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
@@ -40,7 +41,9 @@
           <p>管理商品、價格、庫存與上下架狀態</p>
         </div>
 
-        <button id="openProductModal" class="product-add-btn">＋ 新增商品</button>
+        <button id="openProductModal" class="product-add-btn">
+          ＋ 新增商品
+        </button>
       </header>
 
       <section class="products-toolbar">
@@ -66,7 +69,6 @@
               <th>操作</th>
             </tr>
           </thead>
-
           <tbody id="productTableBody"></tbody>
         </table>
       </section>
@@ -77,10 +79,10 @@
     <div class="modal">
       <div class="modal-header">
         <div>
-          <h3>新增商品</h3>
-          <p>新增後會先顯示在商品管理列表中</p>
+          <h3 id="productModalTitle">新增商品</h3>
+          <p>商品會先儲存在目前瀏覽器，之後再串接 Supabase。</p>
         </div>
-        <button id="closeProductModal" class="modal-close">×</button>
+        <button id="closeProductModal" class="modal-close" type="button">×</button>
       </div>
 
       <form id="productForm" class="product-form">
@@ -123,7 +125,7 @@
         </div>
 
         <div class="modal-actions">
-          <button type="button" id="cancelProductModal" class="btn-secondary">取消</button>
+          <button id="cancelProductModal" type="button" class="btn-secondary">取消</button>
           <button type="submit" class="btn-primary">儲存商品</button>
         </div>
       </form>
