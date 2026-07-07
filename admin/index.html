@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>花生一生｜管理後台</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="admin-layout">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">🥜</div>
+        <div>
+          <h1>花生一生</h1>
+          <p>IMPEANUT</p>
+        </div>
+      </div>
+
+      <nav class="menu">
+        <a class="active" href="#">儀表板</a>
+        <a href="#">商品管理</a>
+        <a href="#">花生研究室</a>
+        <a href="#">品牌故事</a>
+        <a href="#">檢驗報告</a>
+        <a href="#">最新消息</a>
+        <a href="#">訂單管理</a>
+        <a href="#">生產批次</a>
+        <a href="#">媒體庫</a>
+        <a href="#">會員管理</a>
+        <a href="#">系統設定</a>
+      </nav>
+
+      <div class="sidebar-card">
+        <strong>從農田到餐桌</strong>
+        <p>用心做好每一顆花生，給家人也放心的花生。</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-btn">☰</button>
+
+        <div class="top-actions">
+          <button class="icon-btn">🔔</button>
+          <button class="icon-btn">？</button>
+          <div class="user">花生一生管理員 ▾</div>
+        </div>
+      </header>
+
+      <section class="welcome">
+        <div>
+          <h2>早安，花生一生團隊！🥜</h2>
+          <p>今天是 2026 年 7 月 7 日，星期二</p>
+        </div>
+        <button class="primary-btn">自訂儀表板</button>
+      </section>
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <span>今日訂單</span>
+          <strong>18</strong>
+          <p class="up">較昨日 ↑ 28%</p>
+        </div>
+
+        <div class="stat-card">
+          <span>今日營業額</span>
+          <strong>NT$ 8,250</strong>
+          <p class="up">較昨日 ↑ 15%</p>
+        </div>
+
+        <div class="stat-card">
+          <span>待出貨訂單</span>
+          <strong>6</strong>
+          <p class="down">較昨日 ↓ 14%</p>
+        </div>
+
+        <div class="stat-card">
+          <span>本月文章數</span>
+          <strong>12</strong>
+          <p class="up">較上月 ↑ 20%</p>
+        </div>
+
+        <div class="stat-card">
+          <span>會員總數</span>
+          <strong>1,256</strong>
+          <p class="up">較上月 ↑ 8%</p>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <div class="panel large">
+          <div class="panel-title">
+            <h3>營業額趨勢</h3>
+            <a href="#">查看完整報表 ›</a>
+          </div>
+
+          <div class="fake-chart">
+            <div style="height: 45%"></div>
+            <div style="height: 30%"></div>
+            <div style="height: 55%"></div>
+            <div style="height: 40%"></div>
+            <div style="height: 60%"></div>
+            <div style="height: 72%"></div>
+            <div style="height: 95%"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">
+            <h3>熱門商品 TOP 5</h3>
+            <a href="#">查看全部 ›</a>
+          </div>
+
+          <ul class="product-list">
+            <li><span>1. 原味烘焙花生</span><b>328 包</b></li>
+            <li><span>2. 花生糖（原味）</span><b>286 包</b></li>
+            <li><span>3. 蒜香花生</span><b>215 包</b></li>
+            <li><span>4. 花生醬（無糖）</span><b>198 罐</b></li>
+            <li><span>5. 黑糖花生</span><b>156 包</b></li>
+          </ul>
+        </div>
+
+        <div class="panel large">
+          <div class="panel-title">
+            <h3>最新訂單</h3>
+            <a href="#">查看全部訂單 ›</a>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>訂單編號</th>
+                <th>顧客</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>下單時間</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ORD20260707001</td>
+                <td>王小明</td>
+                <td>NT$ 650</td>
+                <td><span class="tag orange">待處理</span></td>
+                <td>10:23</td>
+              </tr>
+              <tr>
+                <td>ORD20260707002</td>
+                <td>李大華</td>
+                <td>NT$ 980</td>
+                <td><span class="tag blue">處理中</span></td>
+                <td>09:48</td>
+              </tr>
+              <tr>
+                <td>ORD20260707003</td>
+                <td>陳美玲</td>
+                <td>NT$ 450</td>
+                <td><span class="tag green">已出貨</span></td>
+                <td>09:15</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">
+            <h3>待處理事項</h3>
+          </div>
+
+          <ul class="todo-list">
+            <li><span>待出貨訂單</span><b>6</b></li>
+            <li><span>待上傳檢驗報告</span><b>2</b></li>
+            <li><span>首頁 Banner 建議更新</span><b>1</b></li>
+            <li><span>低庫存商品</span><b>3</b></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
