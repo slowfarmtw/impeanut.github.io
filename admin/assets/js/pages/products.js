@@ -1,4 +1,4 @@
-const products = [
+let products = [
   {
     name: "原味烘焙花生",
     desc: "80g｜日常泡茶零食",
@@ -32,6 +32,12 @@ const tableBody = document.getElementById("productTableBody");
 const searchInput = document.getElementById("productSearch");
 const statusFilter = document.getElementById("statusFilter");
 
+const productModal = document.getElementById("productModal");
+const openProductModal = document.getElementById("openProductModal");
+const closeProductModal = document.getElementById("closeProductModal");
+const cancelProductModal = document.getElementById("cancelProductModal");
+const productForm = document.getElementById("productForm");
+
 function formatPrice(price) {
   return `NT$ ${Number(price).toLocaleString()}`;
 }
@@ -64,7 +70,7 @@ function renderProducts() {
           <div class="product-thumb">${product.icon}</div>
           <div>
             <div class="product-name">${product.name}</div>
-            <div class="product-desc">${product.desc}</div>
+            <div class="product-desc">${product.desc || "尚未填寫副標題"}</div>
           </div>
         </div>
       </td>
@@ -82,6 +88,45 @@ function renderProducts() {
     </tr>
   `).join("");
 }
+
+function openModal() {
+  productModal.classList.remove("hidden");
+}
+
+function closeModal() {
+  productModal.classList.add("hidden");
+  productForm.reset();
+}
+
+function createProduct(event) {
+  event.preventDefault();
+
+  const newProduct = {
+    name: document.getElementById("productName").value.trim(),
+    desc: document.getElementById("productDesc").value.trim(),
+    category: document.getElementById("productCategory").value.trim(),
+    price: Number(document.getElementById("productPrice").value),
+    stock: Number(document.getElementById("productStock").value),
+    status: document.getElementById("productStatus").value,
+    icon: "🥜"
+  };
+
+  products.unshift(newProduct);
+
+  renderProducts();
+  closeModal();
+}
+
+openProductModal.addEventListener("click", openModal);
+closeProductModal.addEventListener("click", closeModal);
+cancelProductModal.addEventListener("click", closeModal);
+productForm.addEventListener("submit", createProduct);
+
+productModal.addEventListener("click", event => {
+  if (event.target === productModal) {
+    closeModal();
+  }
+});
 
 searchInput.addEventListener("input", renderProducts);
 statusFilter.addEventListener("change", renderProducts);
