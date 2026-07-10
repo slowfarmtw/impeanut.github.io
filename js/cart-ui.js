@@ -1,5 +1,29 @@
 const PEANUT_CART_KEY = "peanutCart";
 
+function peanutGetCartItemImageSrc(image) {
+  if (!image) return "images/placeholder.png";
+
+  const imageText = String(image).trim();
+
+  if (imageText.startsWith("http://") || imageText.startsWith("https://")) {
+    return imageText;
+  }
+
+  if (imageText.startsWith("images/")) {
+    return imageText;
+  }
+
+  if (imageText.startsWith("/")) {
+    return imageText;
+  }
+
+  return `images/${imageText}`;
+}
+
+function peanutGetCartProductImageSource(item) {
+  return item.image_src || peanutGetCartItemImageSrc(item.cover_image || item.image);
+}
+
 function peanutGetCart() {
   return JSON.parse(localStorage.getItem(PEANUT_CART_KEY)) || [];
 }
@@ -27,17 +51,27 @@ function peanutGetCartCount(cart) {
 
 function peanutAddToCart(product, quantity = 1) {
   const cart = peanutGetCart();
-  const existingItem = cart.find(item => item.id === product.id);
+  const existingItem = cart.find(item => {
+    return item.id === product.id || item.product_id === product.id || item.id === product.product_id;
+  });
 
   if (existingItem) {
     existingItem.quantity += Number(quantity);
+    existingItem.image = existingItem.image || product.image || product.cover_image || "placeholder.png";
+    existingItem.image_src = existingItem.image_src || product.image_src || peanutGetCartItemImageSrc(product.cover_image || product.image);
+    existingItem.cover_image = existingItem.cover_image || product.cover_image || product.image || "";
   } else {
     cart.push({
       id: product.id,
-      name: product.name,
+      product_id: product.product_id || product.id,
+      name: product.name || product.product_name || "未命名商品",
+      product_name: product.product_name || product.name || "未命名商品",
+      sku: product.sku || "",
       price: Number(product.price),
-      image: product.image,
-      weight: product.weight,
+      image: product.image || product.cover_image || "placeholder.png",
+      image_src: product.image_src || peanutGetCartItemImageSrc(product.cover_image || product.image),
+      cover_image: product.cover_image || product.image || "",
+      weight: product.weight || "",
       quantity: Number(quantity)
     });
   }
@@ -49,14 +83,14 @@ function peanutAddToCart(product, quantity = 1) {
 
 function peanutUpdateCartQuantity(productId, change) {
   const cart = peanutGetCart();
-  const item = cart.find(item => item.id === productId);
+  const item = cart.find(item => item.id === productId || item.product_id === productId);
 
   if (!item) return;
 
   item.quantity += change;
 
   if (item.quantity <= 0) {
-    const newCart = cart.filter(item => item.id !== productId);
+    const newCart = cart.filter(item => item.id !== productId && item.product_id !== productId);
     peanutSaveCart(newCart);
     return;
   }
@@ -66,7 +100,7 @@ function peanutUpdateCartQuantity(productId, change) {
 
 function peanutRemoveCartItem(productId) {
   const cart = peanutGetCart();
-  const newCart = cart.filter(item => item.id !== productId);
+  const newCart = cart.filter(item => item.id !== productId && item.product_id !== productId);
   peanutSaveCart(newCart);
 }
 
@@ -152,7 +186,7 @@ function peanutRenderFloatingCart() {
       <div class="drawer-cart-item">
         <div class="drawer-cart-image">
           <img 
-            src="images/${item.image || "placeholder.png"}" 
+            src="${peanutGetCartProductImageSource(item)}" 
             alt="${item.name}"
             onerror="this.onerror=null; this.src='images/placeholder.png';"
           >

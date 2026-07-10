@@ -1,268 +1,298 @@
-const STORAGE_KEY = "brandOSProducts";
+// admin/assets/js/pages/products.js
+// 商品列表頁：讀取 Supabase products 表，顯示商品、縮圖、庫存、商品狀態、前台顯示狀態與編輯入口。
 
-const defaultProducts = [
-  {
-    id: "p001",
-    name: "原味烘焙花生",
-    desc: "80g｜日常泡茶零食",
-    category: "烘焙花生",
-    price: 100,
-    stock: 230,
-    status: "上架",
-    icon: "🥜",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: "p002",
-    name: "花生糖",
-    desc: "150g｜節慶伴手禮",
-    category: "花生糖",
-    price: 150,
-    stock: 88,
-    status: "上架",
-    icon: "🍬",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  },
-  {
-    id: "p003",
-    name: "原味花生醬",
-    desc: "250g｜無糖少添加",
-    category: "花生醬",
-    price: 250,
-    stock: 36,
-    status: "草稿",
-    icon: "🥄",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-];
+const productsTableBody = document.getElementById("productsTableBody");
+const productStatusText = document.getElementById("productStatusText");
+const totalProductsEl = document.getElementById("totalProducts");
+const activeProductsEl = document.getElementById("activeProducts");
+const lowStockProductsEl = document.getElementById("lowStockProducts");
+const refreshProductsBtn = document.getElementById("refreshProductsBtn");
 
-let products = loadProducts();
-let editingProductId = null;
+const STATUS_LABELS = {
+  draft: "草稿",
+  active: "已上架",
+  paused: "暫停販售",
+  sold_out: "售完",
+  archived: "下架"
+};
 
-const tableBody = document.getElementById("productTableBody");
-const searchInput = document.getElementById("productSearch");
-const statusFilter = document.getElementById("statusFilter");
-
-const productModal = document.getElementById("productModal");
-const openProductModal = document.getElementById("openProductModal");
-const closeProductModal = document.getElementById("closeProductModal");
-const cancelProductModal = document.getElementById("cancelProductModal");
-const productForm = document.getElementById("productForm");
-const modalTitle = document.getElementById("productModalTitle");
-
-function loadProducts() {
-  const savedProducts = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-  if (!savedProducts || !Array.isArray(savedProducts)) {
-    return defaultProducts;
-  }
-
-  return savedProducts.map(product => normalizeProduct(product));
-}
-
-function normalizeProduct(product) {
-  return {
-    id: product.id || createId(),
-    name: product.name || "",
-    desc: product.desc || "",
-    category: product.category || "",
-    price: Number(product.price) || 0,
-    stock: Number(product.stock) || 0,
-    status: product.status || "草稿",
-    icon: product.icon || "🥜",
-    createdAt: product.createdAt || new Date().toISOString(),
-    updatedAt: product.updatedAt || new Date().toISOString()
-  };
-}
-
-function saveProducts() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-}
-
-function createId() {
-  return `p-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function formatPrice(price) {
-  return `NT$ ${Number(price).toLocaleString()}`;
+  return `NT$ ${Number(price || 0).toLocaleString()}`;
 }
 
-function getStatusClass(status) {
-  if (status === "上架") return "status-live";
-  if (status === "草稿") return "status-draft";
-  return "status-stop";
+function getProductImageSrc(image) {
+  if (!image) return "";
+
+  const imageText = String(image).trim();
+
+  if (imageText.startsWith("http://") || imageText.startsWith("https://")) {
+    return imageText;
+  }
+
+  if (imageText.startsWith("images/")) {
+    return `../../${imageText}`;
+  }
+
+  if (imageText.startsWith("/")) {
+    return imageText;
+  }
+
+  return `../../images/${imageText}`;
 }
 
-function renderProducts() {
-  const keyword = searchInput.value.trim();
-  const status = statusFilter.value;
+function getStatusLabel(status) {
+  return STATUS_LABELS[status] || status || "-";
+}
 
-  const filteredProducts = products.filter(product => {
-    const matchKeyword =
-      product.name.includes(keyword) ||
-      product.category.includes(keyword) ||
-      product.status.includes(keyword);
+function renderSummary(products) {
+  const total = products.length;
+  const active = products.filter((product) => product.status === "active").length;
 
-    const matchStatus = status === "all" || product.status === status;
+  const lowStock = products.filter((product) => {
+    return Number(product.stock || 0) <= Number(product.safety_stock || 0);
+  }).length;
 
-    return matchKeyword && matchStatus;
-  });
+  totalProductsEl.textContent = total;
+  activeProductsEl.textContent = active;
+  lowStockProductsEl.textContent = lowStock;
+}
 
-  if (filteredProducts.length === 0) {
-    tableBody.innerHTML = `
+function renderProductImage(product) {
+  const imageUrl = getProductImageSrc(product.cover_image);
+
+  if (!imageUrl) {
+    return `
+      <div class="product-thumb product-thumb-empty">
+        <span>無圖</span>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="product-thumb">
+      <img
+        src="${escapeHtml(imageUrl)}"
+        alt="${escapeHtml(product.name)}"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"
+      >
+      <span class="product-thumb-fallback">無圖</span>
+    </div>
+  `;
+}
+
+function renderStatusSelect(product) {
+  const currentStatus = product.status || "draft";
+
+  return `
+    <select
+      class="product-status-select status-select-${escapeHtml(currentStatus)}"
+      data-action="change-status"
+      data-id="${escapeHtml(product.id)}"
+      data-current-status="${escapeHtml(currentStatus)}"
+      aria-label="商品狀態"
+    >
+      <option value="draft" ${currentStatus === "draft" ? "selected" : ""}>草稿</option>
+      <option value="active" ${currentStatus === "active" ? "selected" : ""}>已上架</option>
+      <option value="paused" ${currentStatus === "paused" ? "selected" : ""}>暫停販售</option>
+      <option value="sold_out" ${currentStatus === "sold_out" ? "selected" : ""}>售完</option>
+      <option value="archived" ${currentStatus === "archived" ? "selected" : ""}>下架</option>
+    </select>
+  `;
+}
+
+function renderProducts(products) {
+  if (!products.length) {
+    productsTableBody.innerHTML = `<tr><td colspan="10">目前沒有商品資料。</td></tr>`;
+    return;
+  }
+
+  productsTableBody.innerHTML = products.map((product) => {
+    const isLowStock = Number(product.stock || 0) <= Number(product.safety_stock || 0);
+    const editUrl = `product-editor.html?id=${encodeURIComponent(product.id)}`;
+
+    return `
       <tr>
-        <td colspan="6">目前沒有符合條件的商品。</td>
+        <td>${renderProductImage(product)}</td>
+
+        <td>${escapeHtml(product.sku)}</td>
+
+        <td>
+          <strong>${escapeHtml(product.name)}</strong>
+          ${isLowStock ? `<div class="admin-warning-text">庫存偏低</div>` : ""}
+        </td>
+
+        <td>${escapeHtml(product.category || "-")}</td>
+        <td>${escapeHtml(product.weight || "-")}</td>
+        <td>${formatPrice(product.price)}</td>
+        <td>${Number(product.stock || 0)}</td>
+        <td>${Number(product.safety_stock || 0)}</td>
+
+        <td>
+          ${renderStatusSelect(product)}
+        </td>
+
+        <td>
+          <div class="product-actions">
+            <button
+              type="button"
+              class="${product.is_visible ? "product-visible" : "product-hidden"}"
+              data-action="toggle-visible"
+              data-id="${escapeHtml(product.id)}"
+              data-visible="${product.is_visible ? "true" : "false"}"
+            >
+              ${product.is_visible ? "顯示" : "不顯示"}
+            </button>
+
+            <a class="product-edit-btn" href="${editUrl}">編輯</a>
+          </div>
+        </td>
       </tr>
     `;
+  }).join("");
+}
+
+async function toggleProductVisible(productId, currentVisible) {
+  if (!window.supabaseClient) {
+    productStatusText.textContent = "Supabase 尚未設定";
     return;
   }
 
-  tableBody.innerHTML = filteredProducts.map(product => `
-    <tr>
-      <td>
-        <div class="product-info">
-          <div class="product-thumb">${product.icon}</div>
-          <div>
-            <div class="product-name">${product.name}</div>
-            <div class="product-desc">${product.desc || "尚未填寫副標題"}</div>
-          </div>
-        </div>
-      </td>
-      <td>${product.category}</td>
-      <td>${formatPrice(product.price)}</td>
-      <td>${product.stock}</td>
-      <td>
-        <span class="status-badge ${getStatusClass(product.status)}">
-          ${product.status}
-        </span>
-      </td>
-      <td>
-        <div class="action-group">
-          <button class="action-btn" onclick="editProduct('${product.id}')">編輯</button>
-          <button class="action-btn delete-btn" onclick="deleteProduct('${product.id}')">刪除</button>
-        </div>
-      </td>
-    </tr>
-  `).join("");
-}
+  const nextVisible = !currentVisible;
 
-function openModal(mode = "create") {
-  productModal.classList.remove("hidden");
-  modalTitle.textContent = mode === "edit" ? "編輯商品" : "新增商品";
-}
+  productStatusText.textContent = "更新前台顯示狀態中...";
 
-function closeModal() {
-  productModal.classList.add("hidden");
-  productForm.reset();
-  editingProductId = null;
-  modalTitle.textContent = "新增商品";
-}
+  const { error } = await window.supabaseClient
+    .from("products")
+    .update({
+      is_visible: nextVisible
+    })
+    .eq("id", productId);
 
-function fillForm(product) {
-  document.getElementById("productName").value = product.name;
-  document.getElementById("productDesc").value = product.desc;
-  document.getElementById("productCategory").value = product.category;
-  document.getElementById("productPrice").value = product.price;
-  document.getElementById("productStock").value = product.stock;
-  document.getElementById("productStatus").value = product.status;
-}
-
-function editProduct(id) {
-  const product = products.find(item => item.id === id);
-
-  if (!product) {
-    alert("找不到這個商品。");
+  if (error) {
+    console.error("更新前台顯示狀態失敗：", error);
+    productStatusText.textContent = "更新前台顯示狀態失敗";
     return;
   }
 
-  editingProductId = id;
-  fillForm(product);
-  openModal("edit");
+  productStatusText.textContent = "前台顯示狀態已更新";
+
+  await loadProducts();
 }
 
-function deleteProduct(id) {
-  const product = products.find(item => item.id === id);
-
-  if (!product) {
-    alert("找不到這個商品。");
+async function updateProductStatus(productId, nextStatus, selectElement) {
+  if (!window.supabaseClient) {
+    productStatusText.textContent = "Supabase 尚未設定";
     return;
   }
 
-  const confirmDelete = confirm(`確定要刪除「${product.name}」嗎？`);
+  if (!productId || !nextStatus) return;
 
-  if (!confirmDelete) return;
+  const previousStatus = selectElement.dataset.currentStatus || "draft";
 
-  products = products.filter(item => item.id !== id);
+  if (previousStatus === nextStatus) return;
 
-  saveProducts();
-  renderProducts();
-}
+  selectElement.disabled = true;
+  productStatusText.textContent = "更新商品狀態中...";
 
-function handleProductSubmit(event) {
-  event.preventDefault();
+  const { error } = await window.supabaseClient
+    .from("products")
+    .update({
+      status: nextStatus
+    })
+    .eq("id", productId);
 
-  const now = new Date().toISOString();
+  selectElement.disabled = false;
 
-  const formData = {
-    name: document.getElementById("productName").value.trim(),
-    desc: document.getElementById("productDesc").value.trim(),
-    category: document.getElementById("productCategory").value.trim(),
-    price: Number(document.getElementById("productPrice").value),
-    stock: Number(document.getElementById("productStock").value),
-    status: document.getElementById("productStatus").value,
-    icon: "🥜",
-    updatedAt: now
-  };
+  if (error) {
+    console.error("更新商品狀態失敗：", error);
+    productStatusText.textContent = "更新商品狀態失敗";
 
-  if (!formData.name || !formData.category) {
-    alert("請填寫商品名稱與分類。");
+    selectElement.value = previousStatus;
     return;
   }
 
-  if (editingProductId) {
-    products = products.map(product => {
-      if (product.id !== editingProductId) return product;
+  productStatusText.textContent = `商品狀態已更新為「${getStatusLabel(nextStatus)}」`;
 
-      return {
-        ...product,
-        ...formData
-      };
-    });
-  } else {
-    products.unshift({
-      id: createId(),
-      ...formData,
-      createdAt: now
-    });
-  }
-
-  saveProducts();
-  renderProducts();
-  closeModal();
+  await loadProducts();
 }
 
-openProductModal.addEventListener("click", () => openModal("create"));
-closeProductModal.addEventListener("click", closeModal);
-cancelProductModal.addEventListener("click", closeModal);
-productForm.addEventListener("submit", handleProductSubmit);
+async function loadProducts() {
+  if (!window.supabaseClient) {
+    productStatusText.textContent = "Supabase 尚未設定";
 
-productModal.addEventListener("click", event => {
-  if (event.target === productModal) {
-    closeModal();
+    productsTableBody.innerHTML = `
+      <tr>
+        <td colspan="10">請先設定 admin/assets/js/services/supabase-config.js。</td>
+      </tr>
+    `;
+
+    return;
   }
+
+  productStatusText.textContent = "讀取中...";
+
+  const { data, error } = await window.supabaseClient
+    .from("products")
+    .select("*")
+    .order("sku", { ascending: true });
+
+  if (error) {
+    console.error("讀取商品失敗：", error);
+    productStatusText.textContent = "讀取失敗";
+
+    productsTableBody.innerHTML = `
+      <tr>
+        <td colspan="10">商品資料讀取失敗，請檢查 Supabase 設定。</td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  const products = data || [];
+
+  renderSummary(products);
+  renderProducts(products);
+
+  productStatusText.textContent = `共 ${products.length} 筆商品`;
+}
+
+// 事件：重新整理商品
+refreshProductsBtn?.addEventListener("click", loadProducts);
+
+// 事件：前台顯示 / 不顯示切換
+productsTableBody?.addEventListener("click", (event) => {
+  const visibleButton = event.target.closest("[data-action='toggle-visible']");
+
+  if (!visibleButton) return;
+
+  const productId = visibleButton.dataset.id;
+  const currentVisible = visibleButton.dataset.visible === "true";
+
+  if (!productId) return;
+
+  toggleProductVisible(productId, currentVisible);
 });
 
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape" && !productModal.classList.contains("hidden")) {
-    closeModal();
-  }
+// 事件：商品狀態下拉切換
+productsTableBody?.addEventListener("change", (event) => {
+  const statusSelect = event.target.closest("[data-action='change-status']");
+
+  if (!statusSelect) return;
+
+  const productId = statusSelect.dataset.id;
+  const nextStatus = statusSelect.value;
+
+  updateProductStatus(productId, nextStatus, statusSelect);
 });
 
-searchInput.addEventListener("input", renderProducts);
-statusFilter.addEventListener("change", renderProducts);
-
-saveProducts();
-renderProducts();
+loadProducts();

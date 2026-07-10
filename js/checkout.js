@@ -1,4 +1,4 @@
- const SHIPPING_FEES = {
+const SHIPPING_FEES = {
   home: 80,
   store: 60,
   pickup: 0
@@ -125,8 +125,8 @@ function handleCheckoutSubmit() {
       return;
     }
 
-    if (typeof API_URL === "undefined" || !API_URL) {
-      console.error("API_URL 沒有設定，請確認 checkout.html 是否有載入 js/config.js");
+    if (!window.supabaseClient) {
+      console.error("Supabase 尚未設定，請確認 checkout.html 是否有載入 Supabase CDN 與 supabase-config.js");
       if (message) message.textContent = "系統設定尚未完成，請聯絡我們。";
       return;
     }
@@ -152,13 +152,15 @@ function handleCheckoutSubmit() {
     const total = subtotal + shippingFee;
     const orderId = createOrderId();
 
+    const deliveryMethodText = getDeliveryMethodText(deliveryMethod);
+
     const order = {
       orderId: orderId,
       customer: {
         name: name,
         phone: phone,
         email: email,
-        deliveryMethod: getDeliveryMethodText(deliveryMethod),
+        deliveryMethod: deliveryMethodText,
         address: address,
         paymentMethod: paymentMethod,
         note: note
@@ -173,13 +175,19 @@ function handleCheckoutSubmit() {
 
     if (message) message.textContent = "訂單送出中，請稍候...";
 
-    fetch(API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(order)
+    submitOrderToSupabase({
+      orderId,
+      name,
+      phone,
+      email,
+      deliveryMethodText,
+      address,
+      paymentMethod,
+      note,
+      subtotal,
+      shippingFee,
+      total,
+      cart
     })
       .then(function () {
         localStorage.setItem("peanutLastOrderId", orderId);
@@ -197,9 +205,81 @@ function handleCheckoutSubmit() {
       })
       .catch(function (error) {
         console.error("訂單送出失敗：", error);
-        if (message) message.textContent = "訂單送出失敗，請稍後再試，或直接聯絡我們。";
+        if (message) message.textContent = `訂單送出失敗：${error.message || "請稍後再試，或直接聯絡我們。"}`;
       });
   });
+}
+
+async function submitOrderToSupabase({
+  orderId,
+  name,
+  phone,
+  email,
+  deliveryMethodText,
+  address,
+  paymentMethod,
+  note,
+  subtotal,
+  shippingFee,
+  total,
+  cart
+}) {
+  const orderPayload = {
+    order_number: orderId,
+    customer_name: name,
+    customer_phone: phone,
+    customer_email: email || null,
+    shipping_name: name,
+    shipping_phone: phone,
+    shipping_address: address,
+    shipping_method: deliveryMethodText,
+    subtotal: subtotal,
+    shipping_fee: shippingFee,
+    total_amount: total,
+    payment_method: paymentMethod,
+    payment_status: "unpaid",
+    order_status: "new",
+    packing_status: "not_started",
+    shipping_status: "not_shipped",
+    customer_note: note || null,
+    internal_note: "官網訂單"
+  };
+
+  const { data: orderData, error: orderError } = await window.supabaseClient
+    .from("orders")
+    .insert(orderPayload)
+    .select("*")
+    .single();
+
+  if (orderError) throw orderError;
+
+  const orderItemsPayload = cart.map((item) => {
+    const price = Number(item.price || 0);
+    const quantity = Number(item.quantity || 0);
+    const rawProductId = item.product_id || item.productId || item.id || null;
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(rawProductId || ""));
+    const productId = isUuid ? rawProductId : null;
+    const sku = item.sku || (!isUuid && rawProductId ? rawProductId : "");
+
+    return {
+      order_id: orderData.id,
+      product_id: productId,
+      product_name: item.name || item.product_name || "未命名商品",
+      sku: sku,
+      weight: item.weight || "",
+      price: price,
+      quantity: quantity,
+      subtotal: price * quantity
+    };
+  });
+
+  const { error: itemsError } = await window.supabaseClient
+    .from("order_items")
+    .insert(orderItemsPayload);
+
+  if (itemsError) throw itemsError;
+
+  return orderData;
 }
 
 renderCheckoutSummary();

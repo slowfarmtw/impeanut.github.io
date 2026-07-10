@@ -1,0 +1,91 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章讀取中｜花生一生</title>
+  <meta name="description" content="花生一生文章內容讀取中。">
+  <link rel="canonical" href="https://impeanut.com/article.html">
+
+  <link rel="icon" type="image/png" href="icons/icon.png">
+  <link rel="apple-touch-icon" href="icons/icon.png">
+
+  <link rel="stylesheet" href="css/style.css?v=20260709">
+  <link rel="stylesheet" href="css/footer.css?v=20260709">
+  <link rel="stylesheet" href="css/mobile.css?v=20260709">
+  <link rel="stylesheet" href="css/cart-ui.css?v=20260709">
+  <link rel="stylesheet" href="css/article.css?v=20260709">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo-area">
+      <img src="images/logo.png" alt="花生一生 Logo">
+      <span>花生一生</span>
+    </a>
+
+    <button class="mobile-menu-toggle" aria-label="開啟選單">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-nav">
+      <a href="index.html">首頁</a>
+      <a href="story.html">品牌故事</a>
+      <a href="products.html">產品介紹</a>
+      <a href="knowledge.html">花生知識</a>
+      <a href="contact.html">聯絡我們</a>
+    </nav>
+  </header>
+
+  <main class="article-page">
+    <section class="article-hero" id="articleHero">
+      <a href="knowledge.html" class="article-back-link">← 回花生知識</a>
+
+      <p class="article-category" id="articleCategory">文章讀取中</p>
+      <h1 id="articleTitle">文章讀取中...</h1>
+      <p class="article-excerpt" id="articleExcerpt">請稍候，正在載入文章內容。</p>
+      <p class="article-date" id="articleDate"></p>
+    </section>
+
+    <section class="article-feature-image-wrap" id="articleImageWrap" hidden>
+      <img id="articleCoverImage" src="" alt="" loading="lazy">
+    </section>
+
+    <article class="article-content" id="articleContent">
+      <p>文章載入中...</p>
+    </article>
+
+    <section class="article-bottom-actions">
+      <a href="knowledge.html" class="article-back-button">返回花生知識</a>
+      <a href="products.html" class="article-product-link">查看產品</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <h3>花生一生</h3>
+        <p>從土地開始，整理每一顆花生的故事。</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">首頁</a>
+        <a href="products.html">產品介紹</a>
+        <a href="knowledge.html">花生知識</a>
+        <a href="contact.html">聯絡我們</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin/assets/js/services/supabase-config.js?v=20260709"></script>
+  <script src="js/main.js?v=20260709"></script>
+  <script src="js/cart-ui.js?v=20260709"></script>
+  <script src="js/article.js?v=20260709"></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>訂單詳情｜花生一生後台</title>
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/base/variables.css" />
+
+  <!-- Layout -->
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/layout/header.css" />
+
+  <!-- Components -->
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+
+  <!-- Page -->
+  <link rel="stylesheet" href="../assets/css/pages/order-detail.css" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
+      <div class="brand">
+        <div class="brand-icon">🥜</div>
+        <div>
+          <h1>花生一生</h1>
+          <p>Brand OS</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="../index.html">🏠 Dashboard</a>
+        <a href="products.html">📦 商品管理</a>
+        <a href="orders.html" class="active">🛒 訂單管理</a>
+        <a href="customers.html">👥 顧客管理</a>
+        <a href="articles.html">📝 品牌內容</a>
+        <a href="analytics.html">📊 品牌分析</a>
+        <a href="settings.html">⚙️ 系統設定</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main order-detail-main">
+
+      <!-- Hero -->
+      <section class="order-detail-hero">
+        <div>
+          <p class="eyebrow">ORDER DETAIL</p>
+          <h2 id="orderDetailTitle">訂單詳情</h2>
+          <p class="hero-copy" id="orderDetailHint">
+            查看顧客資料、配送資料、商品明細、備註與訂單狀態。
+          </p>
+
+          <div class="quick-actions">
+            <a class="quick-action" href="orders.html">返回訂單列表</a>
+
+            <button
+              type="button"
+              class="quick-action primary-action print-shipping-btn"
+              id="printShippingBtn"
+            >
+              列印出貨單
+            </button>
+          </div>
+        </div>
+
+        <div class="order-status-card">
+          <span>目前狀態</span>
+          <strong id="orderStatusText">讀取中...</strong>
+          <p id="orderCreatedAt">建立時間：-</p>
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <section class="order-summary-grid">
+        <div class="summary-card">
+          <span>訂單金額</span>
+          <strong id="orderTotalAmount">NT$ 0</strong>
+          <p id="orderPaymentMethod">付款方式：-</p>
+        </div>
+
+        <div class="summary-card">
+          <span>付款狀態</span>
+          <strong id="orderPaymentStatus">-</strong>
+          <p id="orderPaidAt">付款時間：-</p>
+        </div>
+
+        <div class="summary-card">
+          <span>包裝狀態</span>
+          <strong id="orderPackingStatus">-</strong>
+          <p id="orderShippingStatus">出貨狀態：-</p>
+        </div>
+      </section>
+
+      <!-- Order Workflow Controls -->
+      <section class="dashboard-panel detail-panel order-workflow-panel">
+        <div class="panel-header">
+          <div>
+            <h3>訂單流程操作</h3>
+            <p>可在單筆訂單內直接更新付款、訂單、包裝與出貨狀態。</p>
+          </div>
+          <span>Workflow</span>
+        </div>
+
+        <div class="workflow-control-grid">
+          <label>
+            <span>付款狀態</span>
+            <select id="paymentStatusSelect" class="detail-status-select">
+              <option value="unpaid">未付款</option>
+              <option value="checking">確認中</option>
+              <option value="paid">已付款</option>
+              <option value="refunded">已退款</option>
+              <option value="failed">付款失敗</option>
+            </select>
+          </label>
+
+          <label>
+            <span>訂單狀態</span>
+            <select id="orderStatusSelect" class="detail-status-select">
+              <option value="new">新訂單</option>
+              <option value="confirmed">已確認</option>
+              <option value="preparing">備貨中</option>
+              <option value="completed">已完成</option>
+              <option value="cancelled">已取消</option>
+              <option value="problem">問題訂單</option>
+            </select>
+          </label>
+
+          <label>
+            <span>包裝狀態</span>
+            <select id="packingStatusSelect" class="detail-status-select">
+              <option value="not_started">未開始</option>
+              <option value="packing">包裝中</option>
+              <option value="packed">已包裝</option>
+            </select>
+          </label>
+
+          <label>
+            <span>出貨狀態</span>
+            <select id="shippingStatusSelect" class="detail-status-select">
+              <option value="not_shipped">未出貨</option>
+              <option value="ready">待出貨</option>
+              <option value="shipped">已出貨</option>
+              <option value="delivered">已送達</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="workflow-actions">
+          <button type="button" class="quick-action primary-action" id="saveWorkflowBtn">
+            儲存流程狀態
+          </button>
+        </div>
+      </section>
+
+      <!-- Detail Layout -->
+      <section class="order-detail-grid">
+
+        <!-- 左側：顧客與配送 -->
+        <div class="detail-column">
+
+          <section class="dashboard-panel detail-panel customer-info-panel">
+            <div class="panel-header">
+              <div>
+                <h3>顧客資料</h3>
+                <p>訂購人聯絡資訊。</p>
+              </div>
+              <span>Customer</span>
+            </div>
+
+            <div class="info-list">
+              <div>
+                <span>姓名</span>
+                <strong id="customerName">-</strong>
+              </div>
+
+              <div>
+                <span>電話</span>
+                <strong id="customerPhone">-</strong>
+              </div>
+
+              <div>
+                <span>Email</span>
+                <strong id="customerEmail">-</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="dashboard-panel detail-panel shipping-info-panel">
+            <div class="panel-header">
+              <div>
+                <h3>配送資料</h3>
+                <p>收件人、地址與配送方式。</p>
+              </div>
+              <span>Shipping</span>
+            </div>
+
+            <div class="info-list">
+              <div>
+                <span>收件人</span>
+                <strong id="shippingName">-</strong>
+              </div>
+
+              <div>
+                <span>收件電話</span>
+                <strong id="shippingPhone">-</strong>
+              </div>
+
+              <div>
+                <span>配送方式</span>
+                <strong id="shippingMethod">-</strong>
+              </div>
+
+              <div class="full-line">
+                <span>配送地址</span>
+                <strong id="shippingAddress">-</strong>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- 右側：商品明細 -->
+        <section class="dashboard-panel detail-panel order-items-panel">
+          <div class="panel-header">
+            <div>
+              <h3>商品明細</h3>
+              <p>此訂單包含的商品、數量與小計。</p>
+            </div>
+            <span>Items</span>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table order-items-table">
+              <thead>
+                <tr>
+                  <th>商品</th>
+                  <th>SKU</th>
+                  <th>規格</th>
+                  <th>單價</th>
+                  <th>數量</th>
+                  <th>小計</th>
+                </tr>
+              </thead>
+
+              <tbody id="orderItemsTableBody">
+                <tr>
+                  <td colspan="6">商品明細讀取中...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="order-total-box">
+            <div>
+              <span>商品小計</span>
+              <strong id="orderSubtotal">NT$ 0</strong>
+            </div>
+
+            <div>
+              <span>運費</span>
+              <strong id="orderShippingFee">NT$ 0</strong>
+            </div>
+
+            <div class="total-line">
+              <span>訂單總金額</span>
+              <strong id="orderGrandTotal">NT$ 0</strong>
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- Notes -->
+      <section class="notes-grid">
+
+        <!-- 顧客備註：只讀 -->
+        <section class="dashboard-panel detail-panel customer-note-panel">
+          <div class="panel-header">
+            <div>
+              <h3>顧客備註</h3>
+              <p>顧客下單時留下的訊息，這裡只讀不修改。</p>
+            </div>
+            <span>Customer Note</span>
+          </div>
+
+          <div class="note-box" id="customerNote">-</div>
+        </section>
+
+        <!-- 內部備註：可編輯 -->
+        <section class="dashboard-panel detail-panel editable-note-panel internal-note-panel">
+          <div class="panel-header">
+            <div>
+              <h3>內部備註</h3>
+              <p>後台人員處理訂單時的共同備註。</p>
+            </div>
+            <span>Internal Note</span>
+          </div>
+
+          <label class="note-editor">
+            <span>內部備註內容</span>
+            <textarea
+              id="internalNoteInput"
+              rows="6"
+              placeholder="例如：客人希望週五後出貨、需要電話確認地址"
+            ></textarea>
+          </label>
+
+          <div class="note-actions">
+            <button type="button" class="quick-action primary-action" id="saveInternalNoteBtn">
+              儲存內部備註
+            </button>
+          </div>
+        </section>
+
+        <!-- 會計備註：可編輯 -->
+        <section class="dashboard-panel detail-panel editable-note-panel accounting-note-panel">
+          <div class="panel-header">
+            <div>
+              <h3>會計備註</h3>
+              <p>付款、退款或帳務相關紀錄。</p>
+            </div>
+            <span>Accounting</span>
+          </div>
+
+          <label class="note-editor">
+            <span>會計備註內容</span>
+            <textarea
+              id="accountingNoteInput"
+              rows="6"
+              placeholder="例如：已核對匯款後五碼 12345、待退款確認"
+            ></textarea>
+          </label>
+
+          <div class="note-actions">
+            <button type="button" class="quick-action primary-action" id="saveAccountingNoteBtn">
+              儲存會計備註
+            </button>
+          </div>
+        </section>
+
+        <!-- 現場備註：可編輯 -->
+        <section class="dashboard-panel detail-panel editable-note-panel workshop-note-panel">
+          <div class="panel-header">
+            <div>
+              <h3>現場備註</h3>
+              <p>備貨、包裝、出貨現場注意事項。</p>
+            </div>
+            <span>Workshop</span>
+          </div>
+
+          <label class="note-editor">
+            <span>現場備註內容</span>
+            <textarea
+              id="workshopNoteInput"
+              rows="6"
+              placeholder="例如：包裝時多放品牌卡、外箱加強防撞"
+            ></textarea>
+          </label>
+
+          <div class="note-actions">
+            <button type="button" class="quick-action primary-action" id="saveWorkshopNoteBtn">
+              儲存現場備註
+            </button>
+          </div>
+        </section>
+
+      </section>
+
+      <!-- Order Logs -->
+      <section class="dashboard-panel detail-panel order-logs-panel collapsed" id="orderLogsPanel">
+        <div class="panel-header order-logs-header">
+          <div>
+            <h3>操作紀錄</h3>
+            <p id="orderLogsSummary">操作紀錄讀取中...</p>
+          </div>
+
+          <button type="button" class="order-logs-toggle" id="orderLogsToggleBtn">
+            展開操作紀錄
+          </button>
+        </div>
+
+        <div class="order-logs-list" id="orderLogsList">
+          <div class="order-log-empty">操作紀錄讀取中...</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Services -->
+  <script src="../assets/js/services/supabase-config.js"></script>
+
+  <!-- Page -->
+  <script src="../assets/js/pages/order-detail.js"></script>
+</body>
+</html>

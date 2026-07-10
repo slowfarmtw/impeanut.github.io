@@ -1,3 +1,27 @@
+function getCartItemImageSrc(image) {
+  if (!image) return "images/placeholder.png";
+
+  const imageText = String(image).trim();
+
+  if (imageText.startsWith("http://") || imageText.startsWith("https://")) {
+    return imageText;
+  }
+
+  if (imageText.startsWith("images/")) {
+    return imageText;
+  }
+
+  if (imageText.startsWith("/")) {
+    return imageText;
+  }
+
+  return `images/${imageText}`;
+}
+
+function getCartProductImageSource(item) {
+  return item.image_src || getCartItemImageSrc(item.cover_image || item.image);
+}
+
 function getCart() {
   return JSON.parse(localStorage.getItem("peanutCart")) || [];
 }
@@ -38,7 +62,7 @@ function renderCart() {
       <div class="cart-item">
         <div class="cart-item-image">
           <img 
-            src="images/${item.image || "placeholder.png"}" 
+            src="${getCartProductImageSource(item)}" 
             alt="${item.name}"
             onerror="this.src='images/placeholder.png'"
           >
@@ -99,14 +123,14 @@ function renderCart() {
 function changeQuantity(productId, amount) {
   const cart = getCart();
 
-  const item = cart.find(product => product.id === productId);
+  const item = cart.find(product => product.id === productId || product.product_id === productId);
 
   if (!item) return;
 
   item.quantity += amount;
 
   if (item.quantity <= 0) {
-    const newCart = cart.filter(product => product.id !== productId);
+    const newCart = cart.filter(product => product.id !== productId && product.product_id !== productId);
     saveCart(newCart);
   } else {
     saveCart(cart);
@@ -117,7 +141,7 @@ function changeQuantity(productId, amount) {
 
 function removeItem(productId) {
   const cart = getCart();
-  const newCart = cart.filter(product => product.id !== productId);
+  const newCart = cart.filter(product => product.id !== productId && product.product_id !== productId);
 
   saveCart(newCart);
   renderCart();

@@ -1,1 +1,55 @@
+/* ================================
+   Admin Header
+   檔案位置：
+   admin/assets/css/layout/header.css
+================================ */
 
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.admin-page-header h1 {
+  margin: 4px 0 8px;
+  font-size: 32px;
+  line-height: 1.2;
+  color: var(--color-text, #3b2a1a);
+}
+
+.admin-page-header p {
+  margin: 0;
+  color: var(--color-muted, #7a6753);
+}
+
+.admin-eyebrow {
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-muted, #7a6753);
+  text-transform: uppercase;
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .admin-page-header {
+    flex-direction: column;
+  }
+
+  .admin-header-actions {
+    width: 100%;
+  }
+
+  .admin-header-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+}

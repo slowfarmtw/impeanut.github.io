@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>手動新增訂單｜花生一生後台</title>
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/base/variables.css" />
+
+  <!-- Layout -->
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/layout/header.css" />
+
+  <!-- Components -->
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+
+  <!-- Page -->
+  <link rel="stylesheet" href="../assets/css/pages/order-create.css" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
+      <div class="brand">
+        <div class="brand-icon">🥜</div>
+        <div>
+          <h1>花生一生</h1>
+          <p>Brand OS</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="../index.html">🏠 Dashboard</a>
+        <a href="products.html">📦 商品管理</a>
+        <a href="orders.html" class="active">🛒 訂單管理</a>
+        <a href="customers.html">👥 顧客管理</a>
+        <a href="articles.html">📝 品牌內容</a>
+        <a href="analytics.html">📊 品牌分析</a>
+        <a href="settings.html">⚙️ 系統設定</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main order-create-main">
+
+      <!-- Hero -->
+      <section class="order-create-hero">
+        <div>
+          <p class="eyebrow">MANUAL ORDER</p>
+          <h2>手動新增訂單</h2>
+          <p class="hero-copy">
+            用來建立 LINE、IG、FB、電話、親友代售、企業採購或實體活動收到的訂單。建立後會進入正式訂單管理、Dashboard 與顧客管理。
+          </p>
+
+          <div class="quick-actions">
+            <a href="orders.html" class="quick-action">返回訂單列表</a>
+          </div>
+        </div>
+      </section>
+
+      <form class="order-create-form" id="orderCreateForm">
+
+        <!-- Customer -->
+        <section class="form-panel">
+          <div class="panel-header">
+            <div>
+              <h3>訂單來源與顧客資料</h3>
+              <p>先記錄這筆訂單從哪裡來，之後可以統計通路表現。</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group">
+              <span>訂單來源</span>
+              <select id="orderSource" required>
+                <option value="官網外手動訂單">官網外手動訂單</option>
+                <option value="LINE">LINE</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Instagram">Instagram</option>
+                <option value="電話">電話</option>
+                <option value="親友代售">親友代售</option>
+                <option value="實體活動">實體活動</option>
+                <option value="企業採購">企業採購</option>
+                <option value="其他">其他</option>
+              </select>
+            </label>
+
+            <label class="field-group">
+              <span>付款方式</span>
+              <select id="paymentMethod" required>
+                <option value="bank_transfer">銀行轉帳</option>
+                <option value="line_pay_qrcode">LINE Pay QR Code</option>
+                <option value="cash">現金</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+
+            <label class="field-group">
+              <span>顧客姓名</span>
+              <input type="text" id="customerName" placeholder="例如：王小明" required />
+            </label>
+
+            <label class="field-group">
+              <span>顧客電話</span>
+              <input type="tel" id="customerPhone" placeholder="例如：0912-345-678" required />
+            </label>
+
+            <label class="field-group">
+              <span>Email</span>
+              <input type="email" id="customerEmail" placeholder="可留空" />
+            </label>
+          </div>
+        </section>
+
+        <!-- Shipping -->
+        <section class="form-panel">
+          <div class="panel-header">
+            <div>
+              <h3>收件與配送資料</h3>
+              <p>如果收件人和顧客相同，可以按下快速帶入。</p>
+            </div>
+
+            <button type="button" class="quick-action" id="copyCustomerBtn">
+              帶入顧客資料
+            </button>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group">
+              <span>收件人姓名</span>
+              <input type="text" id="receiverName" placeholder="例如：王小明" required />
+            </label>
+
+            <label class="field-group">
+              <span>收件人電話</span>
+              <input type="tel" id="receiverPhone" placeholder="例如：0912-345-678" required />
+            </label>
+
+            <label class="field-group field-full">
+              <span>配送地址</span>
+              <input type="text" id="shippingAddress" placeholder="縣市、區域、路名、門牌" required />
+            </label>
+          </div>
+        </section>
+
+        <!-- Items -->
+        <section class="form-panel">
+          <div class="panel-header">
+            <div>
+              <h3>商品明細</h3>
+              <p>從商品資料庫選擇品項，系統會自動帶入 SKU、重量與單價，避免手動輸入造成品項名稱不一致。</p>
+            </div>
+
+            <button type="button" class="quick-action" id="addItemBtn">
+              ＋新增商品
+            </button>
+          </div>
+
+          <div class="order-items" id="orderItemsList">
+            <div class="order-item-row" data-item-row>
+              <label class="field-group item-product-field">
+                <span>選擇商品</span>
+                <select class="item-product-select" required>
+                  <option value="">商品讀取中...</option>
+                </select>
+              </label>
+
+              <label class="field-group item-sku-field">
+                <span>SKU</span>
+                <input type="text" class="item-sku" readonly />
+              </label>
+
+              <label class="field-group item-weight-field">
+                <span>重量</span>
+                <input type="text" class="item-weight" readonly />
+              </label>
+
+              <label class="field-group item-price-field">
+                <span>單價</span>
+                <input type="number" class="item-price" min="0" step="1" readonly required />
+              </label>
+
+              <label class="field-group item-qty-field">
+                <span>數量</span>
+                <input type="number" class="item-quantity" min="1" step="1" value="1" required />
+              </label>
+
+              <div class="item-subtotal">
+                <span>小計</span>
+                <strong data-item-subtotal>NT$ 0</strong>
+              </div>
+
+              <button type="button" class="remove-item-btn" data-remove-item>移除</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Notes -->
+        <section class="form-panel">
+          <div class="panel-header">
+            <div>
+              <h3>備註</h3>
+              <p>顧客備註可放出貨注意事項；內部備註可記錄來源、企業採購或特殊情況。</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group field-full">
+              <span>顧客備註</span>
+              <textarea id="customerNote" rows="4" placeholder="例如：希望下午到貨、送禮用、不要放價格單"></textarea>
+            </label>
+
+            <label class="field-group field-full">
+              <span>內部備註</span>
+              <textarea id="adminNote" rows="4" placeholder="例如：LINE 私訊訂單、企業採購洽談中、朋友代售"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="order-create-summary">
+          <div>
+            <span>訂單總金額</span>
+            <strong id="orderTotalAmount">NT$ 0</strong>
+            <p id="submitStatusText">建立後付款狀態預設為未付款，訂單狀態預設為新訂單。</p>
+          </div>
+
+          <button type="submit" class="submit-order-btn" id="submitOrderBtn">
+            建立手動訂單
+          </button>
+        </section>
+      </form>
+
+    </main>
+  </div>
+
+  <!-- Services -->
+  <script src="../assets/js/services/supabase-config.js"></script>
+
+  <!-- Page -->
+  <script src="../assets/js/pages/order-create.js"></script>
+</body>
+</html>

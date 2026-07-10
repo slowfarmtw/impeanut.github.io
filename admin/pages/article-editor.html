@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新增 / 編輯品牌內容｜花生一生 Brand OS</title>
+
+  <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/pages/article-editor.css?v=20260709-3" />
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <span class="brand-mark">∞</span>
+        <div>
+          <strong>花生一生</strong>
+          <small>Brand OS</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="後台導覽">
+        <a href="dashboard.html">儀表板</a>
+        <a href="orders.html">訂單管理</a>
+        <a href="products.html">商品管理</a>
+        <a href="articles.html" class="active">品牌內容</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Content CMS</p>
+          <h1 id="editorPageTitle">新增品牌內容</h1>
+          <p>管理 SEO 文章、花生研究室、最新消息、品牌故事與檢驗報告。</p>
+        </div>
+
+        <div class="page-actions">
+          <a class="secondary-btn" href="articles.html">返回列表</a>
+          <button type="submit" class="primary-btn" form="articleEditorForm">儲存內容</button>
+        </div>
+      </header>
+
+      <form id="articleEditorForm" class="editor-layout">
+        <!-- 主要文章內容 -->
+        <section class="panel editor-main-panel">
+          <div class="panel-header">
+            <div>
+              <h3>文章內容</h3>
+              <p id="articleEditorStatus">請填寫文章內容與 SEO 設定。</p>
+            </div>
+          </div>
+
+          <div class="form-grid one-column">
+            <label class="form-field">
+              <span>文章標題 title</span>
+              <input type="text" id="articleTitle" required maxlength="120" placeholder="例如：花生怎麼保存才不容易油耗？" />
+              <small>文章主標題，未來會成為頁面 H1。</small>
+            </label>
+
+            <label class="form-field">
+              <span>網址 slug</span>
+              <input type="text" id="articleSlug" required inputmode="url" placeholder="例如：peanut-storage" />
+              <small>建議用英文小寫、數字與 -。未來 SEO 靜態頁會產生為 /articles/peanut-storage.html。</small>
+            </label>
+
+            <label class="form-field">
+              <span>文章摘要 excerpt</span>
+              <textarea id="articleExcerpt" rows="3" maxlength="240" placeholder="用 1～2 句話說明這篇文章重點。"></textarea>
+              <small>列表頁與 SEO 描述可共用，建議簡短清楚。</small>
+            </label>
+
+            <label class="form-field">
+              <span>文章內文 content</span>
+              <textarea id="articleContent" rows="18" placeholder="輸入文章內文。段落之間請空一行，例如：
+
+花生保存最重要的是避免高溫、潮濕與陽光直射。
+
+## 小標題：開封後怎麼保存
+開封後建議密封，放在陰涼乾燥處，並盡快食用完畢。
+
+- 重點一：避免潮濕
+- 重點二：避免高溫
+- 重點三：避免陽光直射"></textarea>
+              <small>寫文章時，段落之間請空一行。小標題可先用 ## 開頭；條列可用 - 開頭。前台會先自動轉成段落，之後靜態化時會再做完整 SEO 版型。</small>
+            </label>
+          </div>
+        </section>
+
+        <!-- 右側設定區 -->
+        <aside class="editor-side-panel">
+          <section class="panel">
+            <h3>分類與發布</h3>
+
+            <div class="form-grid one-column">
+              <label class="form-field">
+                <span>分類 category</span>
+                <select id="articleCategory">
+                  <option value="一般文章">一般文章</option>
+                  <option value="花生研究室">花生研究室</option>
+                  <option value="最新消息">最新消息</option>
+                  <option value="品牌故事">品牌故事</option>
+                  <option value="檢驗報告">檢驗報告</option>
+                  <option value="常見問題">常見問題</option>
+                  <option value="SEO 文章">SEO 文章</option>
+                </select>
+              </label>
+
+              <label class="form-field">
+                <span>內容類型 content_type</span>
+                <select id="articleContentType">
+                  <option value="general">一般文章</option>
+                  <option value="seo_article">SEO 文章</option>
+                  <option value="research">花生研究室</option>
+                  <option value="news">最新消息</option>
+                  <option value="brand">品牌故事</option>
+                  <option value="report">檢驗報告</option>
+                  <option value="faq">常見問題</option>
+                </select>
+                <small>系統用分類。選擇後會自動同步上方「分類 category」。</small>
+              </label>
+
+              <label class="form-field">
+                <span>發布狀態 status</span>
+                <select id="articleStatus">
+                  <option value="draft">草稿</option>
+                  <option value="published">已發布</option>
+                  <option value="archived">封存</option>
+                </select>
+              </label>
+
+              <label class="form-field checkbox-field">
+                <input type="checkbox" id="articleIsFeatured" />
+                <span>設為主打內容</span>
+              </label>
+
+              <label class="form-field">
+                <span>發布時間 published_at</span>
+                <input type="datetime-local" id="articlePublishedAt" />
+                <small>若狀態選擇已發布但時間空白，系統會自動使用儲存當下時間。</small>
+              </label>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h3>封面圖片</h3>
+
+            <div class="form-grid one-column">
+              <label class="form-field">
+                <span>封面圖片 cover_image</span>
+                <input type="text" id="articleCoverImage" inputmode="url" placeholder="可填完整圖片網址、images/xxx.webp 或先空白" />
+                <small>可填完整網址，或填 images/articles/檔名.webp。若空白，前台會用預設圖片。</small>
+              </label>
+
+              <div class="cover-preview" id="articleCoverPreview">
+                <span>尚未設定封面圖片</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h3>SEO 設定</h3>
+
+            <div class="form-grid one-column">
+              <label class="form-field">
+                <span>SEO 標題 seo_title</span>
+                <input type="text" id="articleSeoTitle" maxlength="80" placeholder="例如：花生保存方法｜如何避免油耗與風味變差" />
+                <small>搜尋結果標題使用。若空白，系統會自動使用文章標題。</small>
+              </label>
+
+              <label class="form-field">
+                <span>SEO 描述 seo_description</span>
+                <textarea id="articleSeoDescription" rows="4" maxlength="180" placeholder="建議 60～90 個中文字，說明搜尋結果摘要。"></textarea>
+                <small>搜尋結果摘要使用。若空白，系統會自動使用文章摘要。</small>
+              </label>
+
+              <label class="form-field">
+                <span>SEO 關鍵字 seo_keywords</span>
+                <input type="text" id="articleSeoKeywords" placeholder="花生保存, 花生油耗, 雲林花生" />
+              </label>
+
+              <label class="form-field">
+                <span>正式網址 canonical_url</span>
+                <input type="text" id="articleCanonicalUrl" inputmode="url" placeholder="例如：https://impeanut.com/articles/peanut-storage.html" />
+                <small>未來靜態化文章時，這會是 Google 判斷的正式網址。</small>
+              </label>
+
+              <label class="form-field">
+                <span>Meta Robots</span>
+                <select id="articleMetaRobots">
+                  <option value="index,follow">index,follow｜允許收錄與追蹤連結</option>
+                  <option value="noindex,nofollow">noindex,nofollow｜不收錄也不追蹤</option>
+                  <option value="noindex,follow">noindex,follow｜不收錄但追蹤連結</option>
+                </select>
+              </label>
+            </div>
+          </section>
+        </aside>
+      </form>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/js/services/supabase-config.js?v=20260709"></script>
+  <script src="../assets/js/pages/article-editor.js?v=20260709-3"></script>
+</body>
+</html>

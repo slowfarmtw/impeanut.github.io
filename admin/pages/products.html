@@ -4,17 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>商品管理｜花生一生 Brand OS</title>
+  <title>商品管理｜花生一生後台</title>
 
-  <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <!-- Base -->
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
-  <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/base/variables.css" />
+
+  <!-- Layout -->
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/layout/header.css" />
+
+  <!-- Components -->
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+
+  <!-- Page -->
   <link rel="stylesheet" href="../assets/css/pages/products.css" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
   <div class="admin-layout">
-    <aside class="sidebar">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
       <div class="brand">
         <div class="brand-icon">🥜</div>
         <div>
@@ -25,7 +43,7 @@
 
       <nav class="nav-menu">
         <a href="../index.html">🏠 Dashboard</a>
-        <a class="active" href="products.html">📦 商品管理</a>
+        <a href="products.html" class="active">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
         <a href="articles.html">📝 品牌內容</a>
@@ -34,104 +52,94 @@
       </nav>
     </aside>
 
-    <main class="main">
-      <header class="topbar">
+    <!-- Main -->
+    <main class="main products-main">
+
+      <!-- Header -->
+      <section class="products-hero">
         <div>
+          <p class="eyebrow">PRODUCTS</p>
           <h2>商品管理</h2>
-          <p>管理商品、價格、庫存與上下架狀態</p>
+          <p class="hero-copy">
+            管理商品上架、價格、庫存與前台顯示狀態。這裡會連接 Supabase 的 products 商品資料表。
+          </p>
+
+          <div class="quick-actions">
+            <button type="button" class="quick-action" id="refreshProductsBtn">
+              重新整理
+            </button>
+
+            <a class="quick-action" href="product-editor.html">
+              ＋ 新增商品
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI -->
+      <section class="products-kpi-grid">
+        <article class="kpi-card">
+          <span>📦 商品總數</span>
+          <strong id="totalProducts">0</strong>
+          <p>目前 Brand OS 商品資料</p>
+        </article>
+
+        <article class="kpi-card">
+          <span>🟢 已上架</span>
+          <strong id="activeProducts">0</strong>
+          <p>正在官網銷售中的商品</p>
+        </article>
+
+        <article class="kpi-card">
+          <span>⚠️ 低庫存</span>
+          <strong id="lowStockProducts">0</strong>
+          <p>庫存低於安全庫存的商品</p>
+        </article>
+      </section>
+
+      <!-- Product Table -->
+      <section class="dashboard-panel products-panel">
+        <div class="panel-header">
+          <div>
+            <h3>商品列表</h3>
+            <p id="productStatusText">讀取中...</p>
+          </div>
+          <span>Products</span>
         </div>
 
-        <button id="openProductModal" class="product-add-btn">
-          ＋ 新增商品
-        </button>
-      </header>
+        <div class="admin-table-wrap">
+          <table class="admin-table products-table">
+            <thead>
+              <tr>
+                <th>圖片</th>
+                <th>SKU</th>
+                <th>商品名稱</th>
+                <th>分類</th>
+                <th>規格</th>
+                <th>售價</th>
+                <th>庫存</th>
+                <th>安全庫存</th>
+                <th>狀態</th>
+                <th>前台 / 操作</th>
+              </tr>
+            </thead>
 
-      <section class="products-toolbar">
-        <input id="productSearch" type="text" placeholder="搜尋商品名稱、分類或狀態..." />
-
-        <select id="statusFilter">
-          <option value="all">全部狀態</option>
-          <option value="上架">上架</option>
-          <option value="草稿">草稿</option>
-          <option value="停售">停售</option>
-        </select>
+            <tbody id="productsTableBody">
+              <tr>
+                <td colspan="10">商品讀取中...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
-      <section class="products-table-card">
-        <table class="products-table">
-          <thead>
-            <tr>
-              <th>商品</th>
-              <th>分類</th>
-              <th>售價</th>
-              <th>庫存</th>
-              <th>狀態</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody id="productTableBody"></tbody>
-        </table>
-      </section>
     </main>
   </div>
 
-  <div id="productModal" class="modal-backdrop hidden">
-    <div class="modal">
-      <div class="modal-header">
-        <div>
-          <h3 id="productModalTitle">新增商品</h3>
-          <p>商品會先儲存在目前瀏覽器，之後再串接 Supabase。</p>
-        </div>
-        <button id="closeProductModal" class="modal-close" type="button">×</button>
-      </div>
+  <!-- Services -->
+  <script src="../assets/js/services/supabase-config.js"></script>
 
-      <form id="productForm" class="product-form">
-        <label>
-          商品名稱
-          <input id="productName" type="text" required placeholder="例如：原味烘焙花生" />
-        </label>
-
-        <label>
-          商品副標題
-          <input id="productDesc" type="text" placeholder="例如：80g｜日常泡茶零食" />
-        </label>
-
-        <div class="form-row">
-          <label>
-            分類
-            <input id="productCategory" type="text" required placeholder="例如：烘焙花生" />
-          </label>
-
-          <label>
-            狀態
-            <select id="productStatus">
-              <option value="上架">上架</option>
-              <option value="草稿">草稿</option>
-              <option value="停售">停售</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="form-row">
-          <label>
-            售價
-            <input id="productPrice" type="number" min="0" required placeholder="100" />
-          </label>
-
-          <label>
-            庫存
-            <input id="productStock" type="number" min="0" required placeholder="50" />
-          </label>
-        </div>
-
-        <div class="modal-actions">
-          <button id="cancelProductModal" type="button" class="btn-secondary">取消</button>
-          <button type="submit" class="btn-primary">儲存商品</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
+  <!-- Page -->
   <script src="../assets/js/pages/products.js"></script>
 </body>
 </html>

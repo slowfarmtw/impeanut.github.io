@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>商品編輯｜花生一生後台</title>
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/base/variables.css" />
+
+  <!-- Layout -->
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/layout/header.css" />
+
+  <!-- Components -->
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+
+  <!-- Page -->
+  <link rel="stylesheet" href="../assets/css/pages/product-editor.css" />
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="adminSidebar">
+      <div class="brand">
+        <div class="brand-icon">🥜</div>
+        <div>
+          <h1>花生一生</h1>
+          <p>Brand OS</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="../index.html">🏠 Dashboard</a>
+        <a href="products.html" class="active">📦 商品管理</a>
+        <a href="orders.html">🛒 訂單管理</a>
+        <a href="customers.html">👥 顧客管理</a>
+        <a href="articles.html">📝 品牌內容</a>
+        <a href="analytics.html">📊 品牌分析</a>
+        <a href="settings.html">⚙️ 系統設定</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main product-editor-main">
+
+      <!-- Hero -->
+      <section class="editor-hero">
+        <div>
+          <p class="eyebrow">PRODUCT EDITOR</p>
+          <h2 id="editorTitle">商品編輯</h2>
+          <p class="hero-copy" id="editorHint">
+            新增或修改商品資料，並同步更新 Supabase products 商品資料表。
+          </p>
+
+          <div class="quick-actions">
+            <a class="quick-action" href="products.html">返回商品列表</a>
+          </div>
+        </div>
+
+        <div class="editor-status-card">
+          <span>目前狀態</span>
+          <strong id="editorStatusText">尚未儲存</strong>
+          <p>儲存後會立即更新後台商品列表。</p>
+        </div>
+      </section>
+
+      <!-- Form -->
+      <section class="dashboard-panel editor-panel">
+        <div class="panel-header">
+          <div>
+            <h3>商品資料</h3>
+            <p>請填寫商品名稱、價格、庫存、圖片與前台顯示狀態。</p>
+          </div>
+          <span>Products</span>
+        </div>
+
+        <form id="productForm" class="product-editor-form">
+
+          <!-- 基本資料 -->
+          <div class="form-section">
+            <h4>基本資料</h4>
+
+            <div class="form-grid two-columns">
+              <label>
+                <span>SKU *</span>
+                <input type="text" name="sku" placeholder="例如 PN-ROAST-80" required />
+              </label>
+
+              <label>
+                <span>商品名稱 *</span>
+                <input type="text" name="name" placeholder="例如 烘焙花生仁" required />
+              </label>
+
+              <label>
+                <span>網址代稱 slug</span>
+                <input type="text" name="slug" placeholder="例如 roasted-peanuts-80g" />
+              </label>
+
+              <label>
+                <span>分類</span>
+                <input type="text" name="category" placeholder="例如 烘焙花生" />
+              </label>
+
+              <label>
+                <span>規格 / 重量</span>
+                <input type="text" name="weight" placeholder="例如 80g" />
+              </label>
+
+              <label>
+                <span>商品狀態</span>
+                <select name="status">
+                  <option value="draft">草稿</option>
+                  <option value="active">已上架</option>
+                  <option value="paused">暫停販售</option>
+                  <option value="sold_out">售完</option>
+                  <option value="archived">下架</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <!-- 價格與庫存 -->
+          <div class="form-section">
+            <h4>價格與庫存</h4>
+
+            <div class="form-grid two-columns">
+              <label>
+                <span>售價</span>
+                <input type="number" name="price" min="0" step="1" value="0" />
+              </label>
+
+              <label>
+                <span>成本</span>
+                <input type="number" name="cost" min="0" step="1" value="0" />
+              </label>
+
+              <label>
+                <span>庫存</span>
+                <input type="number" name="stock" min="0" step="1" value="0" />
+              </label>
+
+              <label>
+                <span>安全庫存</span>
+                <input type="number" name="safety_stock" min="0" step="1" value="0" />
+              </label>
+            </div>
+          </div>
+
+          <!-- 商品圖片 -->
+          <div class="form-section product-image-section">
+            <h4>商品圖片</h4>
+
+            <div class="image-editor-grid">
+
+              <!-- 左側：預覽圖片 -->
+              <div class="image-preview-panel">
+                <div class="image-section-title">
+                  <strong>預覽圖片（目前使用的圖片）</strong>
+                  <p>這張圖片會顯示在商品列表與前台商品頁。</p>
+                </div>
+
+                <div class="image-preview-box" id="coverPreviewBox">
+                  <span id="coverPreviewText">目前尚未設定圖片</span>
+                  <img id="coverPreviewImage" src="" alt="商品圖片預覽" hidden />
+                </div>
+
+                <label class="image-url-field">
+                  <span>封面圖片網址</span>
+                  <input
+                    type="text"
+                    name="cover_image"
+                    id="coverImageInput"
+                    placeholder="選擇圖庫或上傳圖片後，系統會自動填入"
+                  />
+                </label>
+
+                <div class="image-actions-row">
+                  <button type="button" class="quick-action" id="previewCoverImageBtn">
+                    預覽圖片
+                  </button>
+                </div>
+              </div>
+
+              <!-- 右側：圖片操作流程 -->
+              <div class="image-workflow-panel">
+
+                <!-- Step 1：選擇圖庫 -->
+                <div class="image-step-card">
+                  <div class="image-step-header">
+                    <span class="step-number">1</span>
+                    <div>
+                      <strong>選擇圖庫（使用已上傳的圖片）</strong>
+                      <p>如果圖片已經上傳過，請從圖庫選擇，不需要重複上傳。</p>
+                    </div>
+                  </div>
+
+                  <div class="image-actions-row">
+                    <button type="button" class="quick-action primary-action" id="openImageLibraryBtn">
+                      選擇圖庫
+                    </button>
+                  </div>
+
+                  <div class="image-library-panel" id="imageLibraryPanel" hidden>
+                    <div class="image-library-header">
+                      <div>
+                        <strong>已上傳圖片庫</strong>
+                        <p id="imageLibraryStatus">尚未載入圖片庫</p>
+                      </div>
+                    </div>
+
+                    <div class="image-library-grid" id="imageLibraryGrid">
+                      <div class="image-library-empty">圖片庫尚未載入。</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 2：上傳圖片 -->
+                <div class="image-step-card">
+                  <div class="image-step-header">
+                    <span class="step-number">2</span>
+                    <div>
+                      <strong>上傳圖片（選擇新的圖片檔案）</strong>
+                      <p>只有真的要新增一張圖片時，才需要選擇本機檔案。</p>
+                    </div>
+                  </div>
+
+                  <div class="custom-file-area">
+                    <input
+                      type="file"
+                      id="coverImageFile"
+                      class="native-file-input"
+                      accept="image/png,image/jpeg,image/webp"
+                    />
+
+                    <button type="button" class="quick-action" id="chooseCoverImageBtn">
+                      上傳圖片
+                    </button>
+
+                    <span class="selected-file-name" id="selectedCoverFileName">
+                      目前尚未選擇圖片檔案
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Step 3：上傳確認 -->
+                <div class="image-step-card">
+                  <div class="image-step-header">
+                    <span class="step-number">3</span>
+                    <div>
+                      <strong>上傳確認（上傳到圖片庫）</strong>
+                      <p>確認後，系統會上傳圖片並自動填入封面圖片網址。</p>
+                    </div>
+                  </div>
+
+                  <div class="image-upload-actions">
+                    <button type="button" class="quick-action primary-action" id="uploadCoverImageBtn">
+                      上傳確認
+                    </button>
+                  </div>
+                </div>
+
+                <div class="image-upload-note">
+                  <p>
+                    建議優先使用「選擇圖庫」，避免 Supabase Storage 產生重複圖片。
+                  </p>
+                  <p>
+                    新圖片會上傳到 Supabase Storage：<strong>product-images</strong>，成功後自動填入封面圖片網址。
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- 前台內容 -->
+          <div class="form-section">
+            <h4>前台內容</h4>
+
+            <label>
+              <span>商品副標</span>
+              <input
+                type="text"
+                name="subtitle"
+                placeholder="例如 低溫烘焙，保留花生自然香氣"
+              />
+            </label>
+
+            <label>
+              <span>商品描述</span>
+              <textarea
+                name="description"
+                rows="5"
+                placeholder="輸入前台商品介紹"
+              ></textarea>
+            </label>
+
+            <label>
+              <span>成分</span>
+              <textarea
+                name="ingredients"
+                rows="3"
+                placeholder="例如 花生、糖、麥芽"
+              ></textarea>
+            </label>
+          </div>
+
+          <!-- 顯示設定 -->
+          <div class="form-section">
+            <h4>顯示設定</h4>
+
+            <div class="form-checks">
+              <label class="checkbox-label">
+                <input type="checkbox" name="is_visible" />
+                <span>顯示在前台</span>
+              </label>
+
+              <label class="checkbox-label">
+                <input type="checkbox" name="is_featured" />
+                <span>設為精選商品</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 操作按鈕 -->
+          <div class="form-actions">
+            <button type="submit" class="quick-action primary-action" id="saveProductBtn">
+              儲存商品
+            </button>
+
+            <a class="quick-action" href="products.html">取消</a>
+          </div>
+
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Services -->
+  <script src="../assets/js/services/supabase-config.js"></script>
+
+  <!-- Page -->
+  <script src="../assets/js/pages/product-editor.js"></script>
+</body>
+</html>

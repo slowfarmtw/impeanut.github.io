@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>訂單管理｜花生一生 Brand OS</title>
+  <title>品牌內容｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/pages/articles.css?v=20260709" />
 </head>
 
 <body>
@@ -40,11 +41,93 @@
         </div>
       </header>
 
+      <section class="dashboard-grid">
+        <article class="stat-card">
+          <span>內容總數</span>
+          <strong id="totalArticlesCount">0</strong>
+          <small>所有品牌內容</small>
+        </article>
+
+        <article class="stat-card">
+          <span>已發布</span>
+          <strong id="publishedArticlesCount">0</strong>
+          <small>前台可見內容</small>
+        </article>
+
+        <article class="stat-card">
+          <span>草稿</span>
+          <strong id="draftArticlesCount">0</strong>
+          <small>尚未公開內容</small>
+        </article>
+
+        <article class="stat-card">
+          <span>SEO 文章</span>
+          <strong id="seoArticlesCount">0</strong>
+          <small>自然搜尋內容</small>
+        </article>
+      </section>
+
       <section class="panel">
-        <h3>品牌內容管理頁已建立</h3>
-        <p>管理品牌故事、花生研究室、最新消息與 SEO 文章，建立長期內容資產，提高網站自然搜尋流量。</p>
+        <div class="panel-header">
+          <div>
+            <h3>品牌內容列表</h3>
+            <p id="articlesStatusText">讀取中...</p>
+          </div>
+
+          <div class="panel-actions">
+            <select id="articleCategoryFilter" aria-label="分類篩選">
+              <option value="all">全部分類</option>
+            </select>
+
+            <select id="articleTypeFilter" aria-label="類型篩選">
+              <option value="all">全部類型</option>
+              <option value="seo_article">SEO 文章</option>
+              <option value="research">花生研究室</option>
+              <option value="news">最新消息</option>
+              <option value="brand">品牌故事</option>
+              <option value="report">檢驗報告</option>
+              <option value="faq">常見問題</option>
+              <option value="general">一般文章</option>
+            </select>
+
+            <select id="articleStatusFilter" aria-label="狀態篩選">
+              <option value="all">全部狀態</option>
+              <option value="published">已發布</option>
+              <option value="draft">草稿</option>
+              <option value="archived">封存</option>
+            </select>
+
+            <button type="button" class="secondary-btn" id="refreshArticlesBtn">重新整理</button>
+            <a class="primary-btn" href="article-editor.html">＋ 新增內容</a>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>文章</th>
+                <th>分類</th>
+                <th>類型</th>
+                <th>狀態</th>
+                <th>主打</th>
+                <th>發布時間</th>
+                <th>更新時間</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="articlesTableBody">
+              <tr>
+                <td colspan="8">品牌內容讀取中...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </main>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../assets/js/services/supabase-config.js?v=20260709"></script>
+  <script src="../assets/js/pages/articles.js?v=20260709"></script>
 </body>
 </html>

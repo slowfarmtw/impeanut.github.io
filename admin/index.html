@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>花生一生｜Brand OS</title>
+
+  <title>Dashboard｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="assets/css/base/variables.css" />
   <link rel="stylesheet" href="assets/css/base/reset.css" />
@@ -32,64 +33,176 @@
       </nav>
     </aside>
 
-    <main class="main">
-      <header class="topbar">
+    <main class="main dashboard-main">
+      <header class="dashboard-hero">
         <div>
-          <h2>Dashboard</h2>
-          <p>今天的品牌營運概況</p>
+          <p class="eyebrow" id="todayText">Brand Mission Control</p>
+          <h2 id="greetingText">早安，揚！</h2>
+          <p class="hero-copy">
+            今天距離品牌年度目標又更近一步。把每一包花生，都當成一位客人對品牌的信任。
+          </p>
+
+          <div class="mission-stats">
+            <div>
+              <span>累積營業額</span>
+              <strong id="missionRevenue">NT$ 0</strong>
+              <p>品牌一路累積下來的成果</p>
+            </div>
+
+            <div>
+              <span>年度目標</span>
+              <strong>NT$ 1,000,000</strong>
+              <p>2026 年品牌挑戰目標</p>
+            </div>
+
+            <div>
+              <span>目標完成率</span>
+              <strong id="missionPercent">0%</strong>
+              <p>每天多一點，就更靠近目標</p>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <a href="pages/orders.html" class="quick-action">處理訂單</a>
+            <a href="pages/products.html" class="quick-action">管理商品</a>
+            <a href="pages/articles.html" class="quick-action">新增文章</a>
+            <a href="pages/customers.html" class="quick-action">顧客資料</a>
+          </div>
         </div>
 
-        <div class="admin-user">
-          花生一生管理員
-        </div>
+        <section class="goal-card">
+          <div class="goal-card-top">
+            <span>2026 年度目標</span>
+            <strong id="goalPercent">0%</strong>
+          </div>
+
+          <h3 id="yearRevenue">NT$ 0</h3>
+          <p id="goalRemain">距離年度目標還差 NT$ 1,000,000</p>
+
+          <div class="progress">
+            <div id="goalBar" class="progress-bar"></div>
+          </div>
+        </section>
       </header>
 
-      <section class="stats-grid">
-        <div class="stat-card">
-          <span>今日營收</span>
-          <strong>NT$ 12,580</strong>
-          <p>較昨日 +18%</p>
-        </div>
+      <section class="kpi-grid">
+        <article class="kpi-card">
+          <span>💰 累積營業額</span>
+          <strong id="totalRevenue">NT$ 0</strong>
+          <p>訂單模組完成後改為真實數據</p>
+        </article>
 
-        <div class="stat-card">
-          <span>今日訂單</span>
-          <strong>23</strong>
-          <p>待出貨 8 筆</p>
-        </div>
+        <article class="kpi-card">
+          <span>📦 商品總數</span>
+          <strong id="productCount">0</strong>
+          <p>目前 Brand OS 商品資料</p>
+        </article>
 
-        <div class="stat-card">
-          <span>新客</span>
-          <strong>14</strong>
-          <p>本月累積 128 位</p>
-        </div>
+        <article class="kpi-card">
+          <span>🟢 上架商品</span>
+          <strong id="liveProductCount">0</strong>
+          <p>正在官網銷售中的商品</p>
+        </article>
 
-        <div class="stat-card">
-          <span>回購率</span>
-          <strong>46%</strong>
-          <p>較上月 +6%</p>
-        </div>
+        <article class="kpi-card">
+          <span>⭐ 首頁推薦</span>
+          <strong id="featuredProductCount">0</strong>
+          <p>會優先出現在首頁</p>
+        </article>
+
+        <article class="kpi-card">
+          <span>⚠️ 低庫存</span>
+          <strong id="lowStockCount">0</strong>
+          <p>庫存低於 20 的商品</p>
+        </article>
+
+        <article class="kpi-card">
+          <span>📝 內容進度</span>
+          <strong>待建立</strong>
+          <p>CMS 完成後接入</p>
+        </article>
       </section>
 
-      <section class="panel-grid">
-        <div class="panel">
-          <h3>今日提醒</h3>
-          <ul>
-            <li>有 8 筆訂單待出貨</li>
-            <li>有 12 位 VIP 超過 90 天未回購</li>
-            <li>花生糖庫存偏低，建議補貨</li>
-          </ul>
-        </div>
+      <section class="dashboard-grid">
+        <article class="dashboard-panel">
+          <div class="panel-header">
+            <h3>📢 今日品牌簡報</h3>
+            <span>Brief</span>
+          </div>
+          <ul id="brandBriefList" class="brief-list"></ul>
+        </article>
 
-        <div class="panel">
-          <h3>熱門商品</h3>
-          <ul>
-            <li>原味烘焙花生</li>
-            <li>花生糖</li>
-            <li>花生醬</li>
-          </ul>
-        </div>
+        <article class="dashboard-panel">
+          <div class="panel-header">
+            <h3>🩺 品牌健康度</h3>
+            <span id="brandHealthScore">0%</span>
+          </div>
+
+          <div class="health-list">
+            <div>
+              <span>商品完整度</span>
+              <div class="mini-progress"><b id="productHealthBar"></b></div>
+              <strong id="productHealthText">0%</strong>
+            </div>
+            <div>
+              <span>圖片完整度</span>
+              <div class="mini-progress"><b id="imageHealthBar"></b></div>
+              <strong id="imageHealthText">0%</strong>
+            </div>
+            <div>
+              <span>SEO 完整度</span>
+              <div class="mini-progress"><b id="seoHealthBar"></b></div>
+              <strong id="seoHealthText">0%</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="dashboard-panel">
+          <div class="panel-header">
+            <h3>🔥 商品排行榜</h3>
+            <span>Products</span>
+          </div>
+          <ol id="topProductsList" class="ranking-list"></ol>
+        </article>
+
+        <article class="dashboard-panel">
+          <div class="panel-header">
+            <h3>⚠️ 低庫存提醒</h3>
+            <span>Stock</span>
+          </div>
+          <ul id="lowStockList" class="stock-list"></ul>
+        </article>
+
+        <article class="dashboard-panel">
+          <div class="panel-header">
+            <h3>🏆 品牌里程碑</h3>
+            <span>Milestone</span>
+          </div>
+          <div class="milestone-list">
+            <div class="done">☑ 第一件商品建立</div>
+            <div class="done">☑ 商品圖片上傳成功</div>
+            <div class="done">☑ Brand OS 開發環境建立</div>
+            <div>□ 第一筆訂單</div>
+            <div>□ 第一百包</div>
+            <div>□ 第一百萬營業額</div>
+          </div>
+        </article>
+
+        <article class="dashboard-panel">
+          <div class="panel-header">
+            <h3>🌱 今日一句話</h3>
+            <span>Note</span>
+          </div>
+          <blockquote id="dailyQuote">
+            今天的一包花生，可能就是一位客人第一次認識花生一生。
+          </blockquote>
+        </article>
       </section>
     </main>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/services/supabase-config.js"></script>
+  <script src="assets/js/pages/dashboard.js"></script>
 </body>
 </html>
