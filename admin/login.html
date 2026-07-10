@@ -24,20 +24,35 @@
         <p>Brand OS 品牌營運系統</p>
       </div>
 
-      <form class="login-form">
+      <form class="login-form" id="loginForm">
         <label class="form-field">
           <span>帳號</span>
-          <input type="email" placeholder="請輸入 Email" />
+          <input
+            id="loginEmail"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="請輸入 Email"
+            required
+          />
         </label>
 
         <label class="form-field">
           <span>密碼</span>
-          <input type="password" placeholder="請輸入密碼" />
+          <input
+            id="loginPassword"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="請輸入密碼"
+            required
+          />
         </label>
 
-        <button type="button" class="btn btn-primary">
+        <button id="loginButton" type="submit" class="btn btn-primary">
           登入後台
         </button>
+        <p id="loginMessage" class="login-message" role="alert" aria-live="polite"></p>
       </form>
 
       <p class="login-note">
@@ -46,6 +61,8 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/services/supabase-config.js"></script>
   <script src="assets/js/pages/login.js"></script>
 </body>
 </html>

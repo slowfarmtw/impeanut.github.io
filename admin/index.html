@@ -31,6 +31,10 @@
         <a href="pages/analytics.html">📊 品牌分析</a>
         <a href="pages/settings.html">⚙️ 系統設定</a>
       </nav>
+
+      <button id="logoutButton" type="button" class="sidebar-logout">
+        🚪 登出後台
+      </button>
     </aside>
 
     <main class="main dashboard-main">
@@ -203,6 +207,27 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/services/supabase-config.js"></script>
+  <script src="assets/js/services/auth-guard.js"></script>
+  <script>
+    document.getElementById("logoutButton")?.addEventListener("click", async () => {
+      const button = document.getElementById("logoutButton");
+
+      button.disabled = true;
+      button.textContent = "登出中…";
+
+      const { error } = await supabaseClient.auth.signOut();
+
+      if (error) {
+        console.error("登出失敗：", error);
+        button.disabled = false;
+        button.textContent = "🚪 登出後台";
+        alert("登出失敗，請稍後再試。");
+        return;
+      }
+
+      window.location.replace("login.html");
+    });
+  </script>
   <script src="assets/js/pages/dashboard.js"></script>
 </body>
 </html>
