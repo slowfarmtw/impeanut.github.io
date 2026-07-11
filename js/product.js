@@ -118,6 +118,80 @@ function getCartProductPayload(product) {
   };
 }
 
+function trackProductView(product) {
+  const eventParams = {
+    currency: "TWD",
+    value: Number(product.price || 0),
+    items: [
+      {
+        item_id: product.sku || String(product.id || ""),
+        item_name: product.name || "未命名商品",
+        item_category: product.category || "未分類",
+        price: Number(product.price || 0),
+        quantity: 1
+      }
+    ]
+  };
+
+  let attempts = 0;
+  const maxAttempts = 20;
+
+  const sendViewItem = function () {
+    attempts += 1;
+
+    if (window.peanutAnalytics?.track) {
+      window.peanutAnalytics.track("view_item", eventParams);
+      return;
+    }
+
+    if (attempts < maxAttempts) {
+      window.setTimeout(sendViewItem, 250);
+    } else {
+      console.warn("GA4 尚未就緒，view_item 事件未送出。");
+    }
+  };
+
+  sendViewItem();
+}
+
+function trackAddToCart(product, quantity) {
+  const safeQuantity = Math.max(1, Number(quantity || 1));
+  const unitPrice = Number(product.price || 0);
+  const eventParams = {
+    currency: "TWD",
+    value: unitPrice * safeQuantity,
+    items: [
+      {
+        item_id: product.sku || String(product.id || ""),
+        item_name: product.name || "未命名商品",
+        item_category: product.category || "未分類",
+        price: unitPrice,
+        quantity: safeQuantity
+      }
+    ]
+  };
+
+  let attempts = 0;
+  const maxAttempts = 20;
+
+  const sendAddToCart = function () {
+    attempts += 1;
+
+    if (window.peanutAnalytics?.track) {
+      window.peanutAnalytics.track("add_to_cart", eventParams);
+      return;
+    }
+
+    if (attempts < maxAttempts) {
+      window.setTimeout(sendAddToCart, 250);
+    } else {
+      console.warn("GA4 尚未就緒，add_to_cart 事件未送出。");
+    }
+  };
+
+  sendAddToCart();
+}
+
 async function fetchProductFromSupabase(productId) {
   if (!window.supabaseClient) {
     throw new Error("Supabase 尚未設定，請確認 product.html 已載入 supabase-config.js");
@@ -249,6 +323,7 @@ async function renderProductDetail() {
     }
 
     renderProductDetailContent(product);
+    trackProductView(product);
   } catch (error) {
     console.error("商品詳情載入失敗：", error);
     productDetail.innerHTML = `
@@ -307,6 +382,8 @@ function setupProductQuantity(product) {
       window.dispatchEvent(new Event("peanutCartUpdated"));
       alert("已加入購物車");
     }
+
+    trackAddToCart(product, quantity);
 
     quantity = 1;
     qtyNumber.textContent = quantity;

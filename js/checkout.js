@@ -45,6 +45,121 @@ function getDeliveryMethodText(deliveryMethod) {
   return map[deliveryMethod] || deliveryMethod || "";
 }
 
+function trackBeginCheckout(cart) {
+  if (!Array.isArray(cart) || cart.length === 0) return;
+
+  const items = cart.map((item) => {
+    const price = Number(item.price || 0);
+    const quantity = Math.max(1, Number(item.quantity || 1));
+
+    return {
+      item_id: item.sku || String(item.product_id || item.id || ""),
+      item_name: item.name || item.product_name || "未命名商品",
+      item_category: item.category || "未分類",
+      price: price,
+      quantity: quantity
+    };
+  });
+
+  const value = items.reduce((sum, item) => {
+    return sum + item.price * item.quantity;
+  }, 0);
+
+  const cartSignature = JSON.stringify(
+    items.map((item) => [item.item_id, item.quantity, item.price])
+  );
+
+  if (sessionStorage.getItem("peanutBeginCheckoutSignature") === cartSignature) {
+    return;
+  }
+
+  let attempts = 0;
+  const maxAttempts = 20;
+
+  const sendBeginCheckout = function () {
+    attempts += 1;
+
+    if (window.peanutAnalytics?.track) {
+      window.peanutAnalytics.track("begin_checkout", {
+        currency: "TWD",
+        value: value,
+        items: items
+      });
+
+      sessionStorage.setItem("peanutBeginCheckoutSignature", cartSignature);
+      return;
+    }
+
+    if (attempts < maxAttempts) {
+      window.setTimeout(sendBeginCheckout, 250);
+    } else {
+      console.warn("GA4 尚未就緒，begin_checkout 事件未送出。");
+    }
+  };
+
+  sendBeginCheckout();
+}
+
+function trackPurchase({
+  orderId,
+  cart,
+  subtotal,
+  shippingFee,
+  paymentMethod
+}) {
+  if (!orderId || !Array.isArray(cart) || cart.length === 0) return;
+
+  const trackingKey = `peanutPurchaseTracked:${orderId}`;
+
+  if (localStorage.getItem(trackingKey) === "true") {
+    return;
+  }
+
+  const items = cart.map((item) => {
+    const price = Number(item.price || 0);
+    const quantity = Math.max(1, Number(item.quantity || 1));
+
+    return {
+      item_id: item.sku || String(item.product_id || item.id || ""),
+      item_name: item.name || item.product_name || "未命名商品",
+      item_category: item.category || "未分類",
+      price: price,
+      quantity: quantity
+    };
+  });
+
+  let attempts = 0;
+  const maxAttempts = 20;
+
+  const sendPurchase = function () {
+    attempts += 1;
+
+    if (window.peanutAnalytics?.track) {
+      window.peanutAnalytics.track("purchase", {
+        transaction_id: orderId,
+        affiliation: "花生一生官網",
+        currency: "TWD",
+        value: Number(subtotal || 0),
+        shipping: Number(shippingFee || 0),
+        payment_type: paymentMethod || "",
+        items: items
+      });
+
+      localStorage.setItem(trackingKey, "true");
+      sessionStorage.removeItem("peanutBeginCheckoutSignature");
+      return;
+    }
+
+    if (attempts < maxAttempts) {
+      window.setTimeout(sendPurchase, 250);
+    } else {
+      console.warn("GA4 尚未就緒，purchase 事件未送出。");
+    }
+  };
+
+  sendPurchase();
+}
+
 function createOrderId() {
   const now = new Date();
 
@@ -238,6 +353,14 @@ function handleCheckoutSubmit() {
       .then(function () {
         localStorage.setItem("peanutLastOrderId", orderId);
 
+        trackPurchase({
+          orderId: orderId,
+          cart: cart,
+          subtotal: subtotal,
+          shippingFee: shippingFee,
+          paymentMethod: paymentMethod
+        });
+
         localStorage.removeItem("peanutCart");
         localStorage.removeItem("peanutOrderDraft");
 
@@ -330,6 +453,7 @@ async function initCheckout() {
   await loadPublicCheckoutSettings();
 
   renderCheckoutSummary();
+  trackBeginCheckout(getCart());
   handleCheckoutSubmit();
 
   const deliveryMethodSelect = document.getElementById("deliveryMethod");
