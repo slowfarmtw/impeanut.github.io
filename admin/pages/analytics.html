@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>訂單管理｜花生一生 Brand OS</title>
+  <title>品牌分析｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/pages/analytics.css" />
 </head>
 
 <body>
@@ -37,16 +38,170 @@
     </aside>
 
     <main class="main">
-      <header class="topbar">
+      <header class="topbar analytics-topbar">
         <div>
-          <h2>品牌內容</h2>
-          <p>管理文章、SEO 與最新消息</p>
+          <h2>品牌分析</h2>
+          <p>整合訂單、營收、商品與顧客資料，掌握品牌營運表現。</p>
+        </div>
+
+        <div class="analytics-actions">
+          <label class="analytics-period-field" for="analyticsPeriod">
+            <span>統計期間</span>
+            <select id="analyticsPeriod">
+              <option value="7">近 7 天</option>
+              <option value="30" selected>近 30 天</option>
+              <option value="90">近 90 天</option>
+              <option value="365">近 1 年</option>
+              <option value="all">全部期間</option>
+            </select>
+          </label>
+
+          <button id="refreshAnalyticsButton" class="analytics-refresh-button" type="button">
+            更新數據
+          </button>
         </div>
       </header>
 
-      <section class="panel">
-        <h3>品牌數據分析頁已建立</h3>
-        <p>整合網站流量、GA4、Search Console、熱門商品、轉換率、回購率與營運數據，協助品牌做出更好的決策。</p>
+      <section class="analytics-status" id="analyticsStatus" aria-live="polite">
+        正在讀取品牌數據…
+      </section>
+
+      <section class="analytics-kpi-grid" aria-label="品牌營運摘要">
+        <article class="analytics-kpi-card">
+          <p class="analytics-kpi-label">期間營收</p>
+          <strong id="analyticsRevenue">NT$ 0</strong>
+          <span id="analyticsRevenueCompare">較前期 —</span>
+        </article>
+
+        <article class="analytics-kpi-card">
+          <p class="analytics-kpi-label">有效訂單</p>
+          <strong id="analyticsOrders">0</strong>
+          <span id="analyticsOrdersCompare">較前期 —</span>
+        </article>
+
+        <article class="analytics-kpi-card">
+          <p class="analytics-kpi-label">平均客單價</p>
+          <strong id="analyticsAverageOrderValue">NT$ 0</strong>
+          <span id="analyticsAverageOrderCompare">較前期 —</span>
+        </article>
+
+        <article class="analytics-kpi-card">
+          <p class="analytics-kpi-label">新顧客</p>
+          <strong id="analyticsNewCustomers">0</strong>
+          <span id="analyticsNewCustomersCompare">較前期 —</span>
+        </article>
+      </section>
+
+      <section class="analytics-grid analytics-grid-wide">
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
+              <h3>營收趨勢</h3>
+              <p>依日期查看營收與訂單變化。</p>
+            </div>
+          </div>
+
+          <div id="revenueTrendChart" class="analytics-chart" role="img" aria-label="營收趨勢圖">
+            <p class="analytics-empty">尚無趨勢資料。</p>
+          </div>
+        </article>
+
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
+              <h3>訂單狀態</h3>
+              <p>目前訂單流程分布。</p>
+            </div>
+          </div>
+
+          <div id="orderStatusSummary" class="analytics-status-list">
+            <p class="analytics-empty">尚無訂單狀態資料。</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
+              <h3>熱銷商品</h3>
+              <p>依銷售數量與銷售額排序。</p>
+            </div>
+          </div>
+
+          <div class="analytics-table-wrap">
+            <table class="analytics-table">
+              <thead>
+                <tr>
+                  <th>商品</th>
+                  <th>售出數量</th>
+                  <th>銷售額</th>
+                </tr>
+              </thead>
+              <tbody id="topProductsTableBody">
+                <tr>
+                  <td colspan="3" class="analytics-empty-cell">尚無商品銷售資料。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
+              <h3>顧客概況</h3>
+              <p>觀察新客、回購與主要顧客貢獻。</p>
+            </div>
+          </div>
+
+          <dl class="analytics-customer-summary">
+            <div>
+              <dt>期間顧客數</dt>
+              <dd id="analyticsCustomerCount">0</dd>
+            </div>
+            <div>
+              <dt>回購顧客數</dt>
+              <dd id="analyticsRepeatCustomers">0</dd>
+            </div>
+            <div>
+              <dt>回購率</dt>
+              <dd id="analyticsRepeatRate">0%</dd>
+            </div>
+            <div>
+              <dt>最高消費顧客</dt>
+              <dd id="analyticsTopCustomer">—</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
+              <h3>付款方式</h3>
+              <p>各付款方式的訂單占比。</p>
+            </div>
+          </div>
+
+          <div id="paymentMethodSummary" class="analytics-progress-list">
+            <p class="analytics-empty">尚無付款資料。</p>
+          </div>
+        </article>
+
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
+              <h3>配送方式</h3>
+              <p>各配送方式的使用情況。</p>
+            </div>
+          </div>
+
+          <div id="deliveryMethodSummary" class="analytics-progress-list">
+            <p class="analytics-empty">尚無配送資料。</p>
+          </div>
+        </article>
       </section>
     </main>
   </div>
@@ -54,6 +209,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/pages/analytics.js"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");
