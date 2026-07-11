@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>品牌分析｜花生一生 Brand OS</title>
+  <title>品牌分析｜花生一生</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
-  <link rel="stylesheet" href="../assets/css/pages/analytics.css" />
+  <link rel="stylesheet" href="../assets/css/pages/analytics.css?v=20260711-2" />
 </head>
 
 <body>
@@ -18,12 +25,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -32,19 +39,22 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <main class="main">
-      <header class="topbar analytics-topbar">
-        <div>
-          <h2>品牌分析</h2>
-          <p>整合訂單、營收、商品與顧客資料，掌握品牌營運表現。</p>
+      <header class="page-hero analytics-topbar">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">營運數據分析</p>
+          <h1 class="page-hero__title">品牌分析</h1>
+          <p class="page-hero__description">整合訂單、營收、商品與顧客資料，掌握品牌營運表現。</p>
         </div>
 
-        <div class="analytics-actions">
+        <div class="page-hero__actions analytics-actions">
           <label class="analytics-period-field" for="analyticsPeriod">
             <span>統計期間</span>
             <select id="analyticsPeriod">
@@ -56,7 +66,7 @@
             </select>
           </label>
 
-          <button id="refreshAnalyticsButton" class="analytics-refresh-button" type="button">
+          <button id="refreshAnalyticsButton" class="btn primary" type="button">
             更新數據
           </button>
         </div>
@@ -209,7 +219,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
-  <script src="../assets/js/pages/analytics.js"></script>
+  <script src="../assets/js/pages/analytics.js?v=20260711"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

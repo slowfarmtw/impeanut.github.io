@@ -100,3 +100,137 @@
     flex-direction: column;
   }
 }
+
+/* admin/assets/css/pages/settings.css */
+/* 系統設定頁：僅保留設定表單專屬排版，不覆蓋共用主標、按鈕、側欄與表單 */
+
+.settings-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.settings-form {
+  display: grid;
+  gap: 24px;
+}
+
+.settings-section {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-section-header h3 {
+  margin: 0 0 6px;
+  color: var(--color-primary-dark);
+  font-size: 22px;
+}
+
+.settings-section-header p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.settings-field {
+  display: grid;
+  gap: 8px;
+}
+
+.settings-field.full {
+  grid-column: 1 / -1;
+}
+
+.settings-field label {
+  color: var(--color-muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.settings-field textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.settings-actions {
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.96);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+}
+
+.settings-message {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.settings-message[data-state="success"] {
+  color: #3f642e;
+}
+
+.settings-message[data-state="error"] {
+  color: #8a3e2f;
+}
+
+.maintenance-row {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.maintenance-row input {
+  width: auto;
+  accent-color: var(--color-primary);
+}
+
+@media (max-width: 760px) {
+  .settings-main {
+    gap: 18px;
+  }
+
+  .settings-section {
+    padding: 18px;
+  }
+
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-field.full {
+    grid-column: auto;
+  }
+
+  .settings-actions {
+    position: static;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .settings-actions .btn {
+    width: 100%;
+  }
+}

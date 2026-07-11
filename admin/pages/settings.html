@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>系統設定｜花生一生 Brand OS</title>
+  <title>系統設定｜花生一生</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
-  <link rel="stylesheet" href="../assets/css/pages/settings.css" />
+  <link rel="stylesheet" href="../assets/css/pages/settings.css?v=20260711-2" />
 </head>
 
 <body>
@@ -18,12 +25,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -32,16 +39,23 @@
         <a class="active" href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <main class="main">
-      <header class="topbar">
-        <div>
-          <h2>系統設定</h2>
-          <p>集中管理品牌、聯絡資訊、付款、運費、營運目標與網站基本設定</p>
+      <header class="page-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">後台系統管理</p>
+          <h1 class="page-hero__title">系統設定</h1>
+          <p class="page-hero__description">集中管理品牌資料、聯絡資訊、付款、運費、營運目標與網站基本設定。</p>
+        </div>
+
+        <div class="page-hero__actions">
+          <button id="saveSettingsHeroButton" type="submit" class="btn primary" form="settingsForm">儲存系統設定</button>
         </div>
       </header>
 
@@ -190,7 +204,7 @@
             </div>
 
             <div class="settings-field">
-              <label for="ga4MeasurementId">GA4 Measurement ID</label>
+              <label for="ga4MeasurementId">GA4 追蹤識別碼</label>
               <input id="ga4MeasurementId" name="ga4_measurement_id" type="text" placeholder="G-XXXXXXXXXX" />
             </div>
 
@@ -205,7 +219,6 @@
         </section>
 
         <div class="settings-actions">
-          <button id="saveSettingsButton" type="submit" class="btn btn-primary">儲存系統設定</button>
           <p id="settingsMessage" class="settings-message" role="status" aria-live="polite">正在讀取設定…</p>
         </div>
       </form>
@@ -235,6 +248,6 @@
       window.location.replace("../login.html");
     });
   </script>
-  <script src="../assets/js/pages/settings.js"></script>
+  <script src="../assets/js/pages/settings.js?v=20260711"></script>
 </body>
 </html>

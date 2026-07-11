@@ -6,8 +6,8 @@
   <title>手動新增訂單｜花生一生後台</title>
 
   <!-- Base -->
-  <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
 
   <!-- Layout -->
   <link rel="stylesheet" href="../assets/css/layout/layout.css" />
@@ -16,13 +16,13 @@
 
   <!-- Components -->
   <link rel="stylesheet" href="../assets/css/components/buttons.css" />
-  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/forms.css" />
-  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/order-create.css" />
+  <link rel="stylesheet" href="../assets/css/pages/order-create.css?v=20260711-2" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -37,12 +37,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html" class="active">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -51,28 +51,30 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <!-- Main -->
     <main class="main order-create-main">
 
       <!-- Hero -->
-      <section class="order-create-hero">
-        <div>
-          <p class="eyebrow">MANUAL ORDER</p>
-          <h2>手動新增訂單</h2>
-          <p class="hero-copy">
-            用來建立 LINE、IG、FB、電話、親友代售、企業採購或實體活動收到的訂單。建立後會進入正式訂單管理、Dashboard 與顧客管理。
+      <header class="page-hero order-create-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">訂單建立作業</p>
+          <h1 class="page-hero__title">手動新增訂單</h1>
+          <p class="page-hero__description">
+            用來建立 LINE、Instagram、Facebook、電話、親友代售、企業採購或實體活動收到的訂單。建立後會同步進入訂單管理、儀表板與顧客管理。
           </p>
-
-          <div class="quick-actions">
-            <a href="orders.html" class="quick-action">返回訂單列表</a>
-          </div>
         </div>
-      </section>
+
+        <div class="page-hero__actions">
+          <a href="orders.html" class="btn secondary">返回訂單列表</a>
+        </div>
+      </header>
 
       <form class="order-create-form" id="orderCreateForm">
 
@@ -105,7 +107,7 @@
               <span>付款方式</span>
               <select id="paymentMethod" required>
                 <option value="bank_transfer">銀行轉帳</option>
-                <option value="line_pay_qrcode">LINE Pay QR Code</option>
+                <option value="line_pay_qrcode">LINE Pay 行動條碼</option>
                 <option value="cash">現金</option>
                 <option value="other">其他</option>
               </select>
@@ -122,7 +124,7 @@
             </label>
 
             <label class="field-group">
-              <span>Email</span>
+              <span>電子郵件</span>
               <input type="email" id="customerEmail" placeholder="可留空" />
             </label>
           </div>
@@ -136,7 +138,7 @@
               <p>如果收件人和顧客相同，可以按下快速帶入。</p>
             </div>
 
-            <button type="button" class="quick-action" id="copyCustomerBtn">
+            <button type="button" class="btn secondary" id="copyCustomerBtn">
               帶入顧客資料
             </button>
           </div>
@@ -167,7 +169,7 @@
               <p>從商品資料庫選擇品項，系統會自動帶入 SKU、重量與單價，避免手動輸入造成品項名稱不一致。</p>
             </div>
 
-            <button type="button" class="quick-action" id="addItemBtn">
+            <button type="button" class="btn secondary" id="addItemBtn">
               ＋新增商品
             </button>
           </div>
@@ -206,7 +208,7 @@
                 <strong data-item-subtotal>NT$ 0</strong>
               </div>
 
-              <button type="button" class="remove-item-btn" data-remove-item>移除</button>
+              <button type="button" class="btn danger remove-item-btn" data-remove-item>移除</button>
             </div>
           </div>
         </section>
@@ -241,7 +243,7 @@
             <p id="submitStatusText">建立後付款狀態預設為未付款，訂單狀態預設為新訂單。</p>
           </div>
 
-          <button type="submit" class="submit-order-btn" id="submitOrderBtn">
+          <button type="submit" class="btn primary submit-order-btn" id="submitOrderBtn">
             建立手動訂單
           </button>
         </section>
@@ -275,6 +277,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/order-create.js"></script>
+  <script src="../assets/js/pages/order-create.js?v=20260711"></script>
 </body>
 </html>

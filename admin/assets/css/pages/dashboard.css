@@ -1,69 +1,8 @@
+/* admin/assets/css/pages/dashboard.css */
+/* 儀表板專屬樣式：僅保留儀表板內容，不覆蓋共用側欄、主內容與按鈕 */
+
 :root {
   --dashboard-gap: 20px;
-}
-
-.admin-layout {
-  min-height: 100vh;
-  display: flex;
-  background: var(--color-bg);
-}
-
-.sidebar {
-  width: 260px;
-  min-height: 100vh;
-  background: var(--color-surface);
-  border-right: 1px solid var(--color-border);
-  padding: 28px 20px;
-  flex-shrink: 0;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 36px;
-}
-
-.brand-icon {
-  font-size: 34px;
-}
-
-.brand h1 {
-  margin: 0;
-  font-size: 22px;
-  color: var(--color-primary);
-  letter-spacing: 2px;
-}
-
-.brand p {
-  margin: 4px 0 0;
-  font-size: 12px;
-  color: var(--color-muted);
-}
-
-.nav-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.nav-menu a {
-  padding: 13px 14px;
-  border-radius: var(--radius-md);
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-.nav-menu a:hover,
-.nav-menu a.active {
-  background: var(--color-primary-soft);
-  color: var(--color-primary-dark);
-}
-
-.main {
-  flex: 1;
-  padding: 32px;
-  min-width: 0;
 }
 
 .dashboard-main {
@@ -76,31 +15,32 @@
   display: grid;
   grid-template-columns: 1.5fr 0.9fr;
   gap: var(--dashboard-gap);
-  background: linear-gradient(135deg, #fffdf8, #f3eadc);
+  padding: 32px;
   border: 1px solid var(--color-border);
   border-radius: 28px;
-  padding: 32px;
+  background: linear-gradient(135deg, #fffdf8, #f3eadc);
   box-shadow: var(--shadow-sm);
 }
 
-.eyebrow {
+.dashboard-hero .eyebrow {
   margin: 0 0 10px;
   color: var(--color-muted);
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.04em;
 }
 
 .dashboard-hero h2 {
   margin: 0;
   color: var(--color-primary-dark);
   font-size: 34px;
+  line-height: 1.2;
 }
 
 .hero-copy {
   max-width: 680px;
+  margin: 14px 0 22px;
   color: var(--color-muted);
   line-height: 1.8;
-  margin: 14px 0 22px;
 }
 
 .mission-stats {
@@ -113,9 +53,9 @@
 .mission-stats > div {
   min-height: 118px;
   padding: 18px;
-  background: rgba(255, 255, 255, 0.76);
   border: 1px solid rgba(120, 88, 55, 0.14);
   border-radius: 22px;
+  background: rgba(255, 255, 255, 0.76);
   box-shadow: 0 12px 28px rgba(120, 88, 55, 0.06);
 }
 
@@ -124,7 +64,7 @@
   color: var(--color-muted);
   font-size: 13px;
   font-weight: 900;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.04em;
 }
 
 .mission-stats strong {
@@ -133,7 +73,7 @@
   color: var(--color-primary-dark);
   font-size: 26px;
   line-height: 1.15;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.02em;
 }
 
 .mission-stats p {
@@ -149,36 +89,25 @@
   gap: 10px;
 }
 
-.quick-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 11px 14px;
-  border-radius: 999px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-primary-dark);
-  font-weight: 700;
-}
-
 .goal-card {
-  background: rgba(255,255,255,0.72);
+  padding: 24px;
   border: 1px solid var(--color-border);
   border-radius: 24px;
-  padding: 24px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .goal-card-top {
   display: flex;
   justify-content: space-between;
+  gap: 16px;
   color: var(--color-muted);
   font-weight: 700;
 }
 
 .goal-card h3 {
   margin: 18px 0 6px;
-  font-size: 30px;
   color: var(--color-primary-dark);
+  font-size: 30px;
 }
 
 .goal-card p {
@@ -188,9 +117,9 @@
 
 .progress,
 .mini-progress {
-  background: #ede3d5;
-  border-radius: 999px;
   overflow: hidden;
+  border-radius: 999px;
+  background: #ede3d5;
 }
 
 .progress {
@@ -200,74 +129,47 @@
 .progress-bar,
 .mini-progress b {
   display: block;
-  height: 100%;
   width: 0;
-  background: var(--color-primary);
+  height: 100%;
   border-radius: 999px;
-  transition: width .6s ease;
+  background: var(--color-primary);
+  transition: width 0.6s ease;
 }
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--dashboard-gap);
-}
-
-.kpi-card,
-.dashboard-panel {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-}
-
-.kpi-card {
-  padding: 20px;
-}
-
-.kpi-card span {
-  color: var(--color-muted);
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.kpi-card strong {
-  display: block;
-  margin-top: 12px;
-  color: var(--color-text);
-  font-size: 26px;
-}
-
-.kpi-card p {
-  margin: 8px 0 0;
-  color: var(--color-muted);
-  font-size: 13px;
-  line-height: 1.5;
 }
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--dashboard-gap);
 }
 
 .dashboard-panel {
   padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
-.panel-header {
+.dashboard-panel .panel-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 18px;
 }
 
-.panel-header h3 {
+.dashboard-panel .panel-header h3 {
   margin: 0;
   color: var(--color-primary-dark);
 }
 
-.panel-header span {
+.dashboard-panel .panel-header span {
   color: var(--color-muted);
   font-size: 13px;
   font-weight: 700;
@@ -321,20 +223,20 @@
   font-weight: 700;
 }
 
-blockquote {
+.dashboard-panel blockquote {
   margin: 0;
   padding: 20px;
   border-left: 4px solid var(--color-primary);
-  background: #fbf7ef;
   border-radius: 18px;
+  background: #fbf7ef;
   color: var(--color-text);
-  line-height: 1.9;
   font-weight: 700;
+  line-height: 1.9;
 }
 
 @media (max-width: 1180px) {
   .kpi-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dashboard-hero,
@@ -343,26 +245,13 @@ blockquote {
   }
 
   .mission-stats {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 900px) {
-  .admin-layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    min-height: auto;
-  }
-
-  .main {
-    padding: 20px;
-  }
-
   .kpi-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dashboard-hero {
@@ -401,8 +290,8 @@ blockquote {
     font-size: 24px;
   }
 
-  .quick-action {
-    flex: 1;
-    min-width: 128px;
+  .health-list > div {
+    grid-template-columns: 88px 1fr 44px;
+    gap: 8px;
   }
 }

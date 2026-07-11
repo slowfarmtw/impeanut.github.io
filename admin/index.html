@@ -4,11 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Dashboard｜花生一生 Brand OS</title>
+  <title>儀表板｜花生一生</title>
 
   <link rel="stylesheet" href="assets/css/base/variables.css" />
   <link rel="stylesheet" href="assets/css/base/reset.css" />
-  <link rel="stylesheet" href="assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="assets/css/components/forms.css" />
+  <link rel="stylesheet" href="assets/css/components/cards.css" />
+  <link rel="stylesheet" href="assets/css/components/tables.css" />
+  <link rel="stylesheet" href="assets/css/components/badges.css" />
+  <link rel="stylesheet" href="assets/css/pages/dashboard.css?v=20260711-2" />
 </head>
 
 <body>
@@ -18,12 +25,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a class="active" href="index.html">🏠 Dashboard</a>
+        <a class="active" href="index.html">🏠 儀表板</a>
         <a href="pages/products.html">📦 商品管理</a>
         <a href="pages/orders.html">🛒 訂單管理</a>
         <a href="pages/customers.html">👥 顧客管理</a>
@@ -32,15 +39,17 @@
         <a href="pages/settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <main class="main dashboard-main">
       <header class="dashboard-hero">
         <div>
-          <p class="eyebrow" id="todayText">Brand Mission Control</p>
+          <p class="eyebrow" id="todayText">品牌營運中心</p>
           <h2 id="greetingText">早安，揚！</h2>
           <p class="hero-copy">
             今天距離品牌年度目標又更近一步。把每一包花生，都當成一位客人對品牌的信任。
@@ -93,13 +102,13 @@
         <article class="kpi-card">
           <span>💰 累積營業額</span>
           <strong id="totalRevenue">NT$ 0</strong>
-          <p>訂單模組完成後改為真實數據</p>
+          <p>依目前有效訂單即時計算</p>
         </article>
 
         <article class="kpi-card">
           <span>📦 商品總數</span>
           <strong id="productCount">0</strong>
-          <p>目前 Brand OS 商品資料</p>
+          <p>目前後台建立的商品資料</p>
         </article>
 
         <article class="kpi-card">
@@ -121,9 +130,9 @@
         </article>
 
         <article class="kpi-card">
-          <span>📝 內容進度</span>
-          <strong>待建立</strong>
-          <p>CMS 完成後接入</p>
+          <span>📝 品牌內容</span>
+          <strong>已啟用</strong>
+          <p>文章管理系統已可使用</p>
         </article>
       </section>
 
@@ -131,7 +140,7 @@
         <article class="dashboard-panel">
           <div class="panel-header">
             <h3>📢 今日品牌簡報</h3>
-            <span>Brief</span>
+            <span>今日摘要</span>
           </div>
           <ul id="brandBriefList" class="brief-list"></ul>
         </article>
@@ -164,7 +173,7 @@
         <article class="dashboard-panel">
           <div class="panel-header">
             <h3>🔥 商品排行榜</h3>
-            <span>Products</span>
+            <span>商品排名</span>
           </div>
           <ol id="topProductsList" class="ranking-list"></ol>
         </article>
@@ -172,7 +181,7 @@
         <article class="dashboard-panel">
           <div class="panel-header">
             <h3>⚠️ 低庫存提醒</h3>
-            <span>Stock</span>
+            <span>庫存狀態</span>
           </div>
           <ul id="lowStockList" class="stock-list"></ul>
         </article>
@@ -180,12 +189,12 @@
         <article class="dashboard-panel">
           <div class="panel-header">
             <h3>🏆 品牌里程碑</h3>
-            <span>Milestone</span>
+            <span>成長紀錄</span>
           </div>
           <div class="milestone-list">
             <div class="done">☑ 第一件商品建立</div>
             <div class="done">☑ 商品圖片上傳成功</div>
-            <div class="done">☑ Brand OS 開發環境建立</div>
+            <div class="done">☑ 品牌營運系統建立</div>
             <div>□ 第一筆訂單</div>
             <div>□ 第一百包</div>
             <div>□ 第一百萬營業額</div>
@@ -195,7 +204,7 @@
         <article class="dashboard-panel">
           <div class="panel-header">
             <h3>🌱 今日一句話</h3>
-            <span>Note</span>
+            <span>品牌筆記</span>
           </div>
           <blockquote id="dailyQuote">
             今天的一包花生，可能就是一位客人第一次認識花生一生。
@@ -228,6 +237,6 @@
       window.location.replace("login.html");
     });
   </script>
-  <script src="assets/js/pages/dashboard.js"></script>
+  <script src="assets/js/pages/dashboard.js?v=20260711"></script>
 </body>
 </html>

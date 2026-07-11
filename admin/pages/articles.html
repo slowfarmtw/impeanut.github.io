@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>品牌內容｜花生一生 Brand OS</title>
+  <title>品牌內容｜花生一生</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
-  <link rel="stylesheet" href="../assets/css/pages/articles.css?v=20260709" />
+  <link rel="stylesheet" href="../assets/css/pages/articles.css?v=20260711-3" />
 </head>
 
 <body>
@@ -18,12 +25,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -32,82 +39,92 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <main class="main">
-      <header class="topbar">
-        <div>
-          <h2>品牌內容</h2>
-          <p>管理文章、SEO 與最新消息</p>
+      <header class="page-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">品牌內容管理</p>
+          <h1 class="page-hero__title">品牌內容</h1>
+          <p class="page-hero__description">管理文章、搜尋內容、最新消息與品牌資料。</p>
+        </div>
+
+        <div class="page-hero__actions">
+          <a class="btn primary" href="article-editor.html">＋ 新增內容</a>
         </div>
       </header>
 
-      <section class="dashboard-grid">
-        <article class="stat-card">
+      <section class="kpi-grid articles-stats" aria-label="品牌內容統計">
+        <article class="stat-card kpi-card">
           <span>內容總數</span>
           <strong id="totalArticlesCount">0</strong>
           <small>所有品牌內容</small>
         </article>
 
-        <article class="stat-card">
+        <article class="stat-card kpi-card">
           <span>已發布</span>
           <strong id="publishedArticlesCount">0</strong>
           <small>前台可見內容</small>
         </article>
 
-        <article class="stat-card">
+        <article class="stat-card kpi-card">
           <span>草稿</span>
           <strong id="draftArticlesCount">0</strong>
           <small>尚未公開內容</small>
         </article>
 
-        <article class="stat-card">
+        <article class="stat-card kpi-card">
           <span>SEO 文章</span>
           <strong id="seoArticlesCount">0</strong>
           <small>自然搜尋內容</small>
         </article>
       </section>
 
-      <section class="panel">
-        <div class="panel-header">
-          <div>
+      <section class="panel articles-panel">
+        <div class="panel-header articles-panel-header">
+          <div class="articles-panel-title">
             <h3>品牌內容列表</h3>
             <p id="articlesStatusText">讀取中...</p>
           </div>
 
-          <div class="panel-actions">
-            <select id="articleCategoryFilter" aria-label="分類篩選">
-              <option value="all">全部分類</option>
-            </select>
+          <div class="articles-toolbar">
+            <div class="articles-filters">
+              <select id="articleCategoryFilter" aria-label="分類篩選">
+                <option value="all">全部分類</option>
+              </select>
 
-            <select id="articleTypeFilter" aria-label="類型篩選">
-              <option value="all">全部類型</option>
-              <option value="seo_article">SEO 文章</option>
-              <option value="research">花生研究室</option>
-              <option value="news">最新消息</option>
-              <option value="brand">品牌故事</option>
-              <option value="report">檢驗報告</option>
-              <option value="faq">常見問題</option>
-              <option value="general">一般文章</option>
-            </select>
+              <select id="articleTypeFilter" aria-label="類型篩選">
+                <option value="all">全部類型</option>
+                <option value="seo_article">SEO 文章</option>
+                <option value="research">花生研究室</option>
+                <option value="news">最新消息</option>
+                <option value="brand">品牌故事</option>
+                <option value="report">檢驗報告</option>
+                <option value="faq">常見問題</option>
+                <option value="general">一般文章</option>
+              </select>
 
-            <select id="articleStatusFilter" aria-label="狀態篩選">
-              <option value="all">全部狀態</option>
-              <option value="published">已發布</option>
-              <option value="draft">草稿</option>
-              <option value="archived">封存</option>
-            </select>
+              <select id="articleStatusFilter" aria-label="狀態篩選">
+                <option value="all">全部狀態</option>
+                <option value="published">已發布</option>
+                <option value="draft">草稿</option>
+                <option value="archived">封存</option>
+              </select>
+            </div>
 
-            <button type="button" class="secondary-btn" id="refreshArticlesBtn">重新整理</button>
-            <a class="primary-btn" href="article-editor.html">＋ 新增內容</a>
+            <div class="articles-actions">
+              <button type="button" class="btn secondary" id="refreshArticlesBtn">重新整理</button>
+            </div>
           </div>
         </div>
 
         <div class="table-wrap">
-          <table class="data-table">
+          <table class="data-table responsive-table">
             <thead>
               <tr>
                 <th>文章</th>
@@ -153,6 +170,6 @@
       window.location.replace("../login.html");
     });
   </script>
-  <script src="../assets/js/pages/articles.js?v=20260709"></script>
+  <script src="../assets/js/pages/articles.js?v=20260711"></script>
 </body>
 </html>

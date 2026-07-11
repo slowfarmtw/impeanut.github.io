@@ -7,8 +7,8 @@
   <title>商品管理｜花生一生後台</title>
 
   <!-- Base -->
-  <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
 
   <!-- Layout -->
   <link rel="stylesheet" href="../assets/css/layout/layout.css" />
@@ -17,12 +17,13 @@
 
   <!-- Components -->
   <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
   <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
   <link rel="stylesheet" href="../assets/css/components/badges.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/products.css" />
+  <link rel="stylesheet" href="../assets/css/pages/products.css?v=20260711-2" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -37,12 +38,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html" class="active">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -51,41 +52,43 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <!-- Main -->
     <main class="main products-main">
 
       <!-- Header -->
-      <section class="products-hero">
-        <div>
-          <p class="eyebrow">PRODUCTS</p>
-          <h2>商品管理</h2>
-          <p class="hero-copy">
-            管理商品上架、價格、庫存與前台顯示狀態。這裡會連接 Supabase 的 products 商品資料表。
+      <header class="page-hero products-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">商品營運管理</p>
+          <h1 class="page-hero__title">商品管理</h1>
+          <p class="page-hero__description">
+            管理商品上架、價格、庫存與前台顯示狀態，並連接商品資料庫同步前台內容。
           </p>
-
-          <div class="quick-actions">
-            <button type="button" class="quick-action" id="refreshProductsBtn">
-              重新整理
-            </button>
-
-            <a class="quick-action" href="product-editor.html">
-              ＋ 新增商品
-            </a>
-          </div>
         </div>
-      </section>
+
+        <div class="page-hero__actions">
+          <button type="button" class="btn secondary" id="refreshProductsBtn">
+            重新整理
+          </button>
+
+          <a class="btn primary" href="product-editor.html">
+            ＋ 新增商品
+          </a>
+        </div>
+      </header>
 
       <!-- KPI -->
       <section class="products-kpi-grid">
         <article class="kpi-card">
           <span>📦 商品總數</span>
           <strong id="totalProducts">0</strong>
-          <p>目前 Brand OS 商品資料</p>
+          <p>目前後台商品資料</p>
         </article>
 
         <article class="kpi-card">
@@ -108,7 +111,7 @@
             <h3>商品列表</h3>
             <p id="productStatusText">讀取中...</p>
           </div>
-          <span>Products</span>
+          <span>商品資料</span>
         </div>
 
         <div class="admin-table-wrap">
@@ -165,6 +168,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/products.js"></script>
+  <script src="../assets/js/pages/products.js?v=20260711"></script>
 </body>
 </html>

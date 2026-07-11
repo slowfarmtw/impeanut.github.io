@@ -7,8 +7,8 @@
   <title>顧客管理｜花生一生後台</title>
 
   <!-- Base -->
-  <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
 
   <!-- Layout -->
   <link rel="stylesheet" href="../assets/css/layout/layout.css" />
@@ -17,13 +17,13 @@
 
   <!-- Components -->
   <link rel="stylesheet" href="../assets/css/components/buttons.css" />
-  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/forms.css" />
-  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/customers.css" />
+  <link rel="stylesheet" href="../assets/css/pages/customers.css?v=20260711-2" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -38,12 +38,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html" class="active">👥 顧客管理</a>
@@ -52,34 +52,36 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <!-- Main -->
     <main class="main customers-main">
 
       <!-- Hero -->
-      <section class="customers-hero">
-        <div>
-          <p class="eyebrow">CUSTOMER MANAGEMENT</p>
-          <h2>顧客管理</h2>
-          <p class="hero-copy">
-            從訂單紀錄整理顧客資料，追蹤回購、累積消費與售後狀況。第一版先不用會員系統，直接用電話或 Email 合併同一位顧客。
+      <header class="page-hero customers-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">顧客關係管理</p>
+          <h1 class="page-hero__title">顧客管理</h1>
+          <p class="page-hero__description">
+            從訂單紀錄整理顧客資料，追蹤回購、累積消費與售後狀況。第一版先不用會員系統，直接用電話或電子郵件合併同一位顧客。
           </p>
-
-          <div class="quick-actions">
-            <button type="button" class="quick-action" id="refreshCustomersBtn">
-              重新整理
-            </button>
-
-            <button type="button" class="quick-action" id="exportCustomersBtn">
-              匯出顧客列表
-            </button>
-          </div>
         </div>
-      </section>
+
+        <div class="page-hero__actions quick-actions">
+          <button type="button" class="btn secondary" id="refreshCustomersBtn">
+            重新整理
+          </button>
+
+          <button type="button" class="btn primary" id="exportCustomersBtn">
+            匯出顧客列表
+          </button>
+        </div>
+      </header>
 
       <!-- KPI -->
       <section class="customers-kpi-grid">
@@ -143,7 +145,7 @@
 
           <div class="filter-group filter-reset">
             <label>&nbsp;</label>
-            <button type="button" class="quick-action secondary" id="resetCustomerFiltersBtn">
+            <button type="button" class="btn secondary" id="resetCustomerFiltersBtn">
               清除篩選
             </button>
           </div>
@@ -218,6 +220,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/customers.js"></script>
+  <script src="../assets/js/pages/customers.js?v=20260711"></script>
 </body>
 </html>

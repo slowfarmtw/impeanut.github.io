@@ -1,1 +1,184 @@
 
+
+.btn,
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.btn:hover,
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible,
+button:focus-visible,
+input[type="button"]:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="reset"]:focus-visible {
+  outline: 3px solid rgba(135, 97, 62, 0.22);
+  outline-offset: 2px;
+}
+
+.btn:disabled,
+button:disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+.btn.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-primary,
+.btn.primary,
+button.primary {
+  background: #6f4f35;
+  border-color: #6f4f35;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(111, 79, 53, 0.18);
+}
+
+.btn-primary:hover,
+.btn.primary:hover,
+button.primary:hover {
+  background: #5d422d;
+  border-color: #5d422d;
+  box-shadow: 0 10px 22px rgba(111, 79, 53, 0.24);
+}
+
+.btn-secondary,
+.btn.secondary,
+button.secondary {
+  background: #ffffff;
+  border-color: #d8c8b7;
+  color: #5b4634;
+}
+
+.btn-secondary:hover,
+.btn.secondary:hover,
+button.secondary:hover {
+  background: #fffaf4;
+  border-color: #bfa58c;
+}
+
+.btn-danger,
+.btn.danger,
+button.danger {
+  background: #b94f3d;
+  border-color: #b94f3d;
+  color: #ffffff;
+}
+
+.btn-ghost,
+.btn.ghost,
+button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: #6f4f35;
+}
+
+.btn-small,
+.btn.small,
+button.small {
+  min-height: 36px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.btn-group,
+.form-actions,
+.page-actions,
+.toolbar-actions,
+.card-actions,
+.modal-actions,
+.filter-actions,
+.order-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-group + .btn-group,
+.form-actions + .form-actions,
+.page-actions + .page-actions,
+.toolbar-actions + .toolbar-actions,
+.card-actions + .card-actions,
+.modal-actions + .modal-actions,
+.filter-actions + .filter-actions {
+  margin-top: 12px;
+}
+
+.btn-block,
+.btn.block {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .form-actions,
+  .page-actions,
+  .toolbar-actions,
+  .modal-actions,
+  .filter-actions {
+    align-items: stretch;
+  }
+
+  .form-actions > .btn,
+  .form-actions > button,
+  .page-actions > .btn,
+  .page-actions > button,
+  .toolbar-actions > .btn,
+  .toolbar-actions > button,
+  .modal-actions > .btn,
+  .modal-actions > button,
+  .filter-actions > .btn,
+  .filter-actions > button {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .card-actions > .btn,
+  .card-actions > button,
+  .order-buttons > .btn,
+  .order-buttons > button {
+    flex: 1 1 calc(50% - 6px);
+  }
+}
+
+@media (max-width: 420px) {
+  .card-actions > .btn,
+  .card-actions > button,
+  .order-buttons > .btn,
+  .order-buttons > button {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}

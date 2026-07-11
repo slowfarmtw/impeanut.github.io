@@ -1,1 +1,176 @@
 
+
+.badge,
+.status-badge,
+.pill,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: #f1ebe4;
+  color: #665547;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.badge::before,
+.status-badge::before,
+.pill::before,
+.tag::before {
+  flex: 0 0 auto;
+}
+
+.badge.success,
+.status-badge.success,
+.badge-paid,
+.badge-completed,
+.badge-published,
+.badge-active,
+.status-paid,
+.status-completed,
+.status-published,
+.status-active {
+  background: #e8f3e9;
+  border-color: #cfe2d2;
+  color: #4f7b55;
+}
+
+.badge.warning,
+.status-badge.warning,
+.badge-pending,
+.badge-processing,
+.badge-low-stock,
+.status-pending,
+.status-processing,
+.status-low-stock {
+  background: #fff2d9;
+  border-color: #f0dba8;
+  color: #9a6b19;
+}
+
+.badge.danger,
+.status-badge.danger,
+.badge-cancelled,
+.badge-failed,
+.badge-out-of-stock,
+.status-cancelled,
+.status-failed,
+.status-out-of-stock {
+  background: #fbe7e3;
+  border-color: #efc9c1;
+  color: #a74334;
+}
+
+.badge.info,
+.status-badge.info,
+.badge-shipped,
+.badge-refunded,
+.status-shipped,
+.status-refunded {
+  background: #e8f0f7;
+  border-color: #cbdce8;
+  color: #4f6f88;
+}
+
+.badge.neutral,
+.status-badge.neutral,
+.badge-draft,
+.badge-unpublished,
+.badge-inactive,
+.status-draft,
+.status-unpublished,
+.status-inactive {
+  background: #f1ebe4;
+  border-color: #ded2c5;
+  color: #6f6256;
+}
+
+.badge-primary,
+.status-primary {
+  background: #efe3d5;
+  border-color: #dcc4ab;
+  color: #6f4f35;
+}
+
+.badge-outline,
+.status-outline {
+  background: transparent;
+  border-color: #d8cdbf;
+  color: #665547;
+}
+
+.badge.small,
+.status-badge.small,
+.badge-sm {
+  min-height: 24px;
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.badge.large,
+.status-badge.large,
+.badge-lg {
+  min-height: 34px;
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+.badge-dot,
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-group,
+.status-group,
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge.clickable,
+.status-badge.clickable,
+.tag.clickable {
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    opacity 0.16s ease;
+}
+
+.badge.clickable:hover,
+.status-badge.clickable:hover,
+.tag.clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(88, 66, 46, 0.12);
+}
+
+.badge.clickable:focus-visible,
+.status-badge.clickable:focus-visible,
+.tag.clickable:focus-visible {
+  outline: 3px solid rgba(135, 97, 62, 0.2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .badge,
+  .status-badge,
+  .pill,
+  .tag {
+    white-space: normal;
+    text-align: center;
+  }
+}

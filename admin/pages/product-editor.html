@@ -7,8 +7,8 @@
   <title>商品編輯｜花生一生後台</title>
 
   <!-- Base -->
-  <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
 
   <!-- Layout -->
   <link rel="stylesheet" href="../assets/css/layout/layout.css" />
@@ -17,12 +17,13 @@
 
   <!-- Components -->
   <link rel="stylesheet" href="../assets/css/components/buttons.css" />
-  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
   <link rel="stylesheet" href="../assets/css/components/badges.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/product-editor.css" />
+  <link rel="stylesheet" href="../assets/css/pages/product-editor.css?v=20260711-2" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -37,12 +38,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html" class="active">📦 商品管理</a>
         <a href="orders.html">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -51,34 +52,36 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <!-- Main -->
     <main class="main product-editor-main">
 
       <!-- Hero -->
-      <section class="editor-hero">
-        <div>
-          <p class="eyebrow">PRODUCT EDITOR</p>
-          <h2 id="editorTitle">商品編輯</h2>
-          <p class="hero-copy" id="editorHint">
-            新增或修改商品資料，並同步更新 Supabase products 商品資料表。
+      <header class="page-hero editor-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">商品資料管理</p>
+          <h1 class="page-hero__title" id="editorTitle">商品編輯</h1>
+          <p class="page-hero__description" id="editorHint">
+            新增或修改商品資料，並同步更新商品資料庫與前台內容。
           </p>
+        </div>
 
-          <div class="quick-actions">
-            <a class="quick-action" href="products.html">返回商品列表</a>
+        <div class="page-hero__actions">
+          <a class="btn secondary" href="products.html">返回商品列表</a>
+
+          <div class="editor-status-card">
+            <span>目前狀態</span>
+            <strong id="editorStatusText">尚未儲存</strong>
+            <p>儲存後會立即更新後台商品列表。</p>
           </div>
         </div>
-
-        <div class="editor-status-card">
-          <span>目前狀態</span>
-          <strong id="editorStatusText">尚未儲存</strong>
-          <p>儲存後會立即更新後台商品列表。</p>
-        </div>
-      </section>
+      </header>
 
       <!-- Form -->
       <section class="dashboard-panel editor-panel">
@@ -87,7 +90,7 @@
             <h3>商品資料</h3>
             <p>請填寫商品名稱、價格、庫存、圖片與前台顯示狀態。</p>
           </div>
-          <span>Products</span>
+          <span>商品資料</span>
         </div>
 
         <form id="productForm" class="product-editor-form">
@@ -98,7 +101,7 @@
 
             <div class="form-grid two-columns">
               <label>
-                <span>SKU *</span>
+                <span>商品編號 *</span>
                 <input type="text" name="sku" placeholder="例如 PN-ROAST-80" required />
               </label>
 
@@ -108,7 +111,7 @@
               </label>
 
               <label>
-                <span>網址代稱 slug</span>
+                <span>網址代稱</span>
                 <input type="text" name="slug" placeholder="例如 roasted-peanuts-80g" />
               </label>
 
@@ -118,7 +121,7 @@
               </label>
 
               <label>
-                <span>規格 / 重量</span>
+                <span>規格／重量</span>
                 <input type="text" name="weight" placeholder="例如 80g" />
               </label>
 
@@ -191,7 +194,7 @@
                 </label>
 
                 <div class="image-actions-row">
-                  <button type="button" class="quick-action" id="previewCoverImageBtn">
+                  <button type="button" class="btn secondary" id="previewCoverImageBtn">
                     預覽圖片
                   </button>
                 </div>
@@ -211,7 +214,7 @@
                   </div>
 
                   <div class="image-actions-row">
-                    <button type="button" class="quick-action primary-action" id="openImageLibraryBtn">
+                    <button type="button" class="btn primary" id="openImageLibraryBtn">
                       選擇圖庫
                     </button>
                   </div>
@@ -248,7 +251,7 @@
                       accept="image/png,image/jpeg,image/webp"
                     />
 
-                    <button type="button" class="quick-action" id="chooseCoverImageBtn">
+                    <button type="button" class="btn secondary" id="chooseCoverImageBtn">
                       上傳圖片
                     </button>
 
@@ -269,7 +272,7 @@
                   </div>
 
                   <div class="image-upload-actions">
-                    <button type="button" class="quick-action primary-action" id="uploadCoverImageBtn">
+                    <button type="button" class="btn primary" id="uploadCoverImageBtn">
                       上傳確認
                     </button>
                   </div>
@@ -277,10 +280,10 @@
 
                 <div class="image-upload-note">
                   <p>
-                    建議優先使用「選擇圖庫」，避免 Supabase Storage 產生重複圖片。
+                    建議優先使用「選擇圖庫」，避免圖片庫產生重複圖片。
                   </p>
                   <p>
-                    新圖片會上傳到 Supabase Storage：<strong>product-images</strong>，成功後自動填入封面圖片網址。
+                    新圖片會上傳到商品圖片庫，成功後會自動填入封面圖片網址。
                   </p>
                 </div>
 
@@ -339,11 +342,11 @@
 
           <!-- 操作按鈕 -->
           <div class="form-actions">
-            <button type="submit" class="quick-action primary-action" id="saveProductBtn">
+            <button type="submit" class="btn primary" id="saveProductBtn">
               儲存商品
             </button>
 
-            <a class="quick-action" href="products.html">取消</a>
+            <a class="btn secondary" href="products.html">取消</a>
           </div>
 
         </form>
@@ -377,6 +380,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/product-editor.js"></script>
+  <script src="../assets/js/pages/product-editor.js?v=20260711"></script>
 </body>
 </html>

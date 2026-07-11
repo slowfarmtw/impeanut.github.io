@@ -3,47 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>新增 / 編輯品牌內容｜花生一生 Brand OS</title>
+  <title>新增／編輯品牌內容｜花生一生</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
+  <link rel="stylesheet" href="../assets/css/layout/layout.css" />
+  <link rel="stylesheet" href="../assets/css/layout/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/components/buttons.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
-  <link rel="stylesheet" href="../assets/css/pages/article-editor.css?v=20260709-3" />
+  <link rel="stylesheet" href="../assets/css/pages/article-editor.css?v=20260711-3" />
 </head>
 <body>
-  <div class="admin-shell">
+  <div class="admin-shell admin-layout">
     <aside class="sidebar">
-      <div class="brand-block">
-        <span class="brand-mark">∞</span>
+      <div class="brand">
+        <div class="brand-icon">🥜</div>
         <div>
-          <strong>花生一生</strong>
-          <small>Brand OS</small>
+          <h1>花生一生</h1>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
-      <nav class="sidebar-nav" aria-label="後台導覽">
-        <a href="dashboard.html">儀表板</a>
-        <a href="orders.html">訂單管理</a>
-        <a href="products.html">商品管理</a>
-        <a href="articles.html" class="active">品牌內容</a>
+      <nav class="nav-menu" aria-label="後台導覽">
+        <a href="../index.html">🏠 儀表板</a>
+        <a href="products.html">📦 商品管理</a>
+        <a href="orders.html">🛒 訂單管理</a>
+        <a href="customers.html">👥 顧客管理</a>
+        <a href="articles.html" class="active">📝 品牌內容</a>
+        <a href="analytics.html">📊 品牌分析</a>
+        <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
-    <main class="admin-main">
-      <header class="page-header">
-        <div>
-          <p class="eyebrow">Content CMS</p>
-          <h1 id="editorPageTitle">新增品牌內容</h1>
-          <p>管理 SEO 文章、花生研究室、最新消息、品牌故事與檢驗報告。</p>
+    <main class="admin-main main">
+      <header class="page-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">品牌內容管理</p>
+          <h1 id="editorPageTitle" class="page-hero__title">新增品牌內容</h1>
+          <p class="page-hero__description">管理搜尋文章、花生研究室、最新消息、品牌故事與檢驗報告。</p>
         </div>
 
-        <div class="page-actions">
-          <a class="secondary-btn" href="articles.html">返回列表</a>
-          <button type="submit" class="primary-btn" form="articleEditorForm">儲存內容</button>
+        <div class="page-hero__actions">
+          <a class="btn secondary" href="articles.html">返回列表</a>
+          <button type="submit" class="btn primary" form="articleEditorForm">儲存內容</button>
         </div>
       </header>
 
@@ -59,25 +71,25 @@
 
           <div class="form-grid one-column">
             <label class="form-field">
-              <span>文章標題 title</span>
+              <span>文章標題</span>
               <input type="text" id="articleTitle" required maxlength="120" placeholder="例如：花生怎麼保存才不容易油耗？" />
               <small>文章主標題，未來會成為頁面 H1。</small>
             </label>
 
             <label class="form-field">
-              <span>網址 slug</span>
+              <span>網址代稱</span>
               <input type="text" id="articleSlug" required inputmode="url" placeholder="例如：peanut-storage" />
               <small>建議用英文小寫、數字與 -。未來 SEO 靜態頁會產生為 /articles/peanut-storage.html。</small>
             </label>
 
             <label class="form-field">
-              <span>文章摘要 excerpt</span>
+              <span>文章摘要</span>
               <textarea id="articleExcerpt" rows="3" maxlength="240" placeholder="用 1～2 句話說明這篇文章重點。"></textarea>
               <small>列表頁與 SEO 描述可共用，建議簡短清楚。</small>
             </label>
 
             <label class="form-field">
-              <span>文章內文 content</span>
+              <span>文章內文</span>
               <textarea id="articleContent" rows="18" placeholder="輸入文章內文。段落之間請空一行，例如：
 
 花生保存最重要的是避免高溫、潮濕與陽光直射。
@@ -100,7 +112,7 @@
 
             <div class="form-grid one-column">
               <label class="form-field">
-                <span>分類 category</span>
+                <span>分類</span>
                 <select id="articleCategory">
                   <option value="一般文章">一般文章</option>
                   <option value="花生研究室">花生研究室</option>
@@ -113,7 +125,7 @@
               </label>
 
               <label class="form-field">
-                <span>內容類型 content_type</span>
+                <span>內容類型</span>
                 <select id="articleContentType">
                   <option value="general">一般文章</option>
                   <option value="seo_article">SEO 文章</option>
@@ -123,11 +135,11 @@
                   <option value="report">檢驗報告</option>
                   <option value="faq">常見問題</option>
                 </select>
-                <small>系統用分類。選擇後會自動同步上方「分類 category」。</small>
+                <small>系統用分類，選擇後會自動同步上方的「分類」。</small>
               </label>
 
               <label class="form-field">
-                <span>發布狀態 status</span>
+                <span>發布狀態</span>
                 <select id="articleStatus">
                   <option value="draft">草稿</option>
                   <option value="published">已發布</option>
@@ -141,7 +153,7 @@
               </label>
 
               <label class="form-field">
-                <span>發布時間 published_at</span>
+                <span>發布時間</span>
                 <input type="datetime-local" id="articlePublishedAt" />
                 <small>若狀態選擇已發布但時間空白，系統會自動使用儲存當下時間。</small>
               </label>
@@ -153,7 +165,7 @@
 
             <div class="form-grid one-column">
               <label class="form-field">
-                <span>封面圖片 cover_image</span>
+                <span>封面圖片</span>
                 <input type="text" id="articleCoverImage" inputmode="url" placeholder="可填完整圖片網址、images/xxx.webp 或先空白" />
                 <small>可填完整網址，或填 images/articles/檔名.webp。若空白，前台會用預設圖片。</small>
               </label>
@@ -169,34 +181,34 @@
 
             <div class="form-grid one-column">
               <label class="form-field">
-                <span>SEO 標題 seo_title</span>
+                <span>SEO 標題</span>
                 <input type="text" id="articleSeoTitle" maxlength="80" placeholder="例如：花生保存方法｜如何避免油耗與風味變差" />
                 <small>搜尋結果標題使用。若空白，系統會自動使用文章標題。</small>
               </label>
 
               <label class="form-field">
-                <span>SEO 描述 seo_description</span>
+                <span>SEO 描述</span>
                 <textarea id="articleSeoDescription" rows="4" maxlength="180" placeholder="建議 60～90 個中文字，說明搜尋結果摘要。"></textarea>
                 <small>搜尋結果摘要使用。若空白，系統會自動使用文章摘要。</small>
               </label>
 
               <label class="form-field">
-                <span>SEO 關鍵字 seo_keywords</span>
+                <span>SEO 關鍵字</span>
                 <input type="text" id="articleSeoKeywords" placeholder="花生保存, 花生油耗, 雲林花生" />
               </label>
 
               <label class="form-field">
-                <span>正式網址 canonical_url</span>
+                <span>正式網址</span>
                 <input type="text" id="articleCanonicalUrl" inputmode="url" placeholder="例如：https://impeanut.com/articles/peanut-storage.html" />
                 <small>未來靜態化文章時，這會是 Google 判斷的正式網址。</small>
               </label>
 
               <label class="form-field">
-                <span>Meta Robots</span>
+                <span>搜尋引擎設定</span>
                 <select id="articleMetaRobots">
-                  <option value="index,follow">index,follow｜允許收錄與追蹤連結</option>
-                  <option value="noindex,nofollow">noindex,nofollow｜不收錄也不追蹤</option>
-                  <option value="noindex,follow">noindex,follow｜不收錄但追蹤連結</option>
+                  <option value="index,follow">允許收錄與追蹤連結</option>
+                  <option value="noindex,nofollow">不收錄也不追蹤連結</option>
+                  <option value="noindex,follow">不收錄但允許追蹤連結</option>
                 </select>
               </label>
             </div>
@@ -229,6 +241,6 @@
       window.location.replace("../login.html");
     });
   </script>
-  <script src="../assets/js/pages/article-editor.js?v=20260709-3"></script>
+  <script src="../assets/js/pages/article-editor.js?v=20260711"></script>
 </body>
 </html>

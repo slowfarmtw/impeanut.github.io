@@ -1,4 +1,11 @@
+/* admin/assets/css/pages/analytics.css */
+/* 品牌分析頁：僅保留分析頁專屬排版，不覆蓋共用主標、按鈕、側欄與卡片 */
 
+.analytics-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
 .analytics-topbar {
   align-items: flex-end;
@@ -8,59 +15,48 @@
 .analytics-actions {
   display: flex;
   align-items: flex-end;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
 .analytics-period-field {
   display: grid;
   gap: 6px;
   min-width: 150px;
+  color: var(--color-muted);
   font-size: 13px;
-  color: #6f6a61;
+  font-weight: 700;
 }
 
 .analytics-period-field select {
   width: 100%;
   min-height: 42px;
   padding: 0 36px 0 12px;
-  border: 1px solid #ded8cd;
-  border-radius: 12px;
-  background: #fff;
-  color: #2f2b25;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: #fffdf8;
+  color: var(--color-text);
   font: inherit;
+  outline: none;
 }
 
-.analytics-refresh-button {
-  min-height: 42px;
-  padding: 0 18px;
-  border: 0;
-  border-radius: 12px;
-  background: #6e7f4f;
-  color: #fff;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.analytics-refresh-button:hover {
-  transform: translateY(-1px);
+.analytics-period-field select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(145, 105, 62, 0.14);
 }
 
 .analytics-refresh-button:disabled {
-  cursor: wait;
   opacity: 0.65;
-  transform: none;
+  cursor: wait;
 }
 
 .analytics-status {
-  margin-bottom: 18px;
+  margin: 0;
   padding: 12px 14px;
-  border: 1px solid #e5dfd4;
-  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
   background: #fffaf2;
-  color: #645d52;
+  color: var(--color-muted);
   font-size: 14px;
 }
 
@@ -79,29 +75,29 @@
 .analytics-kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 18px;
+  gap: 18px;
 }
 
 .analytics-kpi-card {
   min-width: 0;
   padding: 20px;
-  border: 1px solid #e5dfd4;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(74, 64, 47, 0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .analytics-kpi-label {
   margin: 0 0 10px;
-  color: #7b7469;
+  color: var(--color-muted);
   font-size: 14px;
+  font-weight: 700;
 }
 
 .analytics-kpi-card strong {
   display: block;
   overflow: hidden;
-  color: #2d2a25;
+  color: var(--color-text);
   font-size: clamp(24px, 3vw, 34px);
   line-height: 1.1;
   text-overflow: ellipsis;
@@ -111,7 +107,7 @@
 .analytics-kpi-card span {
   display: block;
   margin-top: 10px;
-  color: #8a8378;
+  color: var(--color-muted);
   font-size: 13px;
 }
 
@@ -127,7 +123,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
-  margin-bottom: 18px;
 }
 
 .analytics-grid-wide {
@@ -137,10 +132,16 @@
 .analytics-panel {
   min-width: 0;
   margin: 0;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .analytics-panel-heading {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 18px;
@@ -148,12 +149,15 @@
 
 .analytics-panel-heading h3 {
   margin: 0 0 6px;
+  color: var(--color-primary-dark);
+  font-size: 20px;
 }
 
 .analytics-panel-heading p {
   margin: 0;
-  color: #81796e;
+  color: var(--color-muted);
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .analytics-chart {
@@ -176,24 +180,24 @@
 
 .analytics-chart-line {
   fill: none;
-  stroke: #6e7f4f;
+  stroke: var(--color-primary);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 3;
 }
 
 .analytics-chart-area {
-  fill: rgba(110, 127, 79, 0.12);
+  fill: rgba(145, 105, 62, 0.12);
 }
 
 .analytics-chart-point {
   fill: #fff;
-  stroke: #6e7f4f;
+  stroke: var(--color-primary);
   stroke-width: 3;
 }
 
 .analytics-chart-label {
-  fill: #81796e;
+  fill: var(--color-muted);
   font-size: 12px;
 }
 
@@ -206,9 +210,9 @@
 .analytics-status-item,
 .analytics-progress-item {
   padding: 14px;
-  border: 1px solid #ebe5da;
-  border-radius: 14px;
-  background: #fcfaf6;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fbf7ef;
 }
 
 .analytics-status-row,
@@ -221,13 +225,13 @@
 
 .analytics-status-name,
 .analytics-progress-name {
-  color: #443f37;
-  font-weight: 700;
+  color: var(--color-text);
+  font-weight: 800;
 }
 
 .analytics-status-count,
 .analytics-progress-count {
-  color: #6f685e;
+  color: var(--color-muted);
   font-size: 14px;
 }
 
@@ -252,25 +256,38 @@
 
 .analytics-table {
   width: 100%;
-  border-collapse: collapse;
+  min-width: 560px;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .analytics-table th,
 .analytics-table td {
   padding: 13px 12px;
-  border-bottom: 1px solid #ece6dc;
+  border-right: 1px solid rgba(120, 88, 55, 0.08);
+  border-bottom: 1px solid var(--color-border);
   text-align: left;
   vertical-align: middle;
 }
 
+.analytics-table th:last-child,
+.analytics-table td:last-child {
+  border-right: none;
+}
+
 .analytics-table th {
-  color: #7b7469;
+  background: #fbf7ef;
+  color: var(--color-muted);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .analytics-table td {
-  color: #403b34;
+  color: var(--color-text);
+}
+
+.analytics-table tr:hover td {
+  background: #fffaf2;
 }
 
 .analytics-table th:nth-child(2),
@@ -290,28 +307,28 @@
 
 .analytics-customer-summary > div {
   padding: 16px;
-  border: 1px solid #ebe5da;
-  border-radius: 14px;
-  background: #fcfaf6;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fbf7ef;
 }
 
 .analytics-customer-summary dt {
   margin-bottom: 8px;
-  color: #81796e;
+  color: var(--color-muted);
   font-size: 13px;
 }
 
 .analytics-customer-summary dd {
   margin: 0;
   overflow-wrap: anywhere;
-  color: #342f29;
+  color: var(--color-text);
   font-size: 22px;
   font-weight: 800;
 }
 
 .analytics-empty,
 .analytics-empty-cell {
-  color: #928a7f;
+  color: var(--color-muted);
   text-align: center;
 }
 
@@ -336,6 +353,10 @@
 }
 
 @media (max-width: 720px) {
+  .analytics-main {
+    gap: 18px;
+  }
+
   .analytics-topbar {
     align-items: stretch;
   }
@@ -362,6 +383,14 @@
 
   .analytics-kpi-card strong {
     font-size: 24px;
+  }
+
+  .analytics-panel {
+    padding: 18px;
+  }
+
+  .analytics-panel-heading {
+    flex-direction: column;
   }
 
   .analytics-customer-summary {

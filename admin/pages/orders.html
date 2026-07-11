@@ -7,8 +7,8 @@
   <title>訂單管理｜花生一生後台</title>
 
   <!-- Base -->
-  <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
 
   <!-- Layout -->
   <link rel="stylesheet" href="../assets/css/layout/layout.css" />
@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/orders.css" />
+  <link rel="stylesheet" href="../assets/css/pages/orders.css?v=20260711-2" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -38,12 +38,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html" class="active">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -52,42 +52,44 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <!-- Main -->
     <main class="main orders-main">
 
       <!-- Hero -->
-      <section class="orders-hero">
-        <div>
-          <p class="eyebrow">ORDER MANAGEMENT</p>
-          <h2>訂單管理</h2>
-          <p class="hero-copy">
+      <header class="page-hero orders-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">訂單營運管理</p>
+          <h1 class="page-hero__title">訂單管理</h1>
+          <p class="page-hero__description">
             管理顧客訂單、付款確認、備貨包裝與出貨進度。完成的訂單可封存，之後需要售後處理時再拉回。
           </p>
-
-          <div class="quick-actions">
-            <a href="order-create.html" class="quick-action primary-action">
-              ＋手動新增訂單
-            </a>
-
-            <button type="button" class="quick-action" id="refreshOrdersBtn">
-              重新整理
-            </button>
-
-            <button type="button" class="quick-action" id="exportFilteredOrdersBtn">
-              匯出目前列表
-            </button>
-
-            <button type="button" class="quick-action" id="exportTodayOrdersBtn">
-              匯出今日訂單
-            </button>
-          </div>
         </div>
-      </section>
+
+        <div class="page-hero__actions quick-actions">
+          <a href="order-create.html" class="btn primary">
+            ＋ 手動新增訂單
+          </a>
+
+          <button type="button" class="btn secondary" id="refreshOrdersBtn">
+            重新整理
+          </button>
+
+          <button type="button" class="btn secondary" id="exportFilteredOrdersBtn">
+            匯出目前列表
+          </button>
+
+          <button type="button" class="btn secondary" id="exportTodayOrdersBtn">
+            匯出今日訂單
+          </button>
+        </div>
+      </header>
 
       <!-- KPI -->
       <section class="orders-kpi-grid">
@@ -158,7 +160,7 @@
 
           <div class="filter-group filter-reset">
             <label>&nbsp;</label>
-            <button type="button" class="quick-action secondary" id="resetOrderFiltersBtn">
+            <button type="button" class="btn secondary" id="resetOrderFiltersBtn">
               清除篩選
             </button>
           </div>
@@ -255,6 +257,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/orders.js"></script>
+  <script src="../assets/js/pages/orders.js?v=20260711"></script>
 </body>
 </html>

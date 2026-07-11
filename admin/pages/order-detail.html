@@ -7,8 +7,8 @@
   <title>訂單詳情｜花生一生後台</title>
 
   <!-- Base -->
-  <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
+  <link rel="stylesheet" href="../assets/css/base/reset.css" />
 
   <!-- Layout -->
   <link rel="stylesheet" href="../assets/css/layout/layout.css" />
@@ -17,13 +17,13 @@
 
   <!-- Components -->
   <link rel="stylesheet" href="../assets/css/components/buttons.css" />
-  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/forms.css" />
-  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/order-detail.css" />
+  <link rel="stylesheet" href="../assets/css/pages/order-detail.css?v=20260711-2" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -38,12 +38,12 @@
         <div class="brand-icon">🥜</div>
         <div>
           <h1>花生一生</h1>
-          <p>Brand OS</p>
+          <p>品牌營運系統</p>
         </div>
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 Dashboard</a>
+        <a href="../index.html">🏠 儀表板</a>
         <a href="products.html">📦 商品管理</a>
         <a href="orders.html" class="active">🛒 訂單管理</a>
         <a href="customers.html">👥 顧客管理</a>
@@ -52,42 +52,44 @@
         <a href="settings.html">⚙️ 系統設定</a>
       </nav>
 
-      <button id="logoutButton" type="button" class="sidebar-logout">
-        🚪 登出後台
-      </button>
+      <div class="sidebar-footer">
+        <button id="logoutButton" type="button" class="sidebar-logout">
+          🚪 登出後台
+        </button>
+      </div>
     </aside>
 
     <!-- Main -->
     <main class="main order-detail-main">
 
       <!-- Hero -->
-      <section class="order-detail-hero">
-        <div>
-          <p class="eyebrow">ORDER DETAIL</p>
-          <h2 id="orderDetailTitle">訂單詳情</h2>
-          <p class="hero-copy" id="orderDetailHint">
+      <header class="page-hero order-detail-hero">
+        <div class="page-hero__content">
+          <p class="page-hero__eyebrow">訂單資訊管理</p>
+          <h1 class="page-hero__title" id="orderDetailTitle">訂單詳情</h1>
+          <p class="page-hero__description" id="orderDetailHint">
             查看顧客資料、配送資料、商品明細、備註與訂單狀態。
           </p>
+        </div>
 
-          <div class="quick-actions">
-            <a class="quick-action" href="orders.html">返回訂單列表</a>
+        <div class="page-hero__actions">
+          <a class="btn secondary" href="orders.html">返回訂單列表</a>
 
-            <button
-              type="button"
-              class="quick-action primary-action print-shipping-btn"
-              id="printShippingBtn"
-            >
-              列印出貨單
-            </button>
+          <button
+            type="button"
+            class="btn primary print-shipping-btn"
+            id="printShippingBtn"
+          >
+            列印出貨單
+          </button>
+
+          <div class="order-status-card">
+            <span>目前狀態</span>
+            <strong id="orderStatusText">讀取中...</strong>
+            <p id="orderCreatedAt">建立時間：-</p>
           </div>
         </div>
-
-        <div class="order-status-card">
-          <span>目前狀態</span>
-          <strong id="orderStatusText">讀取中...</strong>
-          <p id="orderCreatedAt">建立時間：-</p>
-        </div>
-      </section>
+      </header>
 
       <!-- Summary -->
       <section class="order-summary-grid">
@@ -117,7 +119,7 @@
             <h3>訂單流程操作</h3>
             <p>可在單筆訂單內直接更新付款、訂單、包裝與出貨狀態。</p>
           </div>
-          <span>Workflow</span>
+          <span>流程狀態</span>
         </div>
 
         <div class="workflow-control-grid">
@@ -165,7 +167,7 @@
         </div>
 
         <div class="workflow-actions">
-          <button type="button" class="quick-action primary-action" id="saveWorkflowBtn">
+          <button type="button" class="btn primary" id="saveWorkflowBtn">
             儲存流程狀態
           </button>
         </div>
@@ -183,7 +185,7 @@
                 <h3>顧客資料</h3>
                 <p>訂購人聯絡資訊。</p>
               </div>
-              <span>Customer</span>
+              <span>顧客資料</span>
             </div>
 
             <div class="info-list">
@@ -198,7 +200,7 @@
               </div>
 
               <div>
-                <span>Email</span>
+                <span>電子郵件</span>
                 <strong id="customerEmail">-</strong>
               </div>
             </div>
@@ -210,7 +212,7 @@
                 <h3>配送資料</h3>
                 <p>收件人、地址與配送方式。</p>
               </div>
-              <span>Shipping</span>
+              <span>配送資料</span>
             </div>
 
             <div class="info-list">
@@ -245,7 +247,7 @@
               <h3>商品明細</h3>
               <p>此訂單包含的商品、數量與小計。</p>
             </div>
-            <span>Items</span>
+            <span>商品項目</span>
           </div>
 
           <div class="admin-table-wrap">
@@ -299,7 +301,7 @@
               <h3>顧客備註</h3>
               <p>顧客下單時留下的訊息，這裡只讀不修改。</p>
             </div>
-            <span>Customer Note</span>
+            <span>顧客留言</span>
           </div>
 
           <div class="note-box" id="customerNote">-</div>
@@ -312,7 +314,7 @@
               <h3>內部備註</h3>
               <p>後台人員處理訂單時的共同備註。</p>
             </div>
-            <span>Internal Note</span>
+            <span>內部紀錄</span>
           </div>
 
           <label class="note-editor">
@@ -325,7 +327,7 @@
           </label>
 
           <div class="note-actions">
-            <button type="button" class="quick-action primary-action" id="saveInternalNoteBtn">
+            <button type="button" class="btn primary" id="saveInternalNoteBtn">
               儲存內部備註
             </button>
           </div>
@@ -338,7 +340,7 @@
               <h3>會計備註</h3>
               <p>付款、退款或帳務相關紀錄。</p>
             </div>
-            <span>Accounting</span>
+            <span>會計紀錄</span>
           </div>
 
           <label class="note-editor">
@@ -351,7 +353,7 @@
           </label>
 
           <div class="note-actions">
-            <button type="button" class="quick-action primary-action" id="saveAccountingNoteBtn">
+            <button type="button" class="btn primary" id="saveAccountingNoteBtn">
               儲存會計備註
             </button>
           </div>
@@ -364,7 +366,7 @@
               <h3>現場備註</h3>
               <p>備貨、包裝、出貨現場注意事項。</p>
             </div>
-            <span>Workshop</span>
+            <span>現場紀錄</span>
           </div>
 
           <label class="note-editor">
@@ -377,7 +379,7 @@
           </label>
 
           <div class="note-actions">
-            <button type="button" class="quick-action primary-action" id="saveWorkshopNoteBtn">
+            <button type="button" class="btn primary" id="saveWorkshopNoteBtn">
               儲存現場備註
             </button>
           </div>
@@ -393,7 +395,7 @@
             <p id="orderLogsSummary">操作紀錄讀取中...</p>
           </div>
 
-          <button type="button" class="order-logs-toggle" id="orderLogsToggleBtn">
+          <button type="button" class="btn secondary order-logs-toggle" id="orderLogsToggleBtn">
             展開操作紀錄
           </button>
         </div>
@@ -431,6 +433,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/order-detail.js"></script>
+  <script src="../assets/js/pages/order-detail.js?v=20260711"></script>
 </body>
 </html>

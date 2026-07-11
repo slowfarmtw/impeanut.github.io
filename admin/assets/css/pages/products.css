@@ -1,164 +1,65 @@
-/* ================================
-   Products Page
-   admin/assets/css/pages/products.css
-================================ */
+/* admin/assets/css/pages/products.css */
+/* 商品管理頁：僅保留商品頁專屬排版，不覆蓋共用主標、按鈕、側欄與卡片 */
 
-/* Page Layout */
 .products-main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-/* Hero */
-.products-hero {
-  display: flex;
-  justify-content: space-between;
   gap: 24px;
-  background: linear-gradient(135deg, #fffdf8, #f3eadc);
-  border: 1px solid var(--color-border);
-  border-radius: 28px;
-  padding: 32px;
-  box-shadow: var(--shadow-sm);
 }
 
-.products-hero h2 {
-  margin: 0;
-  color: var(--color-primary-dark);
-  font-size: 34px;
-}
-
-.eyebrow {
-  margin: 0 0 10px;
-  color: var(--color-muted);
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.hero-copy {
-  max-width: 720px;
-  color: var(--color-muted);
-  line-height: 1.8;
-  margin: 14px 0 22px;
-}
-
-.quick-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.quick-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 11px 14px;
-  border-radius: 999px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-primary-dark);
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.quick-action:hover {
-  background: var(--color-primary-soft);
-}
-
-/* KPI */
 .products-kpi-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
-.kpi-card,
 .products-panel {
-  background: var(--color-surface);
+  padding: 24px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  background: var(--color-surface);
   box-shadow: var(--shadow-sm);
 }
 
-.kpi-card {
-  min-height: 138px;
-  padding: 22px 20px;
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-
-.kpi-card span {
-  color: var(--color-muted);
-  font-weight: 700;
-  font-size: 14px;
-  text-align: center;
-}
-
-.kpi-card strong {
-  display: block;
-  margin-top: 10px;
-  color: var(--color-text);
-  font-size: 32px;
-  text-align: center;
-}
-
-.kpi-card p {
-  margin: 8px 0 0;
-  color: var(--color-muted);
-  font-size: 13px;
-  line-height: 1.5;
-  text-align: center;
-}
-
-/* Panel */
-.products-panel {
-  padding: 24px;
-}
-
-.panel-header {
+.products-panel .panel-header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
   gap: 16px;
   margin-bottom: 18px;
 }
 
-.panel-header h3 {
+.products-panel .panel-header h3 {
   margin: 0;
   color: var(--color-primary-dark);
   font-size: 22px;
 }
 
-.panel-header p {
+.products-panel .panel-header p {
   margin: 6px 0 0;
   color: var(--color-muted);
   font-size: 14px;
 }
 
-.panel-header span {
+.products-panel .panel-header span {
   color: var(--color-muted);
   font-size: 13px;
   font-weight: 700;
 }
 
-/* Table Wrapper */
 .admin-table-wrap {
   width: 100%;
   overflow-x: auto;
 }
 
-/* Table */
 .admin-table {
   width: 100%;
+  min-width: 1080px;
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-  min-width: 1080px;
 }
 
-/* 固定欄位寬度，讓表頭與內容直覺對齊 */
 .admin-table th:nth-child(1),
 .admin-table td:nth-child(1) {
   width: 88px;
@@ -172,6 +73,7 @@
 .admin-table th:nth-child(3),
 .admin-table td:nth-child(3) {
   width: 180px;
+  text-align: left;
 }
 
 .admin-table th:nth-child(4),
@@ -212,13 +114,13 @@
 .admin-table th,
 .admin-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid var(--color-border);
   border-right: 1px solid rgba(120, 88, 55, 0.08);
+  border-bottom: 1px solid var(--color-border);
   color: var(--color-text);
   font-size: 14px;
   line-height: 1.45;
-  vertical-align: middle;
   text-align: center;
+  vertical-align: middle;
   white-space: nowrap;
 }
 
@@ -228,10 +130,10 @@
 }
 
 .admin-table th {
+  background: #fbf7ef;
   color: var(--color-muted);
   font-size: 13px;
   font-weight: 800;
-  background: #fbf7ef;
 }
 
 .admin-table td {
@@ -246,12 +148,6 @@
   color: var(--color-primary-dark);
 }
 
-/* 商品名稱欄：保留左對齊，長文字比較好讀 */
-.admin-table th:nth-child(3),
-.admin-table td:nth-child(3) {
-  text-align: left;
-}
-
 .admin-table td:nth-child(3) strong {
   display: block;
   max-width: 150px;
@@ -260,32 +156,28 @@
   white-space: nowrap;
 }
 
-/* Product Thumb */
 .product-thumb {
   width: 58px;
   height: 58px;
-  min-width: 58px;
-  max-width: 58px;
   margin: 0 auto;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #f3eadc;
-  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #f3eadc;
 }
 
 .product-thumb img {
+  display: block;
   width: 100% !important;
   height: 100% !important;
-  max-width: 58px !important;
-  max-height: 58px !important;
   object-fit: cover;
-  display: block;
 }
 
-.product-thumb span {
+.product-thumb span,
+.product-thumb-fallback {
   color: var(--color-muted);
   font-size: 12px;
   font-weight: 700;
@@ -297,43 +189,10 @@
 
 .product-thumb-fallback {
   display: none;
-  color: var(--color-muted);
-  font-size: 12px;
-  font-weight: 700;
   align-items: center;
   justify-content: center;
 }
 
-/* Status Badge */
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 58px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.status-active {
-  background: #dcebd2;
-  color: #3f642e;
-}
-
-.status-draft {
-  background: #eee3d3;
-  color: var(--color-primary-dark);
-}
-
-.status-paused,
-.status-sold_out,
-.status-archived {
-  background: #efd6ce;
-  color: #8a3e2f;
-}
-
-/* Warning */
 .admin-warning-text {
   margin-top: 4px;
   color: #b26a2c;
@@ -342,7 +201,6 @@
   text-align: left;
 }
 
-/* Product Actions */
 .product-actions {
   display: flex;
   align-items: center;
@@ -353,10 +211,10 @@
 .product-visible,
 .product-hidden,
 .product-edit-btn {
+  min-height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
   border-radius: 999px;
   font-size: 13px;
   font-weight: 800;
@@ -364,7 +222,7 @@
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: 0.18s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .product-visible,
@@ -382,89 +240,44 @@ button.product-hidden {
 }
 
 .product-visible {
+  border: 1px solid #cfe8c3;
   background: #e4f3dc;
   color: #3d6b2f;
-  border: 1px solid #cfe8c3;
 }
 
 .product-hidden {
+  border: 1px solid #f0cdbc;
   background: #fae8df;
   color: #a64a35;
-  border: 1px solid #f0cdbc;
 }
 
 .product-edit-btn {
   width: 52px;
   min-width: 52px;
   padding: 6px 11px;
-  color: var(--color-primary-dark);
-  background: var(--color-surface);
   border: 1px solid var(--color-border);
-}
-
-.product-visible:hover,
-.product-hidden:hover,
-.product-edit-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
 }
 
 .product-edit-btn:hover {
   background: var(--color-primary-soft);
-  text-decoration: none;
-}
-
-.product-visible:active,
-.product-hidden:active,
-.product-edit-btn:active {
-  transform: translateY(0);
-  box-shadow: none;
 }
 
 .product-visible:focus,
 .product-hidden:focus,
-.product-edit-btn:focus {
+.product-edit-btn:focus,
+.product-status-select:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(145, 105, 62, 0.14);
 }
-
-/* RWD */
-@media (max-width: 1180px) {
-  .products-kpi-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .products-hero {
-    padding: 24px;
-  }
-
-  .products-kpi-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .kpi-card {
-    min-height: 120px;
-  }
-}
-
-@media (max-width: 560px) {
-  .products-hero h2 {
-    font-size: 28px;
-  }
-}
-/* ================================
-   Product Status Select
-   商品狀態下拉選單
-================================ */
 
 .product-status-select {
   min-width: 96px;
   height: 34px;
   padding: 0 28px 0 12px;
-  border-radius: 999px;
   border: 1px solid var(--color-border);
+  border-radius: 999px;
   font-size: 13px;
   font-weight: 800;
   text-align: center;
@@ -472,67 +285,71 @@ button.product-hidden {
   outline: none;
   appearance: none;
   -webkit-appearance: none;
-
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px;
-  background-image:
-    linear-gradient(45deg, transparent 50%, currentColor 50%),
-    linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position:
     calc(100% - 14px) 50%,
     calc(100% - 9px) 50%;
-  background-size:
-    5px 5px,
-    5px 5px;
-  background-repeat: no-repeat;
+  background-size: 5px 5px, 5px 5px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
 }
 
-.product-status-select:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.product-status-select:focus {
-  box-shadow: 0 0 0 3px rgba(145, 105, 62, 0.14);
-}
-
-/* 草稿 */
 .status-select-draft {
+  border-color: #dfcfba;
   background-color: #eee3d3;
   color: var(--color-primary-dark);
-  border-color: #dfcfba;
 }
 
-/* 已上架 */
 .status-select-active {
+  border-color: #c7dfb9;
   background-color: #dcebd2;
   color: #3f642e;
-  border-color: #c7dfb9;
 }
 
-/* 暫停販售 */
 .status-select-paused {
+  border-color: #e5cba8;
   background-color: #f4e4cf;
   color: #9a642c;
-  border-color: #e5cba8;
 }
 
-/* 售完 */
 .status-select-sold_out {
+  border-color: #e2beb3;
   background-color: #efd6ce;
   color: #8a3e2f;
-  border-color: #e2beb3;
 }
 
-/* 下架 */
 .status-select-archived {
+  border-color: #d8cabd;
   background-color: #e8e1d8;
   color: #6f6258;
-  border-color: #d8cabd;
 }
 
 .product-status-select:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+@media (max-width: 900px) {
+  .products-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .products-panel {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .products-main {
+    gap: 20px;
+  }
+
+  .products-panel {
+    padding: 16px;
+  }
+
+  .products-panel .panel-header {
+    flex-direction: column;
+  }
 }
