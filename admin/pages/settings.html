@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>訂單管理｜花生一生 Brand OS</title>
+  <title>系統設定｜花生一生 Brand OS</title>
 
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
   <link rel="stylesheet" href="../assets/css/base/reset.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/pages/settings.css" />
 </head>
 
 <body>
@@ -39,15 +40,175 @@
     <main class="main">
       <header class="topbar">
         <div>
-          <h2>品牌內容</h2>
-          <p>管理文章、SEO 與最新消息</p>
+          <h2>系統設定</h2>
+          <p>集中管理品牌、聯絡資訊、付款、運費、營運目標與網站基本設定</p>
         </div>
       </header>
 
-      <section class="panel">
-        <h3>系統設定中心頁已建立</h3>
-        <p>管理管理員帳號、權限、網站設定、通知、API、品牌資訊與系統偏好，維護 Brand OS 的運作環境。</p>
-      </section>
+      <form id="settingsForm" class="settings-form">
+        <section class="panel settings-section">
+          <div class="settings-section-header">
+            <h3>品牌基本資料</h3>
+            <p>後台與官網可共用的品牌名稱與聯絡資料。</p>
+          </div>
+
+          <div class="settings-grid">
+            <div class="settings-field">
+              <label for="brandName">品牌名稱</label>
+              <input id="brandName" name="brand_name" type="text" required />
+            </div>
+
+            <div class="settings-field">
+              <label for="brandNameEn">英文名稱</label>
+              <input id="brandNameEn" name="brand_name_en" type="text" />
+            </div>
+
+            <div class="settings-field">
+              <label for="parentBrandName">母品牌名稱</label>
+              <input id="parentBrandName" name="parent_brand_name" type="text" />
+            </div>
+
+            <div class="settings-field">
+              <label for="contactPhone">聯絡電話</label>
+              <input id="contactPhone" name="contact_phone" type="tel" />
+            </div>
+
+            <div class="settings-field">
+              <label for="contactEmail">聯絡 Email</label>
+              <input id="contactEmail" name="contact_email" type="email" />
+            </div>
+
+            <div class="settings-field">
+              <label for="contactAddress">聯絡地址</label>
+              <input id="contactAddress" name="contact_address" type="text" />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel settings-section">
+          <div class="settings-section-header">
+            <h3>社群連結</h3>
+            <p>請填入完整網址，之後可提供官網與後台共用。</p>
+          </div>
+
+          <div class="settings-grid">
+            <div class="settings-field">
+              <label for="lineUrl">LINE 連結</label>
+              <input id="lineUrl" name="line_url" type="url" placeholder="https://..." />
+            </div>
+
+            <div class="settings-field">
+              <label for="instagramUrl">Instagram 連結</label>
+              <input id="instagramUrl" name="instagram_url" type="url" placeholder="https://..." />
+            </div>
+
+            <div class="settings-field full">
+              <label for="facebookUrl">Facebook 連結</label>
+              <input id="facebookUrl" name="facebook_url" type="url" placeholder="https://..." />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel settings-section">
+          <div class="settings-section-header">
+            <h3>付款與配送</h3>
+            <p>管理顧客付款說明、運費與免運門檻。</p>
+          </div>
+
+          <div class="settings-grid">
+            <div class="settings-field full">
+              <label for="bankTransferInfo">銀行匯款說明</label>
+              <textarea id="bankTransferInfo" name="bank_transfer_info"></textarea>
+            </div>
+
+            <div class="settings-field full">
+              <label for="linePayInfo">LINE Pay 說明</label>
+              <textarea id="linePayInfo" name="line_pay_info"></textarea>
+            </div>
+
+            <div class="settings-field">
+              <label for="defaultShippingFee">宅配運費</label>
+              <input id="defaultShippingFee" name="default_shipping_fee" type="number" min="0" step="1" required />
+            </div>
+
+            <div class="settings-field">
+              <label for="convenienceStoreShippingFee">超商運費</label>
+              <input id="convenienceStoreShippingFee" name="convenience_store_shipping_fee" type="number" min="0" step="1" required />
+            </div>
+
+            <div class="settings-field">
+              <label for="freeShippingThreshold">免運門檻</label>
+              <input id="freeShippingThreshold" name="free_shipping_threshold" type="number" min="0" step="1" required />
+            </div>
+
+            <div class="settings-field">
+              <label for="orderNumberPrefix">訂單編號前綴</label>
+              <input id="orderNumberPrefix" name="order_number_prefix" type="text" maxlength="10" required />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel settings-section">
+          <div class="settings-section-header">
+            <h3>營運目標</h3>
+            <p>儀表板與品牌分析將使用這些數字計算達成率。</p>
+          </div>
+
+          <div class="settings-grid">
+            <div class="settings-field">
+              <label for="lowStockThreshold">低庫存警戒值</label>
+              <input id="lowStockThreshold" name="low_stock_threshold" type="number" min="0" step="1" required />
+            </div>
+
+            <div class="settings-field">
+              <label for="monthlyRevenueTarget">每月營業目標</label>
+              <input id="monthlyRevenueTarget" name="monthly_revenue_target" type="number" min="0" step="1" required />
+            </div>
+
+            <div class="settings-field">
+              <label for="annualRevenueTarget">年度營業目標</label>
+              <input id="annualRevenueTarget" name="annual_revenue_target" type="number" min="0" step="1" required />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel settings-section">
+          <div class="settings-section-header">
+            <h3>網站與數據</h3>
+            <p>管理預設 SEO、網站公告、維護模式與 GA4 識別碼。</p>
+          </div>
+
+          <div class="settings-grid">
+            <div class="settings-field full">
+              <label for="defaultSeoDescription">預設 SEO 描述</label>
+              <textarea id="defaultSeoDescription" name="default_seo_description"></textarea>
+            </div>
+
+            <div class="settings-field full">
+              <label for="websiteNotice">網站公告</label>
+              <textarea id="websiteNotice" name="website_notice"></textarea>
+            </div>
+
+            <div class="settings-field">
+              <label for="ga4MeasurementId">GA4 Measurement ID</label>
+              <input id="ga4MeasurementId" name="ga4_measurement_id" type="text" placeholder="G-XXXXXXXXXX" />
+            </div>
+
+            <div class="settings-field">
+              <label>維護模式</label>
+              <div class="maintenance-row">
+                <input id="maintenanceMode" name="maintenance_mode" type="checkbox" />
+                <label for="maintenanceMode">啟用網站維護模式</label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="settings-actions">
+          <button id="saveSettingsButton" type="submit" class="btn btn-primary">儲存系統設定</button>
+          <p id="settingsMessage" class="settings-message" role="status" aria-live="polite">正在讀取設定…</p>
+        </div>
+      </form>
     </main>
   </div>
 
@@ -74,5 +235,6 @@
       window.location.replace("../login.html");
     });
   </script>
+  <script src="../assets/js/pages/settings.js"></script>
 </body>
 </html>

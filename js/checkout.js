@@ -1,7 +1,8 @@
-const SHIPPING_FEES = {
-  home: 80,
-  store: 60,
-  pickup: 0
+let checkoutSettings = {
+  defaultShippingFee: 80,
+  convenienceStoreShippingFee: 60,
+  freeShippingThreshold: 0,
+  orderNumberPrefix: "PL"
 };
 
 function getCart() {
@@ -16,9 +17,22 @@ function formatPrice(price) {
   return `NT$ ${Number(price).toLocaleString()}`;
 }
 
-function getShippingFee(deliveryMethod) {
+function getShippingFee(deliveryMethod, subtotal = 0) {
   if (!deliveryMethod) return 0;
-  return SHIPPING_FEES[deliveryMethod] ?? 0;
+
+  const freeShippingThreshold = Number(checkoutSettings.freeShippingThreshold || 0);
+
+  if (freeShippingThreshold > 0 && Number(subtotal || 0) >= freeShippingThreshold) {
+    return 0;
+  }
+
+  const shippingFees = {
+    home: Number(checkoutSettings.defaultShippingFee || 0),
+    store: Number(checkoutSettings.convenienceStoreShippingFee || 0),
+    pickup: 0
+  };
+
+  return shippingFees[deliveryMethod] ?? 0;
 }
 
 function getDeliveryMethodText(deliveryMethod) {
@@ -41,7 +55,11 @@ function createOrderId() {
   const minute = String(now.getMinutes()).padStart(2, "0");
   const second = String(now.getSeconds()).padStart(2, "0");
 
-  return `PL${year}${month}${day}${hour}${minute}${second}`;
+  const prefix = String(checkoutSettings.orderNumberPrefix || "PL")
+    .trim()
+    .toUpperCase();
+
+  return `${prefix}${year}${month}${day}${hour}${minute}${second}`;
 }
 
 function renderCheckoutSummary() {
@@ -78,14 +96,14 @@ function renderCheckoutSummary() {
   }).join("");
 
   const deliveryMethod = document.getElementById("deliveryMethod")?.value || "";
-  const shippingFee = getShippingFee(deliveryMethod);
+  const shippingFee = getShippingFee(deliveryMethod, subtotal);
   const grandTotal = subtotal + shippingFee;
 
   const shippingText = deliveryMethod
     ? formatPrice(shippingFee)
     : "請先選擇配送方式";
 
- container.innerHTML = `
+  container.innerHTML = `
   ${itemsHtml}
 
   <div class="checkout-summary-row">
@@ -104,9 +122,37 @@ function renderCheckoutSummary() {
   </div>
 
   <div class="checkout-summary-note">
-    宅配 NT$ 80、超商取貨 NT$ 60、面交免運。選擇配送方式後，合計金額會自動更新。
+    宅配 ${formatPrice(checkoutSettings.defaultShippingFee)}、超商取貨 ${formatPrice(checkoutSettings.convenienceStoreShippingFee)}、面交免運。${Number(checkoutSettings.freeShippingThreshold || 0) > 0 ? `訂單滿 ${formatPrice(checkoutSettings.freeShippingThreshold)} 免運。` : ""}選擇配送方式後，合計金額會自動更新。
   </div>
 `;
+}
+async function loadPublicCheckoutSettings() {
+  if (!window.supabaseClient) {
+    console.warn("Supabase 尚未載入，結帳頁使用預設運費與訂單編號前綴。");
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient.rpc(
+    "get_public_checkout_settings"
+  );
+
+  if (error) {
+    console.error("讀取公開結帳設定失敗：", error);
+    return;
+  }
+
+  const settings = Array.isArray(data) ? data[0] : data;
+
+  if (!settings) return;
+
+  checkoutSettings = {
+    defaultShippingFee: Number(settings.default_shipping_fee ?? 80),
+    convenienceStoreShippingFee: Number(
+      settings.convenience_store_shipping_fee ?? 60
+    ),
+    freeShippingThreshold: Number(settings.free_shipping_threshold ?? 0),
+    orderNumberPrefix: String(settings.order_number_prefix || "PL")
+  };
 }
 
 function handleCheckoutSubmit() {
@@ -148,7 +194,7 @@ function handleCheckoutSubmit() {
       return sum + Number(item.price) * Number(item.quantity);
     }, 0);
 
-    const shippingFee = getShippingFee(deliveryMethod);
+    const shippingFee = getShippingFee(deliveryMethod, subtotal);
     const total = subtotal + shippingFee;
     const orderId = createOrderId();
 
@@ -245,14 +291,6 @@ async function submitOrderToSupabase({
     internal_note: "官網訂單"
   };
 
-  const { data: orderData, error: orderError } = await window.supabaseClient
-    .from("orders")
-    .insert(orderPayload)
-    .select("*")
-    .single();
-
-  if (orderError) throw orderError;
-
   const orderItemsPayload = cart.map((item) => {
     const price = Number(item.price || 0);
     const quantity = Number(item.quantity || 0);
@@ -262,7 +300,6 @@ async function submitOrderToSupabase({
     const sku = item.sku || (!isUuid && rawProductId ? rawProductId : "");
 
     return {
-      order_id: orderData.id,
       product_id: productId,
       product_name: item.name || item.product_name || "未命名商品",
       sku: sku,
@@ -273,20 +310,33 @@ async function submitOrderToSupabase({
     };
   });
 
-  const { error: itemsError } = await window.supabaseClient
-    .from("order_items")
-    .insert(orderItemsPayload);
+  const { data, error } = await window.supabaseClient.rpc("create_public_order", {
+    p_order: orderPayload,
+    p_items: orderItemsPayload
+  });
 
-  if (itemsError) throw itemsError;
+  if (error) throw error;
 
-  return orderData;
+  const result = Array.isArray(data) ? data[0] : data;
+
+  if (!result?.id) {
+    throw new Error("訂單建立成功，但系統沒有回傳訂單識別碼。請聯絡我們確認訂單狀態。");
+  }
+
+  return result;
 }
 
-renderCheckoutSummary();
-handleCheckoutSubmit();
+async function initCheckout() {
+  await loadPublicCheckoutSettings();
 
-const deliveryMethodSelect = document.getElementById("deliveryMethod");
+  renderCheckoutSummary();
+  handleCheckoutSubmit();
 
-if (deliveryMethodSelect) {
-  deliveryMethodSelect.addEventListener("change", renderCheckoutSummary);
+  const deliveryMethodSelect = document.getElementById("deliveryMethod");
+
+  if (deliveryMethodSelect) {
+    deliveryMethodSelect.addEventListener("change", renderCheckoutSummary);
+  }
 }
+
+initCheckout();

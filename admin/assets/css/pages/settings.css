@@ -1,0 +1,102 @@
+.settings-form {
+  display: grid;
+  gap: 24px;
+}
+
+.settings-section {
+  display: grid;
+  gap: 18px;
+}
+
+.settings-section-header h3 {
+  margin: 0 0 6px;
+}
+
+.settings-section-header p {
+  margin: 0;
+  color: var(--color-text-muted, #6f6a62);
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.settings-field {
+  display: grid;
+  gap: 8px;
+}
+
+.settings-field.full {
+  grid-column: 1 / -1;
+}
+
+.settings-field label {
+  font-weight: 700;
+}
+
+.settings-field input,
+.settings-field textarea,
+.settings-field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d9d4ca;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  color: inherit;
+}
+
+.settings-field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  bottom: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 30px rgba(69, 55, 35, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.settings-message {
+  margin: 0;
+  color: #6f6a62;
+}
+
+.settings-message[data-state="success"] {
+  color: #2f7d32;
+}
+
+.settings-message[data-state="error"] {
+  color: #b42318;
+}
+
+.maintenance-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+}
+
+@media (max-width: 760px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-field.full {
+    grid-column: auto;
+  }
+
+  .settings-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

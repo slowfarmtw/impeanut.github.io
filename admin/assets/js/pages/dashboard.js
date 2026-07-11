@@ -1,6 +1,7 @@
 const PRODUCT_STORAGE_KEY = "brandOSProducts";
 
-const annualTarget = 1000000;
+let annualTarget = 1000000;
+let defaultLowStockThreshold = 20;
 let currentRevenue = 0;
 let dashboardOrders = [];
 let dashboardProducts = [];
@@ -119,8 +120,32 @@ function hasSeoData(product) {
 }
 
 function getProductSafetyStock(product) {
-  return Number(product.safety_stock ?? 20);
+  return Number(product.safety_stock ?? defaultLowStockThreshold);
 }
+async function loadDashboardSettings() {
+  if (!window.supabaseClient) {
+    console.warn("Supabase 尚未設定，Dashboard 使用預設營運目標與低庫存門檻。");
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient
+    .from("system_settings")
+    .select("annual_revenue_target, low_stock_threshold")
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Dashboard 讀取系統設定失敗：", error);
+    return;
+  }
+
+  if (!data) return;
+
+  annualTarget = Number(data.annual_revenue_target || 1000000);
+  defaultLowStockThreshold = Number(data.low_stock_threshold ?? 20);
+}
+
 
 function renderHero(metrics = calcDashboardMetrics(dashboardOrders)) {
   const today = new Date().toLocaleDateString("zh-TW", {
@@ -312,6 +337,8 @@ async function loadDashboardProducts() {
 }
 
 async function initDashboard() {
+  await loadDashboardSettings();
+
   [dashboardOrders, dashboardProducts] = await Promise.all([
     loadDashboardOrders(),
     loadDashboardProducts()
