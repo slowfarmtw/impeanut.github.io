@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/mobile.css?v=20260709">
   <link rel="stylesheet" href="css/cart-ui.css?v=20260709">
   <link rel="stylesheet" href="css/article.css?v=20260709">
+  <link rel="stylesheet" href="css/brand-system.css?v=1">
 </head>
 
 <body>
@@ -24,20 +25,17 @@
   <header class="site-header">
     <a href="index.html" class="logo-area">
       <img src="images/logo.png" alt="花生一生 Logo">
-      <span>花生一生</span>
     </a>
 
-    <button class="mobile-menu-toggle" aria-label="開啟選單">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <button class="menu-toggle" id="menuToggle" aria-label="開啟網站選單" aria-controls="siteNav" aria-expanded="false">☰</button>
 
-    <nav class="site-nav">
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
       <a href="index.html">首頁</a>
-      <a href="about.html">品牌故事</a>
+      <a href="about.html">品牌理念</a>
+      <a href="life.html">花生的一生</a>
       <a href="products.html">產品介紹</a>
       <a href="knowledge.html">花生知識</a>
+      <a href="cart.html">購物車</a>
       <a href="contact.html">聯絡我們</a>
     </nav>
   </header>
@@ -53,7 +51,7 @@
     </section>
 
     <section class="article-feature-image-wrap" id="articleImageWrap" hidden>
-      <img id="articleCoverImage" src="" alt="" loading="lazy">
+      <img id="articleCoverImage" src="images/articles/article-placeholder.jpg" alt="" loading="lazy">
     </section>
 
     <article class="article-content" id="articleContent">

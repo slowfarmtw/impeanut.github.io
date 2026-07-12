@@ -46,7 +46,7 @@
       </div>
     </aside>
 
-    <main class="main">
+    <main class="main analytics-main">
       <header class="page-hero analytics-topbar">
         <div class="page-hero__content">
           <p class="page-hero__eyebrow">營運數據分析</p>
@@ -54,7 +54,10 @@
           <p class="page-hero__description">整合訂單、營收、商品與顧客資料，掌握品牌營運表現。</p>
         </div>
 
-        <div class="page-hero__actions analytics-actions">
+      </header>
+
+      <section class="panel analytics-controls">
+        <div class="analytics-actions content-actions">
           <label class="analytics-period-field" for="analyticsPeriod">
             <span>統計期間</span>
             <select id="analyticsPeriod">
@@ -70,7 +73,7 @@
             更新數據
           </button>
         </div>
-      </header>
+      </section>
 
       <section class="analytics-status" id="analyticsStatus" aria-live="polite">
         正在讀取品牌數據…
@@ -219,6 +222,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script src="../assets/js/pages/analytics.js?v=20260711"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {

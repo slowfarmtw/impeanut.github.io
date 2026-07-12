@@ -127,24 +127,25 @@ function renderTable() {
   }
 
   articlesTableBody.innerHTML = filteredArticles.map((article) => {
-    const previewUrl = article.id
-      ? `../../article.html?id=${encodeURIComponent(article.id)}${article.slug ? `&slug=${encodeURIComponent(article.slug)}` : ""}`
-      : "#";
+    const previewUrl = article.status === "published" && article.slug
+      ? `../../articles/${encodeURIComponent(article.slug)}.html`
+      : article.id ? `../../article.html?id=${encodeURIComponent(article.id)}${article.slug ? `&slug=${encodeURIComponent(article.slug)}` : ""}` : "#";
 
     return `
       <tr>
-        <td>
-          <strong>${escapeHtml(article.title || "未命名文章")}</strong>
-          <br>
-          <small>${escapeHtml(article.slug || "尚未設定 slug")}</small>
+        <td data-label="文章">
+          <div class="article-cell">
+            <strong>${escapeHtml(article.title || "未命名文章")}</strong>
+            <small>${escapeHtml(article.slug || "尚未設定 slug")}</small>
+          </div>
         </td>
-        <td>${escapeHtml(article.category || "未分類")}</td>
-        <td>${escapeHtml(getTypeText(article.content_type))}</td>
-        <td>${renderStatus(article.status)}</td>
-        <td>${article.is_featured ? "是" : "否"}</td>
-        <td>${formatDateTime(article.published_at)}</td>
-        <td>${formatDateTime(article.updated_at || article.created_at)}</td>
-        <td>
+        <td data-label="分類">${escapeHtml(article.category || "未分類")}</td>
+        <td data-label="類型">${escapeHtml(getTypeText(article.content_type))}</td>
+        <td data-label="狀態">${renderStatus(article.status)}</td>
+        <td data-label="主打">${article.is_featured ? "是" : "否"}</td>
+        <td data-label="發布時間">${formatDateTime(article.published_at)}</td>
+        <td data-label="更新時間">${formatDateTime(article.updated_at || article.created_at)}</td>
+        <td data-label="操作" class="cell-actions">
           <a href="article-editor.html?id=${encodeURIComponent(article.id)}" class="table-action">編輯</a>
           ${article.id ? `<a href="${previewUrl}" class="table-action" target="_blank" rel="noopener">預覽</a>` : ""}
         </td>

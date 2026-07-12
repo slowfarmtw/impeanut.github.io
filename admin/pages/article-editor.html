@@ -53,10 +53,6 @@
           <p class="page-hero__description">管理搜尋文章、花生研究室、最新消息、品牌故事與檢驗報告。</p>
         </div>
 
-        <div class="page-hero__actions">
-          <a class="btn secondary" href="articles.html">返回列表</a>
-          <button type="submit" class="btn primary" form="articleEditorForm">儲存內容</button>
-        </div>
       </header>
 
       <form id="articleEditorForm" class="editor-layout">
@@ -66,6 +62,11 @@
             <div>
               <h3>文章內容</h3>
               <p id="articleEditorStatus">請填寫文章內容與 SEO 設定。</p>
+            </div>
+            <div class="content-actions">
+              <a class="btn secondary" href="articles.html">返回列表</a>
+              <a class="btn secondary" id="staticArticlePreview" href="#" target="_blank" rel="noopener" hidden>查看靜態頁</a>
+              <button type="submit" class="btn primary" form="articleEditorForm">儲存內容</button>
             </div>
           </div>
 
@@ -113,15 +114,10 @@
             <div class="form-grid one-column">
               <label class="form-field">
                 <span>分類</span>
-                <select id="articleCategory">
-                  <option value="一般文章">一般文章</option>
-                  <option value="花生研究室">花生研究室</option>
-                  <option value="最新消息">最新消息</option>
-                  <option value="品牌故事">品牌故事</option>
-                  <option value="檢驗報告">檢驗報告</option>
-                  <option value="常見問題">常見問題</option>
-                  <option value="SEO 文章">SEO 文章</option>
+                <select id="articleCategoryId">
+                  <option value="">讀取分類中...</option>
                 </select>
+                <small>分類可在「品牌內容 → 管理分類」新增主分類與子分類。</small>
               </label>
 
               <label class="form-field">
@@ -221,6 +217,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js?v=20260709"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

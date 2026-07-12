@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/articles.css?v=20260709">
   <link rel="stylesheet" href="css/cart-ui.css">
+  <link rel="stylesheet" href="css/brand-system.css?v=1">
 </head>
 
 <body>
@@ -41,15 +42,10 @@
   </section>
 
 <section class="article-category-section">
-  <div class="article-category-filter">
-    <button class="category-card active" data-category="全部">全部文章</button>
-    <button class="category-card" data-category="花生研究室">花生研究室</button>
-    <button class="category-card" data-category="最新消息">最新消息</button>
-    <button class="category-card" data-category="品牌故事">品牌故事</button>
-    <button class="category-card" data-category="檢驗報告">檢驗報告</button>
-    <button class="category-card" data-category="常見問題">常見問題</button>
-    <button class="category-card" data-category="SEO 文章">SEO 文章</button>
-  </div>
+  <nav id="articleCategoryFilter" class="article-category-filter" aria-label="文章分類">
+    <button class="category-card active" type="button" data-category-id="all">全部文章</button>
+  </nav>
+  <nav id="articleSubcategoryFilter" class="article-category-filter article-subcategory-filter" aria-label="文章子分類" hidden></nav>
 </section>
 
   <section class="section article-list-section">
@@ -93,6 +89,6 @@
   <script src="js/analytics.js?v=20260711"></script>
   <script src="js/main.js?v=20260709"></script>
   <script src="js/cart-ui.js?v=20260709"></script>
-  <script src="js/articles.js?v=20260709-2"></script>
+  <script src="js/articles.js?v=20260712-categories"></script>
 </body>
 </html>

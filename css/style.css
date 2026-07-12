@@ -1,12 +1,12 @@
 :root {
-  --cream: #FFF8EA;
-  --peanut: #E8C98D;
-  --light-cream: #F6E7C8;
-  --green: #B8C99A;
-  --deep-green: #5F6F3E;
-  --brown: #3E2F22;
-  --light-brown: #B8895B;
-  --white: #FFFFFF;
+  --cream: #F8F6F2;
+  --peanut: #C88858;
+  --light-cream: #F1EBE1;
+  --green: #E7D8C5;
+  --deep-green: #8C6A4A;
+  --brown: #3E3A35;
+  --light-brown: #A9967A;
+  --white: #FFFDF8;
 }
 
 * {
@@ -88,6 +88,10 @@ a {
 }
 
 .site-nav a:hover::after {
+  width: 100%;
+}
+
+.site-nav a[aria-current="page"]::after {
   width: 100%;
 }
 
@@ -182,7 +186,7 @@ a {
 
 .btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(95, 111, 62, 0.25);
+  box-shadow: 0 10px 24px rgba(140, 106, 74, 0.22);
 }
 
 .btn.secondary {
@@ -323,7 +327,7 @@ a {
 
 .home-article-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(95, 111, 62, 0.28);
+  border-color: rgba(140, 106, 74, 0.28);
   box-shadow: 0 18px 42px rgba(92, 70, 52, 0.1);
 }
 
@@ -344,7 +348,7 @@ a {
   min-height: 28px;
   padding: 4px 11px;
   border-radius: 999px;
-  background: rgba(95, 111, 62, 0.1);
+  background: rgba(140, 106, 74, 0.1);
   color: var(--deep-green);
   font-weight: 900;
   letter-spacing: 0.05em;
@@ -492,7 +496,7 @@ a {
 }
 
 .product-subtitle {
-  color: #6b8e3d;
+  color: #8C6A4A;
   font-weight: 700;
   margin-bottom: 8px;
 }
@@ -582,7 +586,7 @@ a {
 }
 
 .product-detail-subtitle {
-  color: #6b8e3d;
+  color: #8C6A4A;
   font-weight: 900;
   margin-bottom: 22px;
 }
@@ -797,7 +801,7 @@ a {
 
 .cart-item-info p {
   margin: 0 0 8px;
-  color: #6b8e3d;
+  color: #8C6A4A;
   font-weight: 800;
 }
 
@@ -1070,7 +1074,7 @@ a {
 .checkout-form select:focus,
 .checkout-form textarea:focus {
   outline: none;
-  border-color: #6b8e3d;
+  border-color: #8C6A4A;
   box-shadow: 0 0 0 3px rgba(107, 142, 61, 0.12);
 }
 
@@ -1096,7 +1100,7 @@ a {
 
 .checkout-message {
   margin-top: 16px;
-  color: #6b8e3d;
+  color: #8C6A4A;
   font-weight: 800;
   text-align: center;
 }
@@ -1121,7 +1125,7 @@ a {
 }
 
 .checkout-summary-header a {
-  color: #6b8e3d;
+  color: #8C6A4A;
   text-decoration: none;
   font-weight: 800;
   font-size: 14px;
@@ -1141,7 +1145,7 @@ a {
 
 .checkout-summary-item p {
   margin-top: 5px;
-  color: #6b8e3d;
+  color: #8C6A4A;
   font-size: 14px;
   font-weight: 700;
 }

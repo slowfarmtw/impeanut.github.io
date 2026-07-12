@@ -13,7 +13,7 @@ const articleTitle = document.getElementById("articleTitle");
 const articleSlug = document.getElementById("articleSlug");
 const articleExcerpt = document.getElementById("articleExcerpt");
 const articleContent = document.getElementById("articleContent");
-const articleCategory = document.getElementById("articleCategory");
+const articleCategoryId = document.getElementById("articleCategoryId");
 const articleContentType = document.getElementById("articleContentType");
 const articleStatus = document.getElementById("articleStatus");
 const articleIsFeatured = document.getElementById("articleIsFeatured");
@@ -25,6 +25,14 @@ const articleSeoDescription = document.getElementById("articleSeoDescription");
 const articleSeoKeywords = document.getElementById("articleSeoKeywords");
 const articleCanonicalUrl = document.getElementById("articleCanonicalUrl");
 const articleMetaRobots = document.getElementById("articleMetaRobots");
+const staticArticlePreview = document.getElementById("staticArticlePreview");
+
+function updateStaticPreview(slug, status) {
+  if (!staticArticlePreview) return;
+  const canPreview = Boolean(slug) && status === "published";
+  staticArticlePreview.hidden = !canPreview;
+  if (canPreview) staticArticlePreview.href = `../../articles/${encodeURIComponent(slug)}.html`;
+}
 
 function setEditorModeText() {
   if (editorPageTitle) {
@@ -51,23 +59,33 @@ function slugify(value) {
 }
 
 function syncCategoryByContentType() {
-  if (!articleCategory || !articleContentType) return;
+  // 內容類型與導覽分類分開管理，避免日後移動分類時改變文章用途。
+}
 
-  const categoryMap = {
-    general: "一般文章",
-    seo_article: "SEO 文章",
-    research: "花生研究室",
-    news: "最新消息",
-    brand: "品牌故事",
-    report: "檢驗報告",
-    faq: "常見問題"
-  };
+let categoryRecords = [];
 
-  const nextCategory = categoryMap[articleContentType.value];
+function renderCategoryOptions(selectedId = "") {
+  if (!articleCategoryId) return;
+  const parents = categoryRecords.filter((item) => !item.parent_id);
+  articleCategoryId.innerHTML = '<option value="">未分類</option>' + parents.map((parent) => {
+    const children = categoryRecords.filter((item) => item.parent_id === parent.id);
+    return `<option value="${parent.id}">${parent.name}</option>` + children
+      .map((child) => `<option value="${child.id}">　└ ${child.name}</option>`).join("");
+  }).join("");
+  articleCategoryId.value = selectedId || "";
+}
 
-  if (nextCategory) {
-    articleCategory.value = nextCategory;
+async function loadCategories(selectedId = "") {
+  const { data, error } = await window.supabaseClient.from("post_categories")
+    .select("id, name, parent_id, sort_order").eq("is_visible", true)
+    .order("sort_order", { ascending: true }).order("name", { ascending: true });
+  if (error) {
+    console.error("分類讀取失敗：", error);
+    if (articleCategoryId) articleCategoryId.innerHTML = '<option value="">請先執行分類資料庫設定</option>';
+    return;
   }
+  categoryRecords = data || [];
+  renderCategoryOptions(selectedId);
 }
 
 function toDatetimeLocalValue(value) {
@@ -135,12 +153,12 @@ function buildCanonicalUrl(slug) {
   return `https://impeanut.com/articles/${slug}.html`;
 }
 
-function fillForm(article) {
+async function fillForm(article) {
   articleTitle.value = article.title || "";
   articleSlug.value = article.slug || "";
   articleExcerpt.value = article.excerpt || "";
   articleContent.value = article.content || "";
-  articleCategory.value = article.category || "一般文章";
+  await loadCategories(article.category_id || "");
   articleContentType.value = article.content_type || "general";
   articleStatus.value = article.status || "draft";
   articleIsFeatured.checked = Boolean(article.is_featured);
@@ -151,6 +169,7 @@ function fillForm(article) {
   articleSeoKeywords.value = article.seo_keywords || "";
   articleCanonicalUrl.value = article.canonical_url || buildCanonicalUrl(article.slug || "");
   articleMetaRobots.value = article.meta_robots || "index,follow";
+  updateStaticPreview(article.slug, article.status);
 
   updateCoverPreview();
 }
@@ -169,7 +188,7 @@ function getPayload() {
   return {
     title: articleTitle.value.trim(),
     slug,
-    category: articleCategory.value || "一般文章",
+    category_id: articleCategoryId.value || null,
     content_type: articleContentType.value || "general",
     excerpt: articleExcerpt.value.trim(),
     content: articleContent.value.trim(),
@@ -208,7 +227,7 @@ async function loadArticle() {
     return;
   }
 
-  fillForm(data);
+  await fillForm(data);
   setEditorStatus("文章已載入，可以開始編輯。");
 }
 
@@ -267,7 +286,10 @@ async function saveArticle(event) {
     setEditorModeText();
   }
 
-  setEditorStatus("儲存成功，品牌內容已同步到 Supabase。");
+  updateStaticPreview(payload.slug, payload.status);
+  setEditorStatus(payload.status === "published"
+    ? "儲存成功。靜態 SEO 頁會在 GitHub Actions 下次同步後更新（最長約 15 分鐘）。"
+    : "儲存成功，品牌內容已同步到 Supabase。");
 }
 
 articleTitle?.addEventListener("blur", () => {
@@ -299,4 +321,7 @@ articleEditorForm?.addEventListener("submit", saveArticle);
 
 syncPublishedAtByStatus();
 setEditorModeText();
-loadArticle();
+(async () => {
+  if (!isEditMode) await loadCategories();
+  await loadArticle();
+})();

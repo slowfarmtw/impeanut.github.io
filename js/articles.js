@@ -2,10 +2,13 @@
 // 前台花生知識列表：讀取 Supabase posts，只顯示已發布內容。
 
 const articleList = document.getElementById("articleList");
-const categoryButtons = document.querySelectorAll(".category-card");
+const categoryFilter = document.getElementById("articleCategoryFilter");
+const subcategoryFilter = document.getElementById("articleSubcategoryFilter");
 
 let frontArticles = [];
-let activeCategory = "全部";
+let frontCategories = [];
+let activeCategoryId = "all";
+let activeSubcategoryId = "all";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -57,15 +60,14 @@ function getTypeCategoryFallback(contentType) {
 }
 
 function getArticleCategory(article) {
-  return article.category || getTypeCategoryFallback(article.content_type);
+  return article.post_categories?.name || article.category || getTypeCategoryFallback(article.content_type);
 }
 
 function getVisibleArticles() {
-  if (activeCategory === "全部") return frontArticles;
-
-  return frontArticles.filter((article) => {
-    return getArticleCategory(article) === activeCategory;
-  });
+  if (activeSubcategoryId !== "all") return frontArticles.filter((article) => article.category_id === activeSubcategoryId);
+  if (activeCategoryId === "all") return frontArticles;
+  const allowedIds = new Set([activeCategoryId, ...frontCategories.filter((item) => item.parent_id === activeCategoryId).map((item) => item.id)]);
+  return frontArticles.filter((article) => allowedIds.has(article.category_id));
 }
 
 function renderArticleCard(article) {
@@ -77,9 +79,9 @@ function renderArticleCard(article) {
   const dateValue = article.published_at || article.created_at || "";
   const dateText = formatDate(dateValue);
   const articleId = article.id || "";
-  const detailUrl = articleId
-    ? `article.html?id=${encodeURIComponent(articleId)}${slug ? `&slug=${encodeURIComponent(slug)}` : ""}`
-    : "#";
+  const detailUrl = slug
+    ? `articles/${encodeURIComponent(slug)}.html`
+    : articleId ? `article.html?id=${encodeURIComponent(articleId)}` : "#";
 
   return `
     <article class="article-card">
@@ -150,7 +152,7 @@ async function loadFrontArticles() {
 
   const { data, error } = await window.supabaseClient
     .from("posts")
-    .select("id, title, slug, category, content_type, excerpt, cover_image, seo_description, status, is_featured, published_at, created_at")
+    .select("id, title, slug, category, category_id, post_categories(name,slug,parent_id), content_type, excerpt, cover_image, seo_description, status, is_featured, published_at, created_at")
     .eq("status", "published")
     .order("is_featured", { ascending: false })
     .order("published_at", { ascending: false, nullsFirst: false })
@@ -171,25 +173,29 @@ async function loadFrontArticles() {
   renderArticles();
 }
 
-function setupCategoryFilter() {
-  categoryButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      activeCategory = button.dataset.category || "全部";
-
-      categoryButtons.forEach((item) => item.classList.remove("active"));
-      button.classList.add("active");
-
-      renderArticles();
-
-      if (articleList) {
-        articleList.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
-    });
-  });
+function renderCategoryButtons() {
+  const roots = frontCategories.filter((item) => !item.parent_id);
+  categoryFilter.innerHTML = `<button class="category-card ${activeCategoryId === "all" ? "active" : ""}" type="button" data-category-id="all">全部文章</button>` + roots.map((item) => `<button class="category-card ${activeCategoryId === item.id ? "active" : ""}" type="button" data-category-id="${item.id}">${escapeHtml(item.name)}</button>`).join("");
+  categoryFilter.querySelectorAll("[data-category-id]").forEach((button) => button.onclick = () => { activeCategoryId = button.dataset.categoryId; activeSubcategoryId = "all"; renderCategoryButtons(); renderSubcategoryButtons(); renderArticles(); });
 }
 
-setupCategoryFilter();
-loadFrontArticles();
+function renderSubcategoryButtons() {
+  const children = frontCategories.filter((item) => item.parent_id === activeCategoryId);
+  subcategoryFilter.hidden = !children.length;
+  subcategoryFilter.innerHTML = children.length ? `<button class="category-card ${activeSubcategoryId === "all" ? "active" : ""}" type="button" data-subcategory-id="all">全部</button>` + children.map((item) => `<button class="category-card ${activeSubcategoryId === item.id ? "active" : ""}" type="button" data-subcategory-id="${item.id}">${escapeHtml(item.name)}</button>`).join("") : "";
+  subcategoryFilter.querySelectorAll("[data-subcategory-id]").forEach((button) => button.onclick = () => { activeSubcategoryId = button.dataset.subcategoryId; renderSubcategoryButtons(); renderArticles(); });
+}
+
+async function loadCategories() {
+  const { data, error } = await window.supabaseClient.from("post_categories").select("id,name,slug,parent_id,sort_order").eq("is_visible", true).order("sort_order").order("name");
+  if (error) { console.warn("分類系統尚未啟用：", error); return; }
+  frontCategories = data || [];
+  const params = new URLSearchParams(location.search);
+  const requested = params.get("category");
+  const selected = frontCategories.find((item) => item.slug === requested);
+  if (selected) activeCategoryId = selected.parent_id || selected.id;
+  if (selected?.parent_id) activeSubcategoryId = selected.id;
+  renderCategoryButtons(); renderSubcategoryButtons();
+}
+
+(async () => { await loadCategories(); await loadFrontArticles(); })();

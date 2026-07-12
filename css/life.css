@@ -36,7 +36,7 @@
 
 .life-hero-content h2 {
   font-size: clamp(24px, 3vw, 34px);
-  color: #5F6F3E;
+  color: #8C6A4A;
   margin: 0 0 22px;
 }
 
@@ -93,7 +93,7 @@
 
 .river-line path {
   fill: none;
-  stroke: #B8C99A;
+  stroke: #D0A888;
   stroke-width: 7;
   stroke-linecap: round;
   stroke-dasharray: 18 18;
@@ -134,13 +134,13 @@
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: #5F6F3E;
+  background: #8C6A4A;
   color: #FFF8EA;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  box-shadow: 0 12px 28px rgba(95, 111, 62, 0.25);
+  box-shadow: 0 12px 28px rgba(140, 106, 74, 0.22);
 }
 
 .river-card {
@@ -168,7 +168,7 @@
 
 .river-text span {
   display: block;
-  color: #5F6F3E;
+  color: #8C6A4A;
   font-size: 12px;
   letter-spacing: 0.16em;
   font-weight: 900;

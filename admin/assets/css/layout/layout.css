@@ -130,6 +130,22 @@ canvas {
   white-space: nowrap;
 }
 
+/* Page-level controls live with the working content, leaving the hero text-only. */
+.content-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.content-actions .btn,
+.content-actions button,
+.content-actions a {
+  margin: 0;
+  white-space: nowrap;
+}
+
 .page-header > *,
 .content-header > *,
 .section-header > *,
@@ -361,6 +377,39 @@ canvas {
   .page-hero__actions button,
   .page-hero__actions a {
     width: 100%;
+  }
+
+  .content-actions {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .panel-header,
+  .section-header,
+  .card-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .panel-header > *,
+  .section-header > *,
+  .card-header > *,
+  .form-panel > *,
+  .dashboard-panel > *,
+  .panel > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .panel,
+  .dashboard-panel,
+  .form-panel,
+  .kpi-card,
+  .stat-card,
+  .summary-card {
+    overflow-wrap: anywhere;
   }
 }
 

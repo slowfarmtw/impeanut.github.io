@@ -71,9 +71,6 @@
           </p>
         </div>
 
-        <div class="page-hero__actions">
-          <a href="orders.html" class="btn secondary">返回訂單列表</a>
-        </div>
       </header>
 
       <form class="order-create-form" id="orderCreateForm">
@@ -84,6 +81,9 @@
             <div>
               <h3>訂單來源與顧客資料</h3>
               <p>先記錄這筆訂單從哪裡來，之後可以統計通路表現。</p>
+            </div>
+            <div class="content-actions">
+              <a href="orders.html" class="btn secondary">返回訂單列表</a>
             </div>
           </div>
 
@@ -255,6 +255,7 @@
   <!-- Services -->
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

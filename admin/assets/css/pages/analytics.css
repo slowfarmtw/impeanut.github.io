@@ -7,6 +7,10 @@
   gap: 24px;
 }
 
+.analytics-main .page-hero {
+  margin-bottom: 0;
+}
+
 .analytics-topbar {
   align-items: flex-end;
   gap: 24px;
@@ -17,6 +21,10 @@
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.analytics-controls {
+  padding: 14px 18px;
 }
 
 .analytics-period-field {

@@ -1,0 +1,8 @@
+{
+  "name": "impeanut-static-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:seo": "node scripts/generate-static-articles.mjs"
+  }
+}

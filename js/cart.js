@@ -44,9 +44,13 @@ function renderCart() {
   if (cart.length === 0) {
     container.innerHTML = `
       <div class="empty-cart">
+        <div class="empty-cart-visual">
+          <img src="images/products/placeholder.png" alt="花生一生原味烘焙花生">
+          <span>從雲林元長，把花生香帶回家</span>
+        </div>
         <h2>購物車目前是空的</h2>
-        <p>可以先回到產品介紹，選擇想購買的花生商品。</p>
-        <a href="products.html" class="primary-link-btn">回產品介紹</a>
+        <p>挑一包來自雲林元長、用心挑選與乾烘焙的花生，放進今天的日常。</p>
+        <a href="products.html" class="primary-link-btn">看看花生產品</a>
       </div>
     `;
     return;

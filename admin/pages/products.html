@@ -72,15 +72,6 @@
           </p>
         </div>
 
-        <div class="page-hero__actions">
-          <button type="button" class="btn secondary" id="refreshProductsBtn">
-            重新整理
-          </button>
-
-          <a class="btn primary" href="product-editor.html">
-            ＋ 新增商品
-          </a>
-        </div>
       </header>
 
       <!-- KPI -->
@@ -111,7 +102,10 @@
             <h3>商品列表</h3>
             <p id="productStatusText">讀取中...</p>
           </div>
-          <span>商品資料</span>
+          <div class="content-actions">
+            <button type="button" class="btn secondary" id="refreshProductsBtn">重新整理</button>
+            <a class="btn primary" href="product-editor.html">＋ 新增商品</a>
+          </div>
         </div>
 
         <div class="admin-table-wrap">
@@ -146,6 +140,7 @@
   <!-- Services -->
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

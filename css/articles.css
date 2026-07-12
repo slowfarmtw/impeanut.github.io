@@ -16,6 +16,12 @@
   gap: 12px;
 }
 
+.article-subcategory-filter {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(120, 88, 55, 0.14);
+}
+
 .category-card {
   appearance: none;
   border: 1px solid rgba(92, 70, 52, 0.18);
@@ -36,8 +42,8 @@
 }
 
 .category-card.active {
-  background: #5F6F3E;
-  border-color: #5F6F3E;
+  background: #8C6A4A;
+  border-color: #8C6A4A;
   color: #FFF8EA;
 }
 
@@ -76,7 +82,7 @@
 
 .article-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(95, 111, 62, 0.28);
+  border-color: rgba(140, 106, 74, 0.28);
   box-shadow: 0 18px 42px rgba(92, 70, 52, 0.1);
 }
 
@@ -110,8 +116,8 @@
   margin: 0 0 10px;
   padding: 5px 12px;
   border-radius: 999px;
-  background: rgba(95, 111, 62, 0.1);
-  color: #5F6F3E;
+  background: rgba(140, 106, 74, 0.1);
+  color: #8C6A4A;
   font-size: 13px;
   font-weight: 900;
   letter-spacing: 0.06em;
@@ -130,7 +136,7 @@
 }
 
 .article-card h2 a:hover {
-  color: #5F6F3E;
+  color: #8C6A4A;
 }
 
 .article-date {
@@ -158,7 +164,7 @@
 }
 
 .article-link:hover {
-  color: #5F6F3E;
+  color: #8C6A4A;
 }
 
 .empty-articles {

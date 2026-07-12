@@ -32,6 +32,10 @@
   align-items: end;
 }
 
+.orders-filters > .content-actions {
+  grid-column: 1 / -1;
+}
+
 .filter-group {
   display: flex;
   flex-direction: column;

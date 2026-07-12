@@ -5,6 +5,17 @@ const siteNav = document.getElementById("siteNav");
 if (menuToggle && siteNav) {
   menuToggle.addEventListener("click", function () {
     siteNav.classList.toggle("active");
+    const isOpen = siteNav.classList.contains("active");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.textContent = isOpen ? "×" : "☰";
+  });
+
+  siteNav.addEventListener("click", function (event) {
+    if (event.target.closest("a")) {
+      siteNav.classList.remove("active");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "☰";
+    }
   });
 }
 
@@ -52,9 +63,9 @@ function renderHomeArticleCard(article) {
   const category = getArticleCategory(article);
   const excerpt = article.excerpt || article.seo_description || "";
   const dateText = formatArticleDate(article.published_at || article.created_at);
-  const detailUrl = articleId
-    ? `article.html?id=${encodeURIComponent(articleId)}${slug ? `&slug=${encodeURIComponent(slug)}` : ""}`
-    : "knowledge.html";
+  const detailUrl = slug
+    ? `articles/${encodeURIComponent(slug)}.html`
+    : articleId ? `article.html?id=${encodeURIComponent(articleId)}` : "knowledge.html";
 
   return `
     <article class="home-article-card">

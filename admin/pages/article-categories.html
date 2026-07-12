@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>文章分類管理｜花生一生</title>
+  <link rel="stylesheet" href="../assets/css/base/variables.css"><link rel="stylesheet" href="../assets/css/base/reset.css">
+  <link rel="stylesheet" href="../assets/css/layout/layout.css"><link rel="stylesheet" href="../assets/css/layout/sidebar.css">
+  <link rel="stylesheet" href="../assets/css/components/buttons.css"><link rel="stylesheet" href="../assets/css/components/forms.css">
+  <link rel="stylesheet" href="../assets/css/components/cards.css"><link rel="stylesheet" href="../assets/css/components/tables.css">
+  <link rel="stylesheet" href="../assets/css/pages/dashboard.css"><link rel="stylesheet" href="../assets/css/pages/articles.css?v=20260712-categories">
+</head>
+<body><div class="admin-layout">
+  <aside class="sidebar"><div class="brand"><div class="brand-icon">🥜</div><div><h1>花生一生</h1><p>品牌營運系統</p></div></div>
+    <nav class="nav-menu"><a href="../index.html">🏠 儀表板</a><a href="products.html">📦 商品管理</a><a href="orders.html">🛒 訂單管理</a><a href="customers.html">👥 顧客管理</a><a class="active" href="articles.html">📝 品牌內容</a><a href="analytics.html">📊 品牌分析</a><a href="settings.html">⚙️ 系統設定</a></nav>
+  </aside>
+  <main class="main articles-main"><header class="page-hero"><div class="page-hero__content"><p class="page-hero__eyebrow">品牌內容管理</p><h1 class="page-hero__title">文章分類</h1><p class="page-hero__description">新增主分類與第二層子分類；建議最多兩層。</p></div></header>
+    <section class="panel category-manager-grid">
+      <form id="categoryForm" class="category-form"><input type="hidden" id="categoryId"><h3 id="categoryFormTitle">新增分類</h3>
+        <label class="form-field"><span>分類名稱</span><input id="categoryName" required maxlength="50"></label>
+        <label class="form-field"><span>網址 slug</span><input id="categorySlug" required placeholder="例如：storage"></label>
+        <label class="form-field"><span>上層分類</span><select id="categoryParent"><option value="">無（主分類）</option></select></label>
+        <label class="form-field"><span>分類簡介</span><textarea id="categoryDescription" rows="3"></textarea></label>
+        <label class="form-field"><span>SEO 標題</span><input id="categorySeoTitle" maxlength="80"></label>
+        <label class="form-field"><span>SEO 描述</span><textarea id="categorySeoDescription" rows="3" maxlength="180"></textarea></label>
+        <label class="form-field"><span>排序</span><input id="categorySortOrder" type="number" value="0"></label>
+        <label class="form-field checkbox-field"><input id="categoryVisible" type="checkbox" checked><span>在前台顯示</span></label>
+        <div class="articles-actions"><button class="btn secondary" type="button" id="cancelCategoryEdit" hidden>取消編輯</button><button class="btn primary" type="submit">儲存分類</button></div>
+        <p id="categoryStatus"></p>
+      </form>
+      <div><div class="panel-header"><div><h3>分類樹</h3><p>有文章使用的分類不可直接刪除，可先停用。</p></div><a class="btn secondary" href="articles.html">返回文章</a></div><div id="categoryTree">讀取中...</div></div>
+    </section>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../assets/js/services/supabase-config.js"></script><script src="../assets/js/services/auth-guard.js"></script><script src="../assets/js/pages/article-categories.js?v=20260712"></script>
+</body></html>

@@ -46,7 +46,7 @@
       </div>
     </aside>
 
-    <main class="main">
+    <main class="main articles-main">
       <header class="page-hero">
         <div class="page-hero__content">
           <p class="page-hero__eyebrow">品牌內容管理</p>
@@ -54,9 +54,6 @@
           <p class="page-hero__description">管理文章、搜尋內容、最新消息與品牌資料。</p>
         </div>
 
-        <div class="page-hero__actions">
-          <a class="btn primary" href="article-editor.html">＋ 新增內容</a>
-        </div>
       </header>
 
       <section class="kpi-grid articles-stats" aria-label="品牌內容統計">
@@ -119,6 +116,8 @@
 
             <div class="articles-actions">
               <button type="button" class="btn secondary" id="refreshArticlesBtn">重新整理</button>
+              <a class="btn secondary" href="article-categories.html">管理分類</a>
+              <a class="btn primary" href="article-editor.html">＋ 新增內容</a>
             </div>
           </div>
         </div>
@@ -150,6 +149,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js?v=20260709"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

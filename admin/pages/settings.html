@@ -54,9 +54,6 @@
           <p class="page-hero__description">集中管理品牌資料、聯絡資訊、付款、運費、營運目標與網站基本設定。</p>
         </div>
 
-        <div class="page-hero__actions">
-          <button id="saveSettingsHeroButton" type="submit" class="btn primary" form="settingsForm">儲存系統設定</button>
-        </div>
       </header>
 
       <form id="settingsForm" class="settings-form">
@@ -220,6 +217,7 @@
 
         <div class="settings-actions">
           <p id="settingsMessage" class="settings-message" role="status" aria-live="polite">正在讀取設定…</p>
+          <button id="saveSettingsHeroButton" type="submit" class="btn primary">儲存系統設定</button>
         </div>
       </form>
     </main>
@@ -228,6 +226,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

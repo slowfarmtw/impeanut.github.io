@@ -19,7 +19,7 @@
   align-items: center;
   gap: 10px;
   border: none;
-  background: #5F6F3E;
+  background: #8C6A4A;
   color: #FFF8EA;
   border-radius: 999px;
   padding: 14px 18px;
@@ -34,7 +34,7 @@
   padding: 0 8px;
   border-radius: 999px;
   background: #FFF8EA;
-  color: #5F6F3E;
+  color: #8C6A4A;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -140,7 +140,7 @@
 
 .drawer-cart-info p {
   margin: 0 0 6px;
-  color: #6b8e3d;
+  color: #8C6A4A;
   font-weight: 800;
 }
 
@@ -205,7 +205,7 @@
 .drawer-checkout-btn {
   display: block;
   text-align: center;
-  background: #5F6F3E;
+  background: #8C6A4A;
   color: #FFF8EA;
   padding: 15px;
   border-radius: 14px;
@@ -236,7 +236,7 @@
 }
 
 .drawer-empty a {
-  color: #5F6F3E;
+  color: #8C6A4A;
   font-weight: 900;
 }
 
@@ -304,7 +304,7 @@
   flex: 1;
   border: none;
   border-radius: 999px;
-  background: #5F6F3E;
+  background: #8C6A4A;
   color: #FFF8EA;
   font-weight: 900;
   cursor: pointer;

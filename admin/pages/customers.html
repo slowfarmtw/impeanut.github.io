@@ -72,15 +72,6 @@
           </p>
         </div>
 
-        <div class="page-hero__actions quick-actions">
-          <button type="button" class="btn secondary" id="refreshCustomersBtn">
-            重新整理
-          </button>
-
-          <button type="button" class="btn primary" id="exportCustomersBtn">
-            匯出顧客列表
-          </button>
-        </div>
       </header>
 
       <!-- KPI -->
@@ -150,6 +141,11 @@
             </button>
           </div>
 
+          <div class="content-actions">
+            <button type="button" class="btn secondary" id="refreshCustomersBtn">重新整理</button>
+            <button type="button" class="btn primary" id="exportCustomersBtn">匯出顧客列表</button>
+          </div>
+
         </div>
       </section>
 
@@ -198,6 +194,7 @@
   <!-- Services -->
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

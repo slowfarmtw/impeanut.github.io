@@ -72,15 +72,6 @@
           </p>
         </div>
 
-        <div class="page-hero__actions">
-          <a class="btn secondary" href="products.html">返回商品列表</a>
-
-          <div class="editor-status-card">
-            <span>目前狀態</span>
-            <strong id="editorStatusText">尚未儲存</strong>
-            <p>儲存後會立即更新後台商品列表。</p>
-          </div>
-        </div>
       </header>
 
       <!-- Form -->
@@ -90,7 +81,14 @@
             <h3>商品資料</h3>
             <p>請填寫商品名稱、價格、庫存、圖片與前台顯示狀態。</p>
           </div>
-          <span>商品資料</span>
+          <div class="content-actions">
+            <div class="editor-status-card">
+              <span>目前狀態</span>
+              <strong id="editorStatusText">尚未儲存</strong>
+              <p>儲存後會立即更新後台商品列表。</p>
+            </div>
+            <a class="btn secondary" href="products.html">返回商品列表</a>
+          </div>
         </div>
 
         <form id="productForm" class="product-editor-form">
@@ -358,6 +356,7 @@
   <!-- Services -->
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

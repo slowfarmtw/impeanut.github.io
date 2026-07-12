@@ -72,23 +72,6 @@
           </p>
         </div>
 
-        <div class="page-hero__actions">
-          <a class="btn secondary" href="orders.html">返回訂單列表</a>
-
-          <button
-            type="button"
-            class="btn primary print-shipping-btn"
-            id="printShippingBtn"
-          >
-            列印出貨單
-          </button>
-
-          <div class="order-status-card">
-            <span>目前狀態</span>
-            <strong id="orderStatusText">讀取中...</strong>
-            <p id="orderCreatedAt">建立時間：-</p>
-          </div>
-        </div>
       </header>
 
       <!-- Summary -->
@@ -119,7 +102,15 @@
             <h3>訂單流程操作</h3>
             <p>可在單筆訂單內直接更新付款、訂單、包裝與出貨狀態。</p>
           </div>
-          <span>流程狀態</span>
+          <div class="content-actions">
+            <div class="order-status-card">
+              <span>目前狀態</span>
+              <strong id="orderStatusText">讀取中...</strong>
+              <p id="orderCreatedAt">建立時間：-</p>
+            </div>
+            <a class="btn secondary" href="orders.html">返回訂單列表</a>
+            <button type="button" class="btn primary print-shipping-btn" id="printShippingBtn">列印出貨單</button>
+          </div>
         </div>
 
         <div class="workflow-control-grid">
@@ -411,6 +402,7 @@
   <!-- Services -->
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");
