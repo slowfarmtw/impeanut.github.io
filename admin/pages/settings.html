@@ -200,6 +200,32 @@
               <textarea id="websiteNotice" name="website_notice"></textarea>
             </div>
 
+            <div class="settings-field full">
+              <label>首頁最新消息跑馬燈</label>
+              <div class="maintenance-row">
+                <input id="marqueeEnabled" name="marquee_enabled" type="checkbox" />
+                <label for="marqueeEnabled">在首頁顯示跑馬燈</label>
+              </div>
+            </div>
+
+            <div class="settings-field full">
+              <label for="marqueeText">跑馬燈文字</label>
+              <input id="marqueeText" name="marquee_text" type="text" maxlength="180" placeholder="例如：新鮮烘焙花生開放預訂，滿額免運。" />
+            </div>
+
+            <div class="settings-field full">
+              <label for="marqueeUrl">點擊連結</label>
+              <input id="marqueeUrl" name="marquee_url" type="text" maxlength="500" placeholder="products.html 或 https://...；不需要連結可留空" />
+            </div>
+
+            <div class="settings-field full">
+              <label>連結開啟方式</label>
+              <div class="maintenance-row">
+                <input id="marqueeNewTab" name="marquee_new_tab" type="checkbox" />
+                <label for="marqueeNewTab">在新分頁開啟</label>
+              </div>
+            </div>
+
             <div class="settings-field">
               <label for="ga4MeasurementId">GA4 追蹤識別碼</label>
               <input id="ga4MeasurementId" name="ga4_measurement_id" type="text" placeholder="G-XXXXXXXXXX" />
@@ -247,6 +273,6 @@
       window.location.replace("../login.html");
     });
   </script>
-  <script src="../assets/js/pages/settings.js?v=20260712-fix"></script>
+  <script src="../assets/js/pages/settings.js?v=20260713-marquee"></script>
 </body>
 </html>

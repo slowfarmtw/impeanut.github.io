@@ -121,7 +121,7 @@ function peanutCreateFloatingCart() {
     <aside class="cart-drawer" id="cartDrawer">
       <div class="cart-drawer-header">
         <div>
-          <p class="section-label">CART</p>
+          <p class="section-label">購物清單</p>
           <h2>購物車</h2>
         </div>
         <button class="cart-drawer-close" id="cartDrawerClose">×</button>

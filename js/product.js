@@ -19,7 +19,7 @@ function escapeHtml(value) {
 }
 
 function getProductImageSrc(image) {
-  if (!image) return "images/placeholder.png";
+  if (!image) return "images/products/placeholder.png";
 
   const imageText = String(image).trim();
 
@@ -232,7 +232,7 @@ function renderProductNotFound() {
 
 function renderProductDetailContent(product) {
   const imageSrc = product.image_src || getProductImageSrc(product.cover_image || product.image);
-  const subtitleParts = [product.subtitle, product.weight, product.sku ? `SKU：${product.sku}` : ""].filter(Boolean);
+  const subtitleParts = [product.subtitle, product.weight].filter(Boolean);
   const introText = product.description || "內容整理中。";
 
   productDetail.innerHTML = `
@@ -242,12 +242,12 @@ function renderProductDetailContent(product) {
           <img
             src="${escapeHtml(imageSrc)}"
             alt="${escapeHtml(product.name)}"
-            onerror="this.onerror=null; this.src='images/placeholder.png';"
+            onerror="this.onerror=null; this.src='images/products/placeholder.png';"
           >
         </div>
 
         <div class="product-top-info">
-          <p class="section-label">PRODUCT</p>
+          <p class="section-label">商品資訊</p>
           <h1>${escapeHtml(product.name)}</h1>
           <p class="product-detail-subtitle">${escapeHtml(subtitleParts.join("｜"))}</p>
 
@@ -269,27 +269,26 @@ function renderProductDetailContent(product) {
         </div>
       </div>
 
-      <div class="product-info-sections">
-        <section class="product-info-block">
+      <div class="product-info-panel">
+        <section class="product-info-section">
           <h2>產品介紹</h2>
           <p>${escapeHtml(introText)}</p>
         </section>
 
-        <section class="product-info-block">
+        <section class="product-info-section">
           <h2>主要成分</h2>
           <p>${escapeHtml(product.ingredients || "內容整理中。")}</p>
         </section>
 
-        <section class="product-info-block">
+        <section class="product-info-section">
           <h2>風味特色</h2>
           ${renderList(product.subtitle)}
         </section>
 
-        <section class="product-info-block">
+        <section class="product-info-section">
           <h2>規格資訊</h2>
-          <ul>
+          <ul class="product-spec-list">
             <li>品名：${escapeHtml(product.name)}</li>
-            <li>SKU：${escapeHtml(product.sku || "未設定")}</li>
             <li>分類：${escapeHtml(product.category || "未分類")}</li>
             <li>規格：${escapeHtml(product.weight || "依包裝標示")}</li>
             <li>售價：${formatPrice(product.price)}</li>

@@ -27,3 +27,32 @@ h1,h2,h3,h4{font-family:"Noto Serif TC","Songti TC",serif;letter-spacing:-.02em}
 @media(max-width:900px){.site-header{height:80px}.logo-area img{width:135px}.site-nav{background:var(--brand-paper)}.page-hero{min-height:360px;padding:90px 20px 70px}.section{padding-top:76px;padding-bottom:76px}.article-content{border-radius:20px}.life-hero-section{min-height:540px}.life-value-card{border-radius:24px}.cart-page,.checkout-page,.thank-you-page{padding-top:64px!important}}
 @media(max-width:560px){.page-hero h1{font-size:48px}.page-hero p:last-child{font-size:15px}.article-hero{padding-top:64px}.article-hero h1{font-size:40px}.category-card{width:auto!important}.contact-card,.notice-box{padding:28px}.step-card{padding:28px}}
 @media(prefers-reduced-motion:reduce){.btn,.primary-link-btn,.secondary-link-btn,.article-back-button,.article-product-link,.feature-card,.step-card,.product-card,.article-card{transition:none}}
+
+/* 2026 page rhythm and alignment refinements */
+.page-hero{min-height:280px;padding:66px 6vw 58px;text-align:center;align-items:center}
+.page-hero h1{font-size:clamp(40px,5vw,60px);margin:6px 0 14px}
+.page-hero p:last-child{max-width:720px;line-height:1.75}
+.section{padding-top:78px;padding-bottom:78px}
+.product-card-body{padding:22px}
+.product-card h2{font-size:24px}
+.cart-page,.checkout-page,.thank-you-page{padding-top:62px}
+.contact-card,.notice-box{text-align:center}
+.contact-list{display:inline-flex;flex-direction:column;align-items:center}
+.product-info-panel{background:var(--brand-card);border-color:var(--brand-line)}
+
+@media(max-width:900px){
+  .page-hero{min-height:240px;padding:58px 20px 50px!important}
+  .page-hero h1{font-size:clamp(36px,8vw,50px)}
+  .section{padding-top:62px;padding-bottom:62px}
+  .product-top-card{padding:26px;gap:28px}
+  .product-info-section{grid-template-columns:1fr;gap:10px}
+  #productList{width:100%}
+}
+
+@media(max-width:560px){
+  .page-hero{min-height:218px;padding:48px 20px 42px!important}
+  .page-hero h1{font-size:38px}
+  .page-hero p:last-child{font-size:14px;line-height:1.7}
+  .product-info-panel{padding:4px 24px}
+  .product-spec-list{grid-template-columns:1fr}
+}

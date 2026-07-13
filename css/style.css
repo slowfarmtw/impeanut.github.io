@@ -458,8 +458,8 @@ a {
 
 .product-section {
   display: block;
-  padding-top: 90px;
-  padding-bottom: 100px;
+  padding-top: 64px;
+  padding-bottom: 80px;
 }
 
 #productList {
@@ -476,11 +476,14 @@ a {
   border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(92, 70, 52, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .product-image-wrap {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 5 / 3;
   overflow: hidden;
   background: #f3eadb;
 }
@@ -492,44 +495,62 @@ a {
 }
 
 .product-card-body {
-  padding: 24px;
+  padding: 22px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .product-subtitle {
   color: #8C6A4A;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin: 0 0 12px;
+  font-size: 14px;
 }
 
 .product-card h2 {
-  font-size: 26px;
-  margin: 0 0 12px;
+  font-size: 24px;
+  margin: 0 0 6px;
   color: #3f2f24;
 }
 
 .product-desc {
   color: #5c4634;
-  margin-bottom: 24px;
+  margin: 0 0 18px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.product-card-actions {
+  margin-top: auto;
 }
 
 .product-card-bottom {
   border-top: 1px dashed rgba(92, 70, 52, 0.22);
-  padding-top: 18px;
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
 
 .product-card-bottom strong {
   display: block;
-  font-size: 28px;
+  font-size: 24px;
   color: #5c4634;
-  margin-bottom: 16px;
+  margin: 0;
 }
 
 .product-btn {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   border: 1px solid #5c4634;
   border-radius: 999px;
-  padding: 12px;
+  padding: 9px 16px;
   color: #5c4634;
   text-decoration: none;
   font-weight: 700;
@@ -545,7 +566,7 @@ a {
 ========================= */
 
 .product-detail-page {
-  padding: 90px 6vw 110px;
+  padding: 58px 6vw 82px;
 }
 
 .product-top-card {
@@ -553,18 +574,18 @@ a {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 56px;
+  gap: 38px;
   align-items: center;
   background: #fffaf2;
   border-radius: 34px;
-  padding: 52px;
+  padding: 34px;
   box-shadow: 0 18px 50px rgba(92, 70, 52, 0.08);
 }
 
 .product-top-image {
   background: #f7ead1;
   border-radius: 28px;
-  padding: 36px;
+  padding: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -573,13 +594,13 @@ a {
 .product-top-image img {
   width: 100%;
   max-width: 460px;
-  max-height: 420px;
+  max-height: 360px;
   object-fit: contain;
   border-radius: 22px;
 }
 
 .product-top-info h1 {
-  font-size: clamp(42px, 5vw, 58px);
+  font-size: clamp(38px, 4.5vw, 54px);
   line-height: 1.15;
   margin: 10px 0 12px;
   color: #3f2f24;
@@ -588,14 +609,14 @@ a {
 .product-detail-subtitle {
   color: #8C6A4A;
   font-weight: 900;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
 .product-detail-desc {
   font-size: 19px;
   line-height: 1.9;
   color: #5c4634;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   max-width: 460px;
 }
 
@@ -603,14 +624,14 @@ a {
   font-size: 42px;
   font-weight: 900;
   color: #5c4634;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
   gap: 18px;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .quantity-control button {
@@ -643,37 +664,50 @@ a {
   background: #7c6146;
 }
 
-.product-info-sections {
+.product-info-panel {
   width: min(1120px, 100%);
-  margin: 42px auto 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.product-info-block {
+  margin: 28px auto 0;
   background: #fffaf2;
   border: 1px solid rgba(92, 70, 52, 0.12);
   border-radius: 26px;
-  padding: 32px;
+  padding: 10px 34px;
   box-shadow: 0 14px 34px rgba(92, 70, 52, 0.06);
 }
 
-.product-info-block h2 {
+.product-info-section {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 30px;
+  padding: 28px 0;
+  border-bottom: 1px dashed rgba(92, 70, 52, 0.18);
+}
+
+.product-info-section:last-child {
+  border-bottom: 0;
+}
+
+.product-info-section h2 {
   font-size: 26px;
   color: #3f2f24;
-  margin: 0 0 16px;
+  margin: 0;
 }
 
-.product-info-block p,
-.product-info-block li {
+.product-info-section p,
+.product-info-section li {
   color: #5c4634;
   line-height: 1.9;
+  margin-top: 0;
 }
 
-.product-info-block ul {
+.product-info-section ul {
   margin: 0;
   padding-left: 20px;
+}
+
+.product-spec-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 30px;
 }
 
 .product-not-found {

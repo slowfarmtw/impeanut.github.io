@@ -7,12 +7,12 @@
   <meta name="description" content="花生一生來自雲林元長，從種植、採收、挑選到乾烘焙，親自參與每一步，把單純飽滿的花生香送進你的日常。">
   <link rel="icon" type="image/png" href="icons/icon.png">
   <link rel="apple-touch-icon" href="icons/icon.png">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=20260713">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/mobile.css">
-  <link rel="stylesheet" href="css/cart-ui.css">
-  <link rel="stylesheet" href="css/brand-system.css?v=1">
-  <link rel="stylesheet" href="css/home-redesign.css?v=1">
+  <link rel="stylesheet" href="css/cart-ui.css?v=20260713">
+  <link rel="stylesheet" href="css/brand-system.css?v=20260713">
+  <link rel="stylesheet" href="css/home-redesign.css?v=20260713b">
 </head>
 <body class="home-page">
   <header class="site-header">
@@ -28,6 +28,13 @@
       <a href="contact.html">聯絡我們</a>
     </nav>
   </header>
+
+  <aside id="homeMarquee" class="home-marquee" aria-label="最新消息" hidden>
+    <span class="home-marquee-label">最新消息</span>
+    <a id="homeMarqueeLink" class="home-marquee-window" href="#">
+      <span id="homeMarqueeTrack" class="home-marquee-track"></span>
+    </a>
+  </aside>
 
   <main>
     <section class="home-hero">
@@ -47,13 +54,6 @@
       </div>
     </section>
 
-    <section class="home-intro">
-      <div class="home-wrap home-intro-grid">
-        <div><p class="home-kicker">WHY WE STARTED</p><h2>我們想讓你知道，手上的花生從哪裡來。</h2></div>
-        <div><p class="home-intro-quote">「花生一生」從一顆花生開始，把種植、採收、乾燥、挑選、烘焙到包裝的每個環節，認真做，也清楚說。</p><p class="home-intro-note">不是把故事說得很遠，而是讓每一口都回到真實的土地與風味。</p></div>
-      </div>
-    </section>
-
     <section class="home-section home-products">
       <div class="home-wrap">
         <div class="home-section-head"><div><p class="home-kicker">FROM OUR FIELD</p><h2>把花生香，帶回家。</h2></div><p>成分單純、來源清楚。適合泡茶、聊天，也適合放進每天想吃點好東西的時刻。</p></div>
@@ -67,32 +67,16 @@
       </div>
     </section>
 
-    <section class="home-section home-values">
-      <div class="home-wrap"><p class="home-kicker">WHAT MATTERS TO US</p><h2>好吃之前，先把每一步做好。</h2>
-        <div class="home-value-grid">
-          <article><b>01</b><h3>從產地開始</h3><p>來自雲林元長自家參與種植的土地，來源不只是一個地名，而是我們每天工作的地方。</p></article>
-          <article><b>02</b><h3>挑選與分級</h3><p>重視外觀、完整度與品質篩選，減少不良花生混入，讓每包品質更加穩定。</p></article>
-          <article><b>03</b><h3>乾烘焙風味</h3><p>減少多餘添加，用適合的火候帶出花生本身的香甜、酥脆與飽滿風味。</p></article>
-        </div>
+    <section class="home-conversion-band">
+      <div class="home-wrap home-conversion-grid">
+        <article class="home-conversion-card is-primary"><p class="home-kicker">SHOP NOW</p><h2>今天想吃點<br>真實的花生香。</h2><p>查看現有商品、規格與價格，把雲林元長的日常風味帶回家。</p><a class="home-btn home-btn-light" href="products.html">立即選購</a></article>
+        <article class="home-conversion-card"><p class="home-kicker">LATEST</p><h3>新品與活動消息</h3><p>最新出貨、優惠與品牌活動，都會優先放在首頁公告。</p><a href="knowledge.html">查看最新內容 →</a></article>
+        <article class="home-conversion-card"><p class="home-kicker">OUR PROCESS</p><h3>一顆花生怎麼完成</h3><p>從播種、採收到乾燥與烘焙，看看我們重視的每一步。</p><a href="life.html">認識花生的一生 →</a></article>
       </div>
     </section>
 
-    <section class="home-section home-process">
-      <div class="home-wrap home-process-grid">
-        <div class="home-process-photo"><img src="images/hero.jpg" alt="花生從土地到餐桌的過程"></div>
-        <div><p class="home-kicker">THE LIFE OF A PEANUT</p><h2>從一粒種子，到你手上的一包花生。</h2><p class="home-muted">我們把過程攤開來，因為好味道從來不是最後一刻才發生。</p>
-          <div class="home-steps">
-            <div><b>壹</b><span><strong>種植與照顧</strong><small>跟著季節與土地，等待花生在土裡慢慢成熟。</small></span></div>
-            <div><b>貳</b><span><strong>採收與乾燥</strong><small>掌握採收時機，仔細乾燥，讓花生保持穩定品質。</small></span></div>
-            <div><b>參</b><span><strong>挑選與分級</strong><small>把不完整的花生挑出，留下值得進入下一步的果實。</small></span></div>
-            <div><b>肆</b><span><strong>烘焙與包裝</strong><small>用適合的火候喚醒香氣，再好好封存這份新鮮。</small></span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="home-story-band">
-      <div class="home-wrap home-story-card"><blockquote>我們賣的不只是花生，而是一條看得見的來路。</blockquote><div><p>「從從農農」是我們與土地相處的方式，「花生一生」則是從這片土地長出來的花生品牌。</p><p>希望你吃到的不只有香與酥脆，也知道這份味道是誰做的、從哪裡來，又經過哪些認真的步驟。</p><a href="about.html" class="home-btn home-btn-dark">認識從從農農與花生一生</a></div></div>
+    <section class="home-brand-proof">
+      <div class="home-wrap home-brand-proof-grid"><div><p class="home-kicker">30% BRAND ANCHOR</p><h2>來源清楚，做法認真，味道自然。</h2></div><p>「花生一生」來自雲林元長。我們參與種植、採收、挑選與烘焙，不把產地只當一句故事，而是把每一步落實在產品裡。<a href="about.html">認識品牌理念 →</a></p></div>
     </section>
 
     <section class="home-section home-articles-preview">
@@ -112,7 +96,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="admin/assets/js/services/supabase-config.js?v=20260709"></script>
   <script src="js/analytics.js?v=20260711"></script>
-  <script src="js/main.js?v=20260712-home"></script>
-  <script src="js/cart-ui.js?v=20260709"></script>
+  <script src="js/main.js?v=20260713-home"></script>
+  <script src="js/cart-ui.js?v=20260713"></script>
 </body>
 </html>

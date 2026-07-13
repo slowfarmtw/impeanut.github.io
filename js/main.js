@@ -42,6 +42,39 @@ function formatArticleDate(value) {
   });
 }
 
+function getSafeMarqueeUrl(value) {
+  const url = String(value || "").trim();
+  if (!url) return "#";
+  if (/^(https?:\/\/|\/|[a-z0-9][a-z0-9/_-]*\.html(?:[?#].*)?$)/i.test(url)) return url;
+  return "#";
+}
+
+async function loadHomeMarquee() {
+  const marquee = document.getElementById("homeMarquee");
+  const link = document.getElementById("homeMarqueeLink");
+  const track = document.getElementById("homeMarqueeTrack");
+  if (!marquee || !link || !track || !window.supabaseClient) return;
+
+  const { data, error } = await window.supabaseClient.rpc("get_public_home_settings");
+  if (error) {
+    console.warn("首頁跑馬燈設定讀取失敗：", error);
+    return;
+  }
+
+  const settings = Array.isArray(data) ? data[0] : data;
+  const text = String(settings?.marquee_text || "").trim();
+  if (!settings?.marquee_enabled || !text) return;
+
+  const safeText = escapeHtml(text);
+  track.innerHTML = `<span>${safeText}</span><span aria-hidden="true">${safeText}</span><span aria-hidden="true">${safeText}</span><span aria-hidden="true">${safeText}</span>`;
+  link.href = getSafeMarqueeUrl(settings.marquee_url);
+  if (settings.marquee_new_tab && link.href !== "#") {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
+  marquee.hidden = false;
+}
+
 function getArticleCategory(article) {
   const typeMap = {
     seo_article: "SEO 文章",
@@ -118,4 +151,5 @@ async function loadHomeArticles() {
   container.innerHTML = data.map(renderHomeArticleCard).join("");
 }
 
+loadHomeMarquee();
 loadHomeArticles();

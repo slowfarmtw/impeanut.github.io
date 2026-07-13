@@ -33,6 +33,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     annual_revenue_target: "annualRevenueTarget",
     default_seo_description: "defaultSeoDescription",
     website_notice: "websiteNotice",
+    marquee_enabled: "marqueeEnabled",
+    marquee_text: "marqueeText",
+    marquee_url: "marqueeUrl",
+    marquee_new_tab: "marqueeNewTab",
     ga4_measurement_id: "ga4MeasurementId",
     maintenance_mode: "maintenanceMode"
   };

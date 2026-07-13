@@ -15,7 +15,7 @@ function escapeHtml(value) {
 }
 
 function getProductImageSrc(image) {
-  if (!image) return "images/placeholder.png";
+  if (!image) return "images/products/placeholder.png";
 
   const imageText = String(image).trim();
 
@@ -83,8 +83,7 @@ function renderProductCard(product) {
   const productUrl = `product.html?id=${encodeURIComponent(product.id)}`;
   const subtitleParts = [
     product.subtitle,
-    product.weight,
-    product.sku ? `SKU：${product.sku}` : ""
+    product.weight
   ].filter(Boolean);
 
   return `
@@ -94,37 +93,39 @@ function renderProductCard(product) {
           <img
             src="${escapeHtml(imageSrc)}"
             alt="${escapeHtml(product.name)}"
-            onerror="this.onerror=null; this.src='images/placeholder.png';"
+            onerror="this.onerror=null; this.src='images/products/placeholder.png';"
           >
         </a>
       </div>
 
       <div class="product-card-body">
-        <p class="product-subtitle">${escapeHtml(subtitleParts.join("｜"))}</p>
-
         <h2>${escapeHtml(product.name)}</h2>
+
+        ${subtitleParts.length ? `<p class="product-subtitle">${escapeHtml(subtitleParts.join("｜"))}</p>` : ""}
 
         <p class="product-desc">${escapeHtml(product.description)}</p>
 
-        <div class="product-card-bottom">
-          <strong>${formatPrice(product.price)}</strong>
-          <a href="${productUrl}" class="product-btn">查看詳情</a>
-        </div>
-
-        <div class="product-buy-row">
-          <div class="product-list-qty">
-            <button type="button" class="list-qty-minus">−</button>
-            <span class="list-qty-number">1</span>
-            <button type="button" class="list-qty-plus">＋</button>
+        <div class="product-card-actions">
+          <div class="product-card-bottom">
+            <strong>${formatPrice(product.price)}</strong>
+            <a href="${productUrl}" class="product-btn">查看詳情</a>
           </div>
 
-          <button
-            type="button"
-            class="product-add-btn"
-            data-product-id="${escapeHtml(product.id)}"
-          >
-            加入購物車
-          </button>
+          <div class="product-buy-row">
+            <div class="product-list-qty">
+              <button type="button" class="list-qty-minus">−</button>
+              <span class="list-qty-number">1</span>
+              <button type="button" class="list-qty-plus">＋</button>
+            </div>
+
+            <button
+              type="button"
+              class="product-add-btn"
+              data-product-id="${escapeHtml(product.id)}"
+            >
+              加入購物車
+            </button>
+          </div>
         </div>
       </div>
     </article>
