@@ -30,7 +30,7 @@ const formatDate = (value) => value ? new Intl.DateTimeFormat("zh-TW", { year: "
 function contentToHtml(content = "") {
   const raw = String(content).trim();
   if (!raw) return "<p>這篇文章目前尚未填寫內容。</p>";
-  if (/<(p|h2|h3|ul|ol|blockquote)[\s>]/i.test(raw)) return raw;
+  if (/<(p|h2|h3|ul|ol|blockquote|figure|img)[\s>]/i.test(raw)) return raw;
   const lines = raw.split(/\r?\n/); let html = ""; let list = [];
   const flushList = () => { if (list.length) { html += `<ul>${list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`; list = []; } };
   for (const line of lines) {
@@ -74,7 +74,7 @@ function renderArticle(post) {
 <title>${escapeHtml(title)}</title><meta name="description" content="${escapeHtml(description)}"><meta name="robots" content="${escapeHtml(robots)}"><link rel="canonical" href="${canonical}">
 <meta property="og:type" content="article"><meta property="og:locale" content="zh_TW"><meta property="og:site_name" content="花生一生"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${escapeHtml(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${escapeHtml(image)}">
 <meta name="twitter:card" content="summary_large_image"><script type="application/ld+json">${jsonLd}</script><link rel="icon" href="../icons/icon.png">
-<link rel="stylesheet" href="../css/style.css?v=20260712"><link rel="stylesheet" href="../css/footer.css"><link rel="stylesheet" href="../css/mobile.css"><link rel="stylesheet" href="../css/cart-ui.css"><link rel="stylesheet" href="../css/brand-system.css?v=1"><link rel="stylesheet" href="../css/article.css?v=20260712"></head>
+<link rel="stylesheet" href="../css/style.css?v=20260712"><link rel="stylesheet" href="../css/footer.css"><link rel="stylesheet" href="../css/mobile.css"><link rel="stylesheet" href="../css/cart-ui.css"><link rel="stylesheet" href="../css/brand-system.css?v=1"><link rel="stylesheet" href="../css/article.css?v=20260715-2"></head>
 <body><header class="site-header"><a href="../index.html" class="logo-area"><img src="../images/logo.png" alt="花生一生 Logo"></a><button class="menu-toggle" id="menuToggle" aria-label="開啟網站選單" aria-controls="siteNav" aria-expanded="false">☰</button><nav class="site-nav" id="siteNav" aria-label="主要導覽"><a href="../index.html">首頁</a><a href="../about.html">品牌理念</a><a href="../life.html">花生的一生</a><a href="../products.html">產品介紹</a><a href="../knowledge.html">花生知識</a><a href="../cart.html">購物車</a><a href="../contact.html">聯絡我們</a></nav></header>
 <main class="article-page"><section class="article-hero"><a href="../knowledge.html" class="article-back-link">← 回花生知識</a><p class="article-category">${escapeHtml(categoryLabel)}</p><h1>${escapeHtml(post.title)}</h1>${post.excerpt ? `<p class="article-excerpt">${escapeHtml(post.excerpt)}</p>` : ""}<p class="article-date">${date ? `發布日期：${escapeHtml(formatDate(date))}` : ""}</p></section>
 ${post.cover_image ? `<section class="article-feature-image-wrap"><img src="${escapeHtml(image)}" alt="${escapeHtml(post.title)}" loading="eager"></section>` : ""}<article class="article-content">${contentToHtml(post.content)}</article><section class="article-bottom-actions"><a href="../knowledge.html" class="article-back-button">返回花生知識</a><a href="../products.html" class="article-product-link">查看產品</a></section></main>

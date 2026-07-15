@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
   <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
-  <link rel="stylesheet" href="../assets/css/pages/article-editor.css?v=20260711-3" />
+  <link rel="stylesheet" href="../assets/css/pages/article-editor.css?v=20260715-5" />
 </head>
 <body>
   <div class="admin-shell admin-layout">
@@ -89,20 +89,142 @@
               <small>列表頁與 SEO 描述可共用，建議簡短清楚。</small>
             </label>
 
-            <label class="form-field">
+            <div class="form-field rich-editor-field">
               <span>文章內文</span>
-              <textarea id="articleContent" rows="18" placeholder="輸入文章內文。段落之間請空一行，例如：
+              <div class="rich-editor-toolbar" id="articleEditorToolbar" role="toolbar" aria-label="文章文字格式">
+                <select id="articleBlockFormat" aria-label="段落格式" title="段落格式">
+                  <option value="p">正文</option>
+                  <option value="h2">大標題 H2</option>
+                  <option value="h3">小標題 H3</option>
+                  <option value="blockquote">引用文字</option>
+                </select>
 
-花生保存最重要的是避免高溫、潮濕與陽光直射。
+                <span class="toolbar-label">字級</span>
+                <div class="editor-size-options" aria-label="文字大小">
+                  <button type="button" data-font-size="2" title="小字 14px">小 14</button>
+                  <button type="button" data-font-size="3" title="標準 16px">標準 16</button>
+                  <button type="button" data-font-size="4" title="中大 18px">中 18</button>
+                  <button type="button" data-font-size="5" title="大字 24px">大 24</button>
+                  <button type="button" data-font-size="6" title="特大 30px">特大 30</button>
+                </div>
 
-## 小標題：開封後怎麼保存
-開封後建議密封，放在陰涼乾燥處，並盡快食用完畢。
+                <span class="toolbar-divider" aria-hidden="true"></span>
+                <span class="toolbar-label">文字顏色</span>
+                <div class="editor-color-options" aria-label="文字顏色">
+                  <button type="button" class="color-swatch" data-text-color="#111111" style="--swatch-color:#111111" title="黑色" aria-label="黑色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#757575" style="--swatch-color:#757575" title="灰色" aria-label="灰色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#e53935" style="--swatch-color:#e53935" title="紅色" aria-label="紅色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#fb8c00" style="--swatch-color:#fb8c00" title="橘色" aria-label="橘色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#fdd835" style="--swatch-color:#fdd835" title="黃色" aria-label="黃色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#43a047" style="--swatch-color:#43a047" title="綠色" aria-label="綠色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#00acc1" style="--swatch-color:#00acc1" title="青色" aria-label="青色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#1e88e5" style="--swatch-color:#1e88e5" title="藍色" aria-label="藍色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#8e24aa" style="--swatch-color:#8e24aa" title="紫色" aria-label="紫色"></button>
+                  <button type="button" class="color-swatch" data-text-color="#d81b60" style="--swatch-color:#d81b60" title="桃紅色" aria-label="桃紅色"></button>
+                  <label class="custom-color-control" title="自訂文字顏色">
+                    <input type="color" id="articleTextColor" value="#5c4634" aria-label="自訂文字顏色" />
+                    <span>自訂</span>
+                  </label>
+                </div>
 
-- 重點一：避免潮濕
-- 重點二：避免高溫
-- 重點三：避免陽光直射"></textarea>
-              <small>寫文章時，段落之間請空一行。小標題可先用 ## 開頭；條列可用 - 開頭。前台會先自動轉成段落，之後靜態化時會再做完整 SEO 版型。</small>
-            </label>
+                <span class="toolbar-label">文字底色</span>
+                <div class="editor-color-options" aria-label="文字底色">
+                  <button type="button" class="color-swatch is-highlight" data-highlight-color="#f3e5c8" style="--swatch-color:#f3e5c8" title="米黃色底" aria-label="米黃色底"></button>
+                  <button type="button" class="color-swatch is-highlight" data-highlight-color="#e5eadb" style="--swatch-color:#e5eadb" title="灰綠色底" aria-label="灰綠色底"></button>
+                  <button type="button" class="color-swatch is-highlight" data-highlight-color="#eadbd7" style="--swatch-color:#eadbd7" title="淡粉色底" aria-label="淡粉色底"></button>
+                  <button type="button" class="color-swatch is-highlight" data-highlight-color="transparent" style="--swatch-color:#ffffff" title="清除文字底色" aria-label="清除文字底色">×</button>
+                </div>
+
+                <span class="toolbar-divider" aria-hidden="true"></span>
+                <button type="button" data-command="undo" title="復原" aria-label="復原">↶</button>
+                <button type="button" data-command="redo" title="重做" aria-label="重做">↷</button>
+                <button type="button" data-command="bold" title="粗體" aria-label="粗體"><strong>B</strong></button>
+                <button type="button" data-command="italic" title="斜體" aria-label="斜體"><em>I</em></button>
+                <button type="button" data-command="underline" title="底線" aria-label="底線"><u>U</u></button>
+                <button type="button" data-command="strikeThrough" title="刪除線" aria-label="刪除線"><s>S</s></button>
+                <button type="button" data-command="insertUnorderedList" title="項目符號" aria-label="項目符號">• 清單</button>
+                <button type="button" data-command="insertOrderedList" title="編號清單" aria-label="編號清單">1. 清單</button>
+                <button type="button" data-command="justifyLeft" title="靠左對齊" aria-label="靠左對齊">靠左</button>
+                <button type="button" data-command="justifyCenter" title="置中對齊" aria-label="置中對齊">置中</button>
+                <button type="button" data-command="justifyRight" title="靠右對齊" aria-label="靠右對齊">靠右</button>
+                <button type="button" data-command="justifyFull" title="左右對齊" aria-label="左右對齊">左右對齊</button>
+                <button type="button" id="articleImageButton" class="toolbar-feature-button" title="上傳並插入圖片" aria-label="上傳並插入圖片">＋ 圖片</button>
+                <button type="button" id="articleLinkButton" title="加入連結" aria-label="加入連結">加入連結</button>
+                <button type="button" data-command="unlink" title="移除連結" aria-label="移除連結">移除連結</button>
+                <button type="button" data-command="removeFormat" title="清除文字格式" aria-label="清除文字格式">清除格式</button>
+              </div>
+
+              <div
+                id="articleContent"
+                class="rich-editor-content"
+                contenteditable="true"
+                role="textbox"
+                aria-multiline="true"
+                data-placeholder="從這裡開始輸入文章內文……"
+              ></div>
+              <small>先選取文字，再設定大小、顏色或粗體。文章標題請使用 H2／H3，有助於閱讀結構與 SEO；不要只靠放大文字代替標題。</small>
+
+              <div id="articleImageDialog" class="article-image-dialog" hidden>
+                <div class="article-image-dialog__backdrop" data-close-image-dialog></div>
+                <section class="article-image-dialog__panel" role="dialog" aria-modal="true" aria-labelledby="articleImageDialogTitle">
+                  <div class="article-image-dialog__header">
+                    <div>
+                      <p class="section-label">文章圖片</p>
+                      <h3 id="articleImageDialogTitle">上傳並插入圖片</h3>
+                    </div>
+                    <button type="button" class="image-dialog-close" data-close-image-dialog aria-label="關閉圖片視窗">×</button>
+                  </div>
+
+                  <div class="article-image-dialog__grid">
+                    <div>
+                      <label class="image-upload-dropzone" for="articleImageFile">
+                        <input type="file" id="articleImageFile" accept="image/jpeg,image/png,image/webp,image/avif" />
+                        <strong>選擇圖片</strong>
+                        <span>支援 JPG、PNG、WebP、AVIF，單張上限 5MB</span>
+                      </label>
+                      <div id="articleImagePreview" class="article-image-preview"><span>圖片預覽</span></div>
+                    </div>
+
+                    <div class="image-dialog-fields">
+                      <label class="form-field">
+                        <span>圖片替代文字（alt）</span>
+                        <input type="text" id="articleImageAlt" maxlength="160" placeholder="例如：花生放入密封罐保存" />
+                        <small>請描述圖片實際內容，供搜尋引擎與視障讀者理解。</small>
+                      </label>
+
+                      <label class="form-field">
+                        <span>圖片說明</span>
+                        <input type="text" id="articleImageCaption" maxlength="200" placeholder="選填，會顯示在圖片下方" />
+                      </label>
+
+                      <label class="form-field">
+                        <span>顯示尺寸</span>
+                        <select id="articleImageSize">
+                          <option value="medium">中圖（建議，約 460px）</option>
+                          <option value="large">大圖（約 620px）</option>
+                          <option value="full">內容欄寬（最大 820px）</option>
+                        </select>
+                      </label>
+
+                      <label class="form-field">
+                        <span>圖片對齊</span>
+                        <select id="articleImageAlign">
+                          <option value="center">置中</option>
+                          <option value="left">靠左</option>
+                          <option value="right">靠右</option>
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+
+                  <p id="articleImageStatus" class="article-image-status">請先選擇圖片。</p>
+                  <div class="article-image-dialog__actions">
+                    <button type="button" class="btn secondary" data-close-image-dialog>取消</button>
+                    <button type="button" class="btn primary" id="articleImageUploadButton">上傳並插入</button>
+                  </div>
+                </section>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -238,6 +360,6 @@
       window.location.replace("../login.html");
     });
   </script>
-  <script src="../assets/js/pages/article-editor.js?v=20260711"></script>
+  <script src="../assets/js/pages/article-editor.js?v=20260715-5"></script>
 </body>
 </html>

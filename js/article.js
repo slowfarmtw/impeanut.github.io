@@ -100,7 +100,7 @@ function convertTextToHtml(content) {
 
   const rawContent = String(content).trim();
 
-  if (rawContent.includes("<p") || rawContent.includes("<h2") || rawContent.includes("<ul") || rawContent.includes("<ol") || rawContent.includes("<blockquote")) {
+  if (rawContent.includes("<p") || rawContent.includes("<h2") || rawContent.includes("<ul") || rawContent.includes("<ol") || rawContent.includes("<blockquote") || rawContent.includes("<figure") || rawContent.includes("<img")) {
     return rawContent;
   }
 
@@ -129,7 +129,7 @@ function showError(title, message) {
 
 function renderArticle(article) {
   const title = article.title || "未命名文章";
-  const category = article.category || getTypeCategoryFallback(article.content_type);
+  const category = article.post_categories?.name || article.category || getTypeCategoryFallback(article.content_type);
   const excerpt = article.excerpt || article.seo_description || "";
   const dateText = formatDate(article.published_at || article.created_at);
   const imageSrc = getArticleImageSrc(article.cover_image);
@@ -182,7 +182,7 @@ async function loadArticle() {
 
   let query = window.supabaseClient
     .from("posts")
-    .select("id, title, slug, category, content_type, excerpt, content, cover_image, seo_title, seo_description, status, published_at, created_at, canonical_url, meta_robots")
+    .select("id, title, slug, category, category_id, post_categories(name, slug, parent_id), content_type, excerpt, content, cover_image, seo_title, seo_description, status, published_at, created_at, canonical_url, meta_robots")
     .eq("status", "published");
 
   if (id) {
