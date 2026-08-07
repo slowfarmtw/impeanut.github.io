@@ -27,6 +27,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
 </head>
 
 <body>
@@ -77,6 +78,12 @@
       <!-- Summary -->
       <section class="order-summary-grid">
         <div class="summary-card">
+          <span>訂單來源</span>
+          <strong id="orderSourceLabel">-</strong>
+          <p id="externalOrderNumberLabel">外部單號：-</p>
+        </div>
+
+        <div class="summary-card">
           <span>訂單金額</span>
           <strong id="orderTotalAmount">NT$ 0</strong>
           <p id="orderPaymentMethod">付款方式：-</p>
@@ -86,6 +93,12 @@
           <span>付款狀態</span>
           <strong id="orderPaymentStatus">-</strong>
           <p id="orderPaidAt">付款時間：-</p>
+        </div>
+
+        <div class="summary-card">
+          <span>入帳狀態</span>
+          <strong id="orderSettlementStatus">-</strong>
+          <p id="orderSettledAmount">實際入帳：NT$ 0</p>
         </div>
 
         <div class="summary-card">
@@ -123,6 +136,20 @@
               <option value="refunded">已退款</option>
               <option value="failed">付款失敗</option>
             </select>
+          </label>
+
+          <label>
+            <span>入帳狀態</span>
+            <select id="settlementStatusSelect" class="detail-status-select">
+              <option value="unsettled">未入帳</option>
+              <option value="settled">已入帳</option>
+              <option value="not_applicable">不需入帳</option>
+            </select>
+          </label>
+
+          <label>
+            <span>實際入帳金額</span>
+            <input type="number" id="settledAmountInput" min="0" step="1" />
           </label>
 
           <label>
@@ -220,6 +247,11 @@
               <div>
                 <span>配送方式</span>
                 <strong id="shippingMethod">-</strong>
+              </div>
+
+              <div>
+                <span>取貨門市</span>
+                <strong id="pickupStore">-</strong>
               </div>
 
               <div class="full-line">
@@ -425,6 +457,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/order-detail.js?v=20260711"></script>
+  <script src="../assets/js/pages/order-detail.js?v=20260805"></script>
 </body>
 </html>

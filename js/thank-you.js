@@ -1,3 +1,6 @@
+if (window.PEANUT_PURCHASE_MODE === "myship") {
+  window.location.replace("order.html");
+} else {
 function showLastOrderId() {
   const orderId = localStorage.getItem("peanutLastOrderId");
   const target = document.getElementById("lastOrderId");
@@ -12,3 +15,4 @@ function showLastOrderId() {
 }
 
 showLastOrderId();
+}

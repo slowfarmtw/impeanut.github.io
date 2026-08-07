@@ -1,4 +1,56 @@
 const PEANUT_CART_KEY = "peanutCart";
+const PEANUT_PURCHASE_MODE = "myship";
+const PEANUT_MYSHIP_URL = "";
+
+window.PEANUT_PURCHASE_MODE = PEANUT_PURCHASE_MODE;
+window.PEANUT_MYSHIP_URL = PEANUT_MYSHIP_URL;
+
+function peanutGetPurchaseUrl(fallbackUrl = "order.html") {
+  return PEANUT_MYSHIP_URL || fallbackUrl;
+}
+
+function peanutApplyPurchaseModeLinks(root = document) {
+  if (PEANUT_PURCHASE_MODE !== "myship") return;
+
+  root.querySelectorAll('a[href$="cart.html"]').forEach((link) => {
+    const fallbackUrl = link.getAttribute("href").replace(/cart\.html$/, "order.html");
+    link.href = peanutGetPurchaseUrl(fallbackUrl);
+    link.textContent = "前往購買";
+    link.classList.add("nav-purchase-link");
+    link.dataset.purchaseLink = "";
+  });
+
+  root.querySelectorAll("a[data-purchase-link]").forEach((link) => {
+    const fallbackUrl = link.getAttribute("href") || "order.html";
+    const purchaseUrl = peanutGetPurchaseUrl(fallbackUrl);
+    const isExternal = /^https:\/\//i.test(purchaseUrl);
+
+    link.href = purchaseUrl;
+
+    if (isExternal) {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", `${link.textContent.trim()}，將開啟外部網站`);
+    } else {
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+    }
+
+    if (link.dataset.purchaseTracked === "true") return;
+
+    link.addEventListener("click", function () {
+      window.peanutAnalytics?.track?.("select_content", {
+        content_type: "purchase_destination",
+        item_id: "7-eleven-myship"
+      });
+    });
+
+    link.dataset.purchaseTracked = "true";
+  });
+}
+
+window.peanutGetPurchaseUrl = peanutGetPurchaseUrl;
+window.peanutApplyPurchaseModeLinks = peanutApplyPurchaseModeLinks;
 
 function peanutGetCartItemImageSrc(image) {
   if (!image) return "images/placeholder.png";
@@ -267,5 +319,10 @@ function peanutShowCartToast(message) {
 window.addEventListener("peanutCartUpdated", peanutRenderFloatingCart);
 
 document.addEventListener("DOMContentLoaded", function () {
+  if (PEANUT_PURCHASE_MODE === "myship") {
+    peanutApplyPurchaseModeLinks();
+    return;
+  }
+
   peanutCreateFloatingCart();
 });

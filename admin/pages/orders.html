@@ -27,6 +27,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
 </head>
 
 <body>
@@ -66,9 +67,9 @@
       <header class="page-hero orders-hero">
         <div class="page-hero__content">
           <p class="page-hero__eyebrow">訂單營運管理</p>
-          <h1 class="page-hero__title">訂單管理</h1>
+          <h1 class="page-hero__title">訂單與銷售管理</h1>
           <p class="page-hero__description">
-            管理顧客訂單、付款確認、備貨包裝與出貨進度。完成的訂單可封存，之後需要售後處理時再拉回。
+            統一管理賣貨便、現場、親友與私訊訂單，追蹤付款、入帳及交付進度。
           </p>
         </div>
 
@@ -83,9 +84,9 @@
         </div>
 
         <div class="kpi-card">
-          <span>💰 已付款</span>
-          <strong id="paidOrders">0</strong>
-          <p>付款狀態為已付款的訂單</p>
+          <span>💰 未入帳金額</span>
+          <strong id="unsettledAmount">NT$ 0</strong>
+          <p>尚未確認實際入帳的金額</p>
         </div>
 
         <div class="kpi-card">
@@ -152,7 +153,7 @@
             <button type="button" class="btn secondary" id="refreshOrdersBtn">重新整理</button>
             <button type="button" class="btn secondary" id="exportFilteredOrdersBtn">匯出目前列表</button>
             <button type="button" class="btn secondary" id="exportTodayOrdersBtn">匯出今日訂單</button>
-            <a href="order-create.html" class="btn primary">＋ 手動新增訂單</a>
+            <a href="order-create.html" class="btn primary">＋ 新增銷售紀錄</a>
           </div>
 
         </div>
@@ -193,6 +194,7 @@
             <thead>
               <tr>
                 <th>訂單編號</th>
+                <th>來源</th>
                 <th>顧客</th>
                 <th>電話</th>
                 <th>金額</th>
@@ -207,7 +209,7 @@
 
             <tbody id="ordersTableBody">
               <tr>
-                <td colspan="10">訂單資料讀取中...</td>
+                <td colspan="11">訂單資料讀取中...</td>
               </tr>
             </tbody>
           </table>
@@ -248,6 +250,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/orders.js?v=20260711"></script>
+  <script src="../assets/js/pages/orders.js?v=20260805"></script>
 </body>
 </html>

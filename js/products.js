@@ -81,10 +81,36 @@ function getCartProductPayload(product) {
 function renderProductCard(product) {
   const imageSrc = product.image_src || getProductImageSrc(product.cover_image || product.image);
   const productUrl = `product.html?id=${encodeURIComponent(product.id)}`;
+  const usesMyShip = window.PEANUT_PURCHASE_MODE === "myship";
   const subtitleParts = [
     product.subtitle,
     product.weight
   ].filter(Boolean);
+  const buyRow = usesMyShip
+    ? `
+      <div class="product-buy-row">
+        <a href="order.html" class="product-add-btn" data-purchase-link>
+          前往賣貨便購買
+        </a>
+      </div>
+    `
+    : `
+      <div class="product-buy-row">
+        <div class="product-list-qty">
+          <button type="button" class="list-qty-minus">−</button>
+          <span class="list-qty-number">1</span>
+          <button type="button" class="list-qty-plus">＋</button>
+        </div>
+
+        <button
+          type="button"
+          class="product-add-btn"
+          data-product-id="${escapeHtml(product.id)}"
+        >
+          加入購物車
+        </button>
+      </div>
+    `;
 
   return `
     <article class="product-card">
@@ -111,21 +137,7 @@ function renderProductCard(product) {
             <a href="${productUrl}" class="product-btn">查看詳情</a>
           </div>
 
-          <div class="product-buy-row">
-            <div class="product-list-qty">
-              <button type="button" class="list-qty-minus">−</button>
-              <span class="list-qty-number">1</span>
-              <button type="button" class="list-qty-plus">＋</button>
-            </div>
-
-            <button
-              type="button"
-              class="product-add-btn"
-              data-product-id="${escapeHtml(product.id)}"
-            >
-              加入購物車
-            </button>
-          </div>
+          ${buyRow}
         </div>
       </div>
     </article>
@@ -165,7 +177,11 @@ async function loadProducts() {
     }
 
     container.innerHTML = products.map(renderProductCard).join("");
-    setupProductListActions(products);
+    if (window.PEANUT_PURCHASE_MODE === "myship") {
+      window.peanutApplyPurchaseModeLinks?.(container);
+    } else {
+      setupProductListActions(products);
+    }
   } catch (error) {
     console.error("商品載入失敗：", error);
     container.innerHTML = "<p>商品載入失敗，請稍後再試。</p>";

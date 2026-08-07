@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>手動新增訂單｜花生一生後台</title>
+  <title>新增銷售紀錄｜花生一生後台</title>
 
   <!-- Base -->
   <link rel="stylesheet" href="../assets/css/base/variables.css" />
@@ -26,6 +26,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
 </head>
 
 <body>
@@ -64,10 +65,10 @@
       <!-- Hero -->
       <header class="page-hero order-create-hero">
         <div class="page-hero__content">
-          <p class="page-hero__eyebrow">訂單建立作業</p>
-          <h1 class="page-hero__title">手動新增訂單</h1>
+          <p class="page-hero__eyebrow">銷售紀錄建立</p>
+          <h1 class="page-hero__title">新增銷售紀錄</h1>
           <p class="page-hero__description">
-            用來建立 LINE、Instagram、Facebook、電話、親友代售、企業採購或實體活動收到的訂單。建立後會同步進入訂單管理、儀表板與顧客管理。
+            統一記錄 7-ELEVEN 賣貨便、現場、親友及 LINE／IG 私訊訂單。建立後會同步進入訂單管理、儀表板、顧客管理與品牌分析。
           </p>
         </div>
 
@@ -91,42 +92,59 @@
             <label class="field-group">
               <span>訂單來源</span>
               <select id="orderSource" required>
-                <option value="官網外手動訂單">官網外手動訂單</option>
-                <option value="LINE">LINE</option>
-                <option value="Facebook">Facebook</option>
-                <option value="Instagram">Instagram</option>
-                <option value="電話">電話</option>
-                <option value="親友代售">親友代售</option>
-                <option value="實體活動">實體活動</option>
-                <option value="企業採購">企業採購</option>
-                <option value="其他">其他</option>
+                <option value="myship">7-ELEVEN 賣貨便</option>
+                <option value="onsite">現場購買</option>
+                <option value="friends_family">親友訂購</option>
+                <option value="social">LINE／IG 私訊</option>
+                <option value="other">其他</option>
               </select>
+            </label>
+
+            <label class="field-group">
+              <span>銷售日期</span>
+              <input type="datetime-local" id="orderDate" required />
+            </label>
+
+            <label class="field-group" id="externalOrderField">
+              <span>賣貨便訂單編號</span>
+              <input type="text" id="externalOrderNumber" placeholder="貼上賣貨便訂單編號" />
             </label>
 
             <label class="field-group">
               <span>付款方式</span>
               <select id="paymentMethod" required>
+                <option value="myship_collection">賣貨便代收</option>
+                <option value="cash">現金</option>
                 <option value="bank_transfer">銀行轉帳</option>
                 <option value="line_pay_qrcode">LINE Pay 行動條碼</option>
-                <option value="cash">現金</option>
                 <option value="other">其他</option>
               </select>
             </label>
 
             <label class="field-group">
               <span>顧客姓名</span>
-              <input type="text" id="customerName" placeholder="例如：王小明" required />
+              <input type="text" id="customerName" placeholder="可留空並設為散客" />
             </label>
 
             <label class="field-group">
-              <span>顧客電話</span>
-              <input type="tel" id="customerPhone" placeholder="例如：0912-345-678" required />
+              <span>顧客電話（用於辨識回購）</span>
+              <div class="customer-phone-row">
+                <input type="tel" id="customerPhone" placeholder="有提供時再輸入" />
+                <button type="button" class="btn secondary" id="findCustomerBtn">比對顧客</button>
+              </div>
             </label>
 
             <label class="field-group">
               <span>電子郵件</span>
               <input type="email" id="customerEmail" placeholder="可留空" />
             </label>
+
+            <div class="field-group guest-customer-action">
+              <span>沒有留下顧客資料</span>
+              <button type="button" class="btn secondary" id="setGuestCustomerBtn">設為散客</button>
+            </div>
+
+            <div class="customer-match-card field-full" id="customerMatchCard" hidden aria-live="polite"></div>
           </div>
         </section>
 
@@ -134,8 +152,8 @@
         <section class="form-panel">
           <div class="panel-header">
             <div>
-              <h3>收件與配送資料</h3>
-              <p>如果收件人和顧客相同，可以按下快速帶入。</p>
+              <h3>交付與取貨資料</h3>
+              <p>依訂單來源只顯示需要的欄位；現場購買不必填物流資料。</p>
             </div>
 
             <button type="button" class="btn secondary" id="copyCustomerBtn">
@@ -145,18 +163,67 @@
 
           <div class="form-grid">
             <label class="field-group">
+              <span>交付方式</span>
+              <select id="fulfillmentMethod" required>
+                <option value="myship">7-ELEVEN 賣貨便</option>
+                <option value="onsite">現場交付</option>
+                <option value="meetup">面交</option>
+                <option value="shipping">其他寄送</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+
+            <label class="field-group" id="pickupStoreField">
+              <span>取貨門市</span>
+              <input type="text" id="pickupStore" placeholder="例如：元長門市" />
+            </label>
+
+            <label class="field-group">
               <span>收件人姓名</span>
-              <input type="text" id="receiverName" placeholder="例如：王小明" required />
+              <input type="text" id="receiverName" placeholder="需要寄送或取貨時再填" />
             </label>
 
             <label class="field-group">
               <span>收件人電話</span>
-              <input type="tel" id="receiverPhone" placeholder="例如：0912-345-678" required />
+              <input type="tel" id="receiverPhone" placeholder="需要寄送或取貨時再填" />
             </label>
 
-            <label class="field-group field-full">
+            <label class="field-group field-full" id="shippingAddressField">
               <span>配送地址</span>
-              <input type="text" id="shippingAddress" placeholder="縣市、區域、路名、門牌" required />
+              <input type="text" id="shippingAddress" placeholder="選擇其他寄送時再填" />
+            </label>
+          </div>
+        </section>
+
+        <section class="form-panel">
+          <div class="panel-header">
+            <div>
+              <h3>付款與入帳</h3>
+              <p>付款狀態用來記錄顧客是否完成付款；入帳狀態則用來核對款項是否實際進入你的帳戶。</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group">
+              <span>付款狀態</span>
+              <select id="paymentStatus">
+                <option value="unpaid">未付款</option>
+                <option value="paid">已付款</option>
+              </select>
+            </label>
+
+            <label class="field-group">
+              <span>入帳狀態</span>
+              <select id="settlementStatus">
+                <option value="unsettled">未入帳</option>
+                <option value="settled">已入帳</option>
+                <option value="not_applicable">不需入帳</option>
+              </select>
+            </label>
+
+            <label class="field-group">
+              <span>實際入帳金額</span>
+              <input type="number" id="settledAmount" min="0" step="1" placeholder="平台扣除費用後的金額" disabled />
             </label>
           </div>
         </section>
@@ -240,11 +307,11 @@
           <div>
             <span>訂單總金額</span>
             <strong id="orderTotalAmount">NT$ 0</strong>
-            <p id="submitStatusText">建立後付款狀態預設為未付款，訂單狀態預設為新訂單。</p>
+            <p id="submitStatusText">建立後會依手機號碼歸入既有顧客；散客不建立個人識別資料。</p>
           </div>
 
           <button type="submit" class="btn primary submit-order-btn" id="submitOrderBtn">
-            建立手動訂單
+            建立銷售紀錄
           </button>
         </section>
       </form>
@@ -278,6 +345,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/order-create.js?v=20260711"></script>
+  <script src="../assets/js/pages/order-create.js?v=20260805"></script>
 </body>
 </html>

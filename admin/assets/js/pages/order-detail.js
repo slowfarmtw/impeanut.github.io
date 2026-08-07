@@ -7,9 +7,13 @@ const orderStatusText = document.getElementById("orderStatusText");
 const orderCreatedAt = document.getElementById("orderCreatedAt");
 
 const orderTotalAmount = document.getElementById("orderTotalAmount");
+const orderSourceLabel = document.getElementById("orderSourceLabel");
+const externalOrderNumberLabel = document.getElementById("externalOrderNumberLabel");
 const orderPaymentMethod = document.getElementById("orderPaymentMethod");
 const orderPaymentStatus = document.getElementById("orderPaymentStatus");
 const orderPaidAt = document.getElementById("orderPaidAt");
+const orderSettlementStatus = document.getElementById("orderSettlementStatus");
+const orderSettledAmount = document.getElementById("orderSettledAmount");
 const orderPackingStatus = document.getElementById("orderPackingStatus");
 const orderShippingStatus = document.getElementById("orderShippingStatus");
 
@@ -20,6 +24,7 @@ const customerEmail = document.getElementById("customerEmail");
 const shippingName = document.getElementById("shippingName");
 const shippingPhone = document.getElementById("shippingPhone");
 const shippingMethod = document.getElementById("shippingMethod");
+const pickupStore = document.getElementById("pickupStore");
 const shippingAddress = document.getElementById("shippingAddress");
 
 const orderItemsTableBody = document.getElementById("orderItemsTableBody");
@@ -38,6 +43,8 @@ const saveAccountingNoteBtn = document.getElementById("saveAccountingNoteBtn");
 const saveWorkshopNoteBtn = document.getElementById("saveWorkshopNoteBtn");
 
 const paymentStatusSelect = document.getElementById("paymentStatusSelect");
+const settlementStatusSelect = document.getElementById("settlementStatusSelect");
+const settledAmountInput = document.getElementById("settledAmountInput");
 const orderStatusSelect = document.getElementById("orderStatusSelect");
 const packingStatusSelect = document.getElementById("packingStatusSelect");
 const shippingStatusSelect = document.getElementById("shippingStatusSelect");
@@ -84,6 +91,22 @@ const SHIPPING_STATUS_LABELS = {
   delivered: "已送達"
 };
 
+const SETTLEMENT_STATUS_LABELS = {
+  unsettled: "未入帳",
+  settled: "已入帳",
+  not_applicable: "不需入帳"
+};
+
+const ORDER_SOURCE_LABELS = {
+  website: "官網",
+  myship: "7-ELEVEN 賣貨便",
+  onsite: "現場購買",
+  friends_family: "親友訂購",
+  social: "LINE／IG 私訊",
+  other: "其他",
+  manual_legacy: "舊手動訂單"
+};
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -106,6 +129,15 @@ function setInputValue(element, value) {
 function setSelectValue(element, value) {
   if (!element) return;
   element.value = value || "";
+}
+
+function updateSettlementAmountState() {
+  if (!settledAmountInput || !settlementStatusSelect) return;
+
+  const isSettled = settlementStatusSelect.value === "settled";
+  settledAmountInput.disabled = !isSettled;
+
+  if (!isSettled) settledAmountInput.value = "";
 }
 
 function formatPrice(price) {
@@ -135,6 +167,8 @@ function getLabel(map, value) {
 function getWorkflowFieldLabel(fieldName) {
   const map = {
     payment_status: "付款狀態",
+    settlement_status: "入帳狀態",
+    settled_amount: "實際入帳金額",
     order_status: "訂單狀態",
     packing_status: "包裝狀態",
     shipping_status: "出貨狀態"
@@ -146,6 +180,7 @@ function getWorkflowFieldLabel(fieldName) {
 function getWorkflowLabelMap(fieldName) {
   const map = {
     payment_status: PAYMENT_STATUS_LABELS,
+    settlement_status: SETTLEMENT_STATUS_LABELS,
     order_status: ORDER_STATUS_LABELS,
     packing_status: PACKING_STATUS_LABELS,
     shipping_status: SHIPPING_STATUS_LABELS
@@ -157,6 +192,8 @@ function getWorkflowLabelMap(fieldName) {
 function getWorkflowActionName(fieldName) {
   const map = {
     payment_status: "update_payment_status",
+    settlement_status: "update_settlement_status",
+    settled_amount: "update_settled_amount",
     order_status: "update_order_status",
     packing_status: "update_packing_status",
     shipping_status: "update_shipping_status"
@@ -319,12 +356,16 @@ function fillOrder(order) {
   orderDetailHint.textContent = `查看 ${orderNumber} 的完整訂單資料、商品明細與備註。`;
 
   setText(orderStatusText, getLabel(ORDER_STATUS_LABELS, order.order_status));
-  setText(orderCreatedAt, `建立時間：${formatDateTime(order.created_at)}`);
+  setText(orderCreatedAt, `銷售日期：${formatDateTime(order.order_date || order.created_at)}`);
 
   setText(orderTotalAmount, formatPrice(order.total_amount));
+  setText(orderSourceLabel, getLabel(ORDER_SOURCE_LABELS, order.order_source || "website"));
+  setText(externalOrderNumberLabel, `外部單號：${order.external_order_number || "-"}`);
   setText(orderPaymentMethod, `付款方式：${order.payment_method || "-"}`);
   setText(orderPaymentStatus, getLabel(PAYMENT_STATUS_LABELS, order.payment_status));
   setText(orderPaidAt, `付款時間：${formatDateTime(order.paid_at)}`);
+  setText(orderSettlementStatus, getLabel(SETTLEMENT_STATUS_LABELS, order.settlement_status || "unsettled"));
+  setText(orderSettledAmount, `實際入帳：${formatPrice(order.settled_amount)}`);
   setText(orderPackingStatus, getLabel(PACKING_STATUS_LABELS, order.packing_status));
   setText(orderShippingStatus, `出貨狀態：${getLabel(SHIPPING_STATUS_LABELS, order.shipping_status)}`);
 
@@ -335,6 +376,7 @@ function fillOrder(order) {
   setText(shippingName, order.shipping_name);
   setText(shippingPhone, order.shipping_phone);
   setText(shippingMethod, order.shipping_method);
+  setText(pickupStore, order.pickup_store);
   setText(shippingAddress, order.shipping_address);
 
   setText(orderSubtotal, formatPrice(order.subtotal));
@@ -348,6 +390,9 @@ function fillOrder(order) {
   setInputValue(workshopNoteInput, order.workshop_note);
 
   setSelectValue(paymentStatusSelect, order.payment_status || "unpaid");
+  setSelectValue(settlementStatusSelect, order.settlement_status || "unsettled");
+  setInputValue(settledAmountInput, order.settled_amount ?? "");
+  updateSettlementAmountState();
   setSelectValue(orderStatusSelect, order.order_status || "new");
   setSelectValue(packingStatusSelect, order.packing_status || "not_started");
   setSelectValue(shippingStatusSelect, order.shipping_status || "not_shipped");
@@ -360,6 +405,15 @@ function buildWorkflowTimestampPayload(payload) {
 
   if (payload.payment_status === "paid" && currentOrder.payment_status !== "paid") {
     payload.paid_at = now;
+  }
+
+  if (payload.settlement_status === "settled" && currentOrder.settlement_status !== "settled") {
+    payload.settled_at = now;
+  }
+
+  if (currentOrder.settlement_status === "settled" && payload.settlement_status !== "settled") {
+    payload.settled_at = null;
+    payload.settled_amount = null;
   }
 
   if (currentOrder.payment_status === "paid" && payload.payment_status !== "paid") {
@@ -452,6 +506,10 @@ async function updateWorkflowStatus() {
 
   const payload = {
     payment_status: paymentStatusSelect.value,
+    settlement_status: settlementStatusSelect.value,
+    settled_amount: settlementStatusSelect.value === "settled"
+      ? Number(settledAmountInput.value || currentOrder?.total_amount || 0)
+      : null,
     order_status: orderStatusSelect.value,
     packing_status: packingStatusSelect.value,
     shipping_status: shippingStatusSelect.value
@@ -664,6 +722,7 @@ printShippingBtn?.addEventListener("click", () => {
 });
 
 saveWorkflowBtn?.addEventListener("click", updateWorkflowStatus);
+settlementStatusSelect?.addEventListener("change", updateSettlementAmountState);
 
 saveInternalNoteBtn?.addEventListener("click", () => {
   updateOrderNote(

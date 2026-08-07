@@ -49,7 +49,7 @@ function formatDateTime(value) {
 }
 
 function getCustomerKey(order) {
-  const phone = String(order.customer_phone || order.shipping_phone || "").trim();
+  const phone = String(order.customer_phone || order.shipping_phone || "").replace(/\D/g, "");
   const email = String(order.customer_email || "").trim().toLowerCase();
   const name = String(order.customer_name || order.shipping_name || "未命名顧客").trim();
 
@@ -69,11 +69,17 @@ function buildCustomersFromOrders(orders) {
   const customerMap = new Map();
 
   orders.forEach((order) => {
+    const contactPhone = String(order.customer_phone || order.shipping_phone || "").trim();
+    const contactEmail = String(order.customer_email || "").trim();
+    const contactName = String(order.customer_name || order.shipping_name || "").trim();
+
+    if (!contactPhone && !contactEmail && (!contactName || contactName === "散客")) return;
+
     const key = getCustomerKey(order);
     const name = order.customer_name || order.shipping_name || "未命名顧客";
     const phone = order.customer_phone || order.shipping_phone || "";
     const email = order.customer_email || "";
-    const createdAt = order.created_at || "";
+    const createdAt = order.order_date || order.created_at || "";
     const currentRevenue = isRevenueOrder(order) ? Number(order.total_amount || 0) : 0;
     const isProblem = order.order_status === "problem";
 

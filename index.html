@@ -5,18 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>花生一生｜雲林元長的花生品牌</title>
   <meta name="description" content="花生一生來自雲林元長，從種植、採收、挑選到乾烘焙，親自參與每一步，把單純飽滿的花生香送進你的日常。">
-  <link rel="icon" type="image/png" href="icons/icon.png">
-  <link rel="apple-touch-icon" href="icons/icon.png">
+  <link rel="icon" type="image/webp" href="icons/icon.webp">
+  <link rel="apple-touch-icon" href="icons/icon.webp">
   <link rel="stylesheet" href="css/style.css?v=20260713">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/mobile.css">
   <link rel="stylesheet" href="css/cart-ui.css?v=20260713">
   <link rel="stylesheet" href="css/brand-system.css?v=20260713">
-  <link rel="stylesheet" href="css/home-redesign.css?v=20260715">
+  <link rel="stylesheet" href="css/home-redesign.css?v=20260729-marquee-tone">
+  <link rel="stylesheet" href="css/palette-system.css?v=20260805">
 </head>
 <body class="home-page">
   <header class="site-header">
-    <a href="index.html" class="logo-area"><img src="images/logo.png" alt="花生一生 Logo"></a>
+    <a href="index.html" class="logo-area"><img src="images/logo.webp" alt="花生一生 Logo"></a>
     <button class="menu-toggle" id="menuToggle" aria-label="開啟網站選單" aria-controls="siteNav" aria-expanded="false">☰</button>
     <nav class="site-nav" id="siteNav" aria-label="主要導覽">
       <a href="index.html" aria-current="page">首頁</a>
@@ -24,7 +25,7 @@
       <a href="life.html">花生的一生</a>
       <a href="products.html">產品介紹</a>
       <a href="knowledge.html">花生知識</a>
-      <a href="cart.html">購物車</a>
+      <a href="order.html" data-purchase-link>前往購買</a>
       <a href="contact.html">聯絡我們</a>
     </nav>
   </header>
@@ -39,37 +40,30 @@
   <main>
     <section class="home-hero">
       <div class="home-hero-copy">
-        <p class="home-kicker">雲林元長・自家參與種植</p>
-        <h1>從土地到烘焙，<span>留住花生真正的香。</span></h1>
-        <p class="home-lead">我們是來自雲林元長的花生品牌「花生一生」。從種植、採收、挑選到乾烘焙，親自參與每一步，把單純、飽滿的花生香送進你的日常。</p>
+        <p class="home-kicker">原味乾烘焙花生</p>
+        <h1>成分單純，<span>吃得到花生本身的香。</span></h1>
+        <p class="home-lead">來自雲林元長，經過挑選分級，以乾烘焙帶出飽滿香氣。不用多餘調味，也適合放進每天想吃點好東西的時刻。</p>
         <div class="home-actions">
-          <a href="products.html" class="home-btn home-btn-primary">看看我們的花生</a>
-          <a href="life.html" class="home-btn home-btn-secondary">花生怎麼做出來</a>
+          <a href="order.html" class="home-btn home-btn-primary" data-purchase-link>前往 7-ELEVEN 賣貨便購買</a>
+          <a href="products.html" class="home-btn home-btn-secondary">查看產品與規格</a>
         </div>
+        <p class="purchase-platform-note">將前往 7-ELEVEN 賣貨便，付款與配送由賣貨便系統處理。</p>
         <div class="home-proof"><span>雲林元長產地</span><span>挑選分級</span><span>乾烘焙少添加</span></div>
       </div>
       <div class="home-hero-visual">
-        <img src="images/hero.webp" alt="雲林元長花生田與種植日常">
-        <div class="home-float-card"><strong>一顆花生，不只是一份零嘴。</strong><small>它裝著土地、季節與做事的堅持。</small></div>
+        <img src="images/products/home-peanuts.webp" alt="原味乾烘焙花生產品形象" width="1402" height="1122" fetchpriority="high">
+        <div class="home-float-card"><strong>原味乾烘焙</strong><small>成分單純，留下花生自然香氣。</small></div>
       </div>
     </section>
 
-    <section class="home-section home-products">
-      <div class="home-wrap">
-        <div class="home-section-head"><div><p class="home-kicker">FROM OUR FIELD</p><h2>把花生香，帶回家。</h2></div><p>成分單純、來源清楚。適合泡茶、聊天，也適合放進每天想吃點好東西的時刻。</p></div>
-        <div class="home-product-grid">
-          <article class="home-product-card">
-            <div class="home-product-photo"><img src="images/products/placeholder.png" alt="原味乾烘焙花生"></div>
-            <div class="home-product-copy"><span class="home-tag">人氣推薦</span><h3>原味乾烘焙花生</h3><p>以乾烘焙帶出花生本身的濃郁香氣，不用多餘調味，也能一口接一口。</p><a href="products.html">查看產品與規格 →</a></div>
-          </article>
-          <aside class="home-product-side"><p class="home-kicker">日常的一包好花生</p><h3>泡茶、聊天、工作休息，都剛剛好。</h3><p>不需要特別的場合，花生香就是生活裡簡單而踏實的滿足。</p><a class="home-btn home-btn-secondary" href="products.html">前往選購</a></aside>
-        </div>
-      </div>
+    <section class="home-section home-articles-preview">
+      <div class="home-articles-head"><div><p class="home-kicker">PEANUT JOURNAL</p><h2>懂一點，更懂得怎麼吃。</h2><p>整理花生保存、烘焙、風味與品牌紀錄，慢慢累積一顆花生值得被理解的地方。</p></div><a href="knowledge.html" class="home-btn home-btn-secondary">閱讀全部文章</a></div>
+      <div id="homeArticleList" class="home-article-list"><p class="home-article-loading">文章載入中...</p></div>
     </section>
 
     <section class="home-conversion-band">
       <div class="home-wrap home-conversion-grid">
-        <article class="home-conversion-card is-primary"><p class="home-kicker">SHOP NOW</p><h2>今天想吃點<br>真實的花生香。</h2><p>查看現有商品、規格與價格，把雲林元長的日常風味帶回家。</p><a class="home-btn home-btn-light" href="products.html">立即選購</a></article>
+        <article class="home-conversion-card is-primary"><p class="home-kicker">SHOP NOW</p><h2>今天想吃點<br>真實的花生香。</h2><p>先在官網認識商品，再由 7-ELEVEN 賣貨便完成下單、付款與取貨。</p><a class="home-btn home-btn-light" href="order.html" data-purchase-link>前往賣貨便購買</a></article>
         <article class="home-conversion-card"><p class="home-kicker">LATEST</p><h3>新品與活動消息</h3><p>最新出貨、優惠與品牌活動，都會優先放在首頁公告。</p><a href="knowledge.html">查看最新內容 →</a></article>
         <article class="home-conversion-card"><p class="home-kicker">OUR PROCESS</p><h3>一顆花生怎麼完成</h3><p>從播種、採收到乾燥與烘焙，看看我們重視的每一步。</p><a href="life.html">認識花生的一生 →</a></article>
       </div>
@@ -79,18 +73,13 @@
       <div class="home-wrap home-brand-proof-grid"><div><p class="home-kicker">品牌堅持</p><h2>來源清楚，做法認真，味道自然。</h2></div><p>「花生一生」來自雲林元長。我們參與種植、採收、挑選與烘焙，不把產地只當一句故事，而是把每一步落實在產品裡。<a href="about.html">認識品牌理念 →</a></p></div>
     </section>
 
-    <section class="home-section home-articles-preview">
-      <div class="home-articles-head"><div><p class="home-kicker">PEANUT JOURNAL</p><h2>懂一點，更懂得怎麼吃。</h2><p>整理花生保存、烘焙、風味與品牌紀錄，慢慢累積一顆花生值得被理解的地方。</p></div><a href="knowledge.html" class="home-btn home-btn-secondary">閱讀全部文章</a></div>
-      <div id="homeArticleList" class="home-article-list"><p class="home-article-loading">文章載入中...</p></div>
-    </section>
-
     <section class="home-cta"><div class="home-wrap"><p class="home-kicker">TASTE THE HONEST FLAVOR</p><h2>今天，也讓花生香<br>走進你的日常。</h2><p>想詢問現貨、產品規格或送禮需求，歡迎直接加入 LINE，我們會親自回覆。</p><a class="home-btn home-btn-light" href="https://lin.ee/u1MAv9v" target="_blank" rel="noopener noreferrer">加入 LINE 詢問訂購</a></div></section>
   </main>
 
   <footer class="site-footer">
     <div><h3>從從農農｜花生一生</h3><p>來自雲林元長，認真參與一顆花生從土地到餐桌的每一步。</p></div>
     <div><h4>網站導覽</h4><a href="about.html">品牌故事</a><a href="products.html">選購花生</a><a href="life.html">花生的一生</a><a href="contact.html">聯絡我們</a></div>
-    <div><h4>追蹤我們</h4><a href="https://www.instagram.com/slowfarm.tw/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="icons/instagram.png" alt="Instagram"></a><a href="https://www.facebook.com/profile.php?id=61576355832008" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="icons/facebook.png" alt="Facebook"></a><a href="https://lin.ee/u1MAv9v" target="_blank" rel="noopener noreferrer" aria-label="LINE 官方帳號"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入花生一生 LINE 官方帳號" height="36"></a></div>
+    <div><h4>追蹤我們</h4><a href="https://www.instagram.com/slowfarm.tw/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="icons/instagram.webp" alt="Instagram"></a><a href="https://www.facebook.com/profile.php?id=61576355832008" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img src="icons/facebook.webp" alt="Facebook"></a><a href="https://lin.ee/u1MAv9v" target="_blank" rel="noopener noreferrer" aria-label="LINE 官方帳號"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png" alt="加入花生一生 LINE 官方帳號" height="36"></a></div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
   <link rel="stylesheet" href="../assets/css/pages/analytics.css?v=20260711-2" />
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
 </head>
 
 <body>
@@ -137,6 +138,19 @@
         <article class="panel analytics-panel">
           <div class="analytics-panel-heading">
             <div>
+              <h3>訂單來源</h3>
+              <p>比較賣貨便、現場、親友與私訊通路的訂單量。</p>
+            </div>
+          </div>
+
+          <div id="orderSourceSummary" class="analytics-progress-list">
+            <p class="analytics-empty">尚無訂單來源資料。</p>
+          </div>
+        </article>
+
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div>
               <h3>熱銷商品</h3>
               <p>依銷售數量與銷售額排序。</p>
             </div>
@@ -223,7 +237,7 @@
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
   <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
-  <script src="../assets/js/pages/analytics.js?v=20260711"></script>
+  <script src="../assets/js/pages/analytics.js?v=20260805"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");

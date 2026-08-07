@@ -91,13 +91,13 @@ function renderArticleCard(article) {
             src="${escapeHtml(imageSrc)}"
             alt="${escapeHtml(title)}"
             loading="lazy"
-            onerror="this.onerror=null; this.src='images/articles/article-placeholder.jpg';"
+            onerror="this.onerror=null; this.src='images/articles/article-placeholder.webp';"
           >
         </a>
       ` : `
         <a class="article-card-image" href="${detailUrl}" aria-label="閱讀 ${escapeHtml(title)}">
           <img
-            src="images/articles/article-placeholder.jpg"
+            src="images/articles/article-placeholder.webp"
             alt="${escapeHtml(title)}"
             loading="lazy"
           >

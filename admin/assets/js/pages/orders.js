@@ -6,7 +6,7 @@ const ordersMobileList = document.getElementById("ordersMobileList");
 
 const orderStatusText = document.getElementById("orderStatusText");
 const totalOrdersEl = document.getElementById("totalOrders");
-const paidOrdersEl = document.getElementById("paidOrders");
+const unsettledAmountEl = document.getElementById("unsettledAmount");
 const pendingShippingOrdersEl = document.getElementById("pendingShippingOrders");
 const problemOrdersEl = document.getElementById("problemOrders");
 const refreshOrdersBtn = document.getElementById("refreshOrdersBtn");
@@ -55,6 +55,16 @@ const SHIPPING_STATUS_LABELS = {
   delivered: "已送達"
 };
 
+const ORDER_SOURCE_LABELS = {
+  website: "官網",
+  myship: "賣貨便",
+  onsite: "現場購買",
+  friends_family: "親友訂購",
+  social: "LINE／IG",
+  other: "其他",
+  manual_legacy: "舊手動訂單"
+};
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -91,6 +101,8 @@ function getLabel(map, value) {
 function getOrderSearchText(order) {
   return [
     order.order_number,
+    order.external_order_number,
+    getLabel(ORDER_SOURCE_LABELS, order.order_source),
     order.customer_name,
     order.customer_phone,
     order.customer_email,
@@ -140,7 +152,7 @@ function isWithinLastDays(date, days) {
 function matchDateFilter(order, filterValue) {
   if (!filterValue || filterValue === "all") return true;
 
-  const date = new Date(order.created_at);
+  const date = new Date(order.order_date || order.created_at);
 
   if (Number.isNaN(date.getTime())) return false;
 
@@ -209,9 +221,13 @@ async function createOrderLog({ orderId, action, oldValue, newValue, note }) {
 function renderSummary(orders) {
   const total = orders.length;
 
-  const paid = orders.filter((order) => {
-    return order.payment_status === "paid";
-  }).length;
+  const unsettledAmount = orders
+    .filter((order) => {
+      return order.order_status !== "cancelled" &&
+        order.settlement_status !== "settled" &&
+        order.settlement_status !== "not_applicable";
+    })
+    .reduce((sum, order) => sum + Number(order.total_amount || 0), 0);
 
   const pendingShipping = orders.filter((order) => {
     const shippingStatus = order.shipping_status || "not_shipped";
@@ -224,7 +240,7 @@ function renderSummary(orders) {
   }).length;
 
   totalOrdersEl.textContent = total;
-  paidOrdersEl.textContent = paid;
+  unsettledAmountEl.textContent = formatPrice(unsettledAmount);
   pendingShippingOrdersEl.textContent = pendingShipping;
   problemOrdersEl.textContent = problem;
 }
@@ -363,7 +379,7 @@ function renderOrdersTable(orders) {
   if (!orders.length) {
     ordersTableBody.innerHTML = `
       <tr>
-        <td colspan="10">${getEmptyText()}</td>
+        <td colspan="11">${getEmptyText()}</td>
       </tr>
     `;
     return;
@@ -374,8 +390,10 @@ function renderOrdersTable(orders) {
       <tr>
         <td>
           <strong>${escapeHtml(order.order_number || "-")}</strong>
+          ${order.external_order_number ? `<small>${escapeHtml(order.external_order_number)}</small>` : ""}
         </td>
 
+        <td>${escapeHtml(getLabel(ORDER_SOURCE_LABELS, order.order_source || "website"))}</td>
         <td>${escapeHtml(order.customer_name || "-")}</td>
         <td>${escapeHtml(order.customer_phone || "-")}</td>
         <td>${formatPrice(order.total_amount)}</td>
@@ -385,7 +403,7 @@ function renderOrdersTable(orders) {
         <td>${renderPackingStatusSelect(order)}</td>
         <td>${renderShippingStatusSelect(order)}</td>
 
-        <td>${formatDateTime(order.created_at)}</td>
+        <td>${formatDateTime(order.order_date || order.created_at)}</td>
 
         <td>
           <div class="order-actions">
@@ -424,8 +442,9 @@ function renderOrdersMobile(orders) {
             <strong class="order-mobile-id">
               ${escapeHtml(order.order_number || "-")}
             </strong>
+            <p class="order-mobile-date">${escapeHtml(getLabel(ORDER_SOURCE_LABELS, order.order_source || "website"))}</p>
             <p class="order-mobile-date">
-              ${formatDateTime(order.created_at)}
+              ${formatDateTime(order.order_date || order.created_at)}
             </p>
           </div>
 
@@ -717,7 +736,7 @@ function showSupabaseNotConfigured() {
   if (ordersTableBody) {
     ordersTableBody.innerHTML = `
       <tr>
-        <td colspan="10">請先設定 admin/assets/js/services/supabase-config.js。</td>
+        <td colspan="11">請先設定 admin/assets/js/services/supabase-config.js。</td>
       </tr>
     `;
   }
@@ -735,7 +754,7 @@ function showLoadError() {
   if (ordersTableBody) {
     ordersTableBody.innerHTML = `
       <tr>
-        <td colspan="10">訂單資料讀取失敗，請檢查 Supabase orders 資料表。</td>
+        <td colspan="11">訂單資料讀取失敗，請檢查 Supabase orders 資料表。</td>
       </tr>
     `;
   }
@@ -765,7 +784,7 @@ async function loadOrders() {
     .from("orders")
     .select("*")
     .eq("is_archived", isArchivedView)
-    .order("created_at", { ascending: false });
+    .order("order_date", { ascending: false });
 
   if (error) {
     console.error("讀取訂單失敗：", error);
@@ -872,6 +891,9 @@ function getOrderExportRows(orders) {
   return orders.map((order) => {
     return {
       訂單編號: order.order_number || "",
+      外部訂單編號: order.external_order_number || "",
+      訂單來源: getLabel(ORDER_SOURCE_LABELS, order.order_source || "website"),
+      銷售日期: formatDateTime(order.order_date || order.created_at),
       建立時間: formatDateTime(order.created_at),
       顧客姓名: order.customer_name || "",
       顧客電話: order.customer_phone || "",
@@ -885,6 +907,8 @@ function getOrderExportRows(orders) {
       訂單金額: Number(order.total_amount || 0),
       付款方式: order.payment_method || "",
       付款狀態: getLabel(PAYMENT_STATUS_LABELS, order.payment_status || "unpaid"),
+      入帳狀態: order.settlement_status === "settled" ? "已入帳" : order.settlement_status === "not_applicable" ? "不需入帳" : "未入帳",
+      實際入帳金額: Number(order.settled_amount || 0),
       訂單狀態: getLabel(ORDER_STATUS_LABELS, order.order_status || "new"),
       包裝狀態: getLabel(PACKING_STATUS_LABELS, order.packing_status || "not_started"),
       出貨狀態: getLabel(SHIPPING_STATUS_LABELS, order.shipping_status || "not_shipped"),

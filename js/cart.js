@@ -39,6 +39,26 @@ function renderCart() {
 
   if (!container) return;
 
+  if (window.PEANUT_PURCHASE_MODE === "myship") {
+    const heroLabel = document.querySelector(".page-hero .section-label");
+    const heroTitle = document.querySelector(".page-hero h1");
+    const heroDescription = document.querySelector(".page-hero h1 + p");
+
+    if (heroLabel) heroLabel.textContent = "PURCHASE UPDATE";
+    if (heroTitle) heroTitle.textContent = "購買方式已更新";
+    if (heroDescription) heroDescription.textContent = "官網購物車暫停使用，訂購改由 7-ELEVEN 賣貨便完成。";
+
+    container.innerHTML = `
+      <div class="purchase-transition-card">
+        <p class="section-label">7-ELEVEN 賣貨便</p>
+        <h2>安心完成下單與取貨</h2>
+        <p>花生一生目前統一由 7-ELEVEN 賣貨便提供商品選購、付款與配送服務。</p>
+        <a href="order.html" class="primary-link-btn" data-purchase-link>前往 7-ELEVEN 賣貨便購買</a>
+      </div>
+    `;
+    return;
+  }
+
   const cart = getCart();
 
   if (cart.length === 0) {
