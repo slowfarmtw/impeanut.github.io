@@ -234,6 +234,25 @@ function renderProductDetailContent(product) {
   const imageSrc = product.image_src || getProductImageSrc(product.cover_image || product.image);
   const subtitleParts = [product.subtitle, product.weight].filter(Boolean);
   const introText = product.description || "內容整理中。";
+  const usesMyShip = window.PEANUT_PURCHASE_MODE === "myship";
+  const purchaseControls = usesMyShip
+    ? `
+      <a href="order.html" class="add-cart-btn" data-purchase-link>
+        前往 7-ELEVEN 賣貨便購買
+      </a>
+      <p class="purchase-platform-note">將前往 7-ELEVEN 賣貨便，付款與配送由賣貨便系統處理。</p>
+    `
+    : `
+      <div class="quantity-control">
+        <button type="button" id="qtyMinus">−</button>
+        <span id="qtyNumber">1</span>
+        <button type="button" id="qtyPlus">＋</button>
+      </div>
+
+      <button type="button" class="add-cart-btn" id="addToCartBtn">
+        加入購物車
+      </button>
+    `;
 
   productDetail.innerHTML = `
     <section class="product-detail-page">
@@ -256,16 +275,7 @@ function renderProductDetailContent(product) {
           </p>
 
           <p class="product-detail-price">${formatPrice(product.price)}</p>
-
-          <div class="quantity-control">
-            <button type="button" id="qtyMinus">−</button>
-            <span id="qtyNumber">1</span>
-            <button type="button" id="qtyPlus">＋</button>
-          </div>
-
-          <button type="button" class="add-cart-btn" id="addToCartBtn">
-            加入購物車
-          </button>
+          ${purchaseControls}
         </div>
       </div>
 
@@ -298,7 +308,11 @@ function renderProductDetailContent(product) {
     </section>
   `;
 
-  setupProductQuantity(product);
+  if (usesMyShip) {
+    window.peanutApplyPurchaseModeLinks?.(productDetail);
+  } else {
+    setupProductQuantity(product);
+  }
 }
 
 async function renderProductDetail() {

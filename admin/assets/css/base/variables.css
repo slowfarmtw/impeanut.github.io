@@ -1,19 +1,19 @@
 :root {
   /* Brand Colors */
-  --color-bg: #f8f6f2;
-  --color-surface: #fffdf8;
-  --color-surface-soft: #f1ebe1;
+  --color-bg: #f5f3ed;
+  --color-surface: #fbfaf6;
+  --color-surface-soft: #eae5da;
 
-  --color-primary: #8c6a4a;
-  --color-primary-dark: #6f4f35;
-  --color-primary-soft: #e7d8c5;
+  --color-primary: #c5a059;
+  --color-primary-dark: #2b2d2f;
+  --color-primary-soft: #efe8da;
 
-  --color-secondary: #a9967a;
-  --color-border: #e7dfd3;
+  --color-secondary: #8c867a;
+  --color-border: #d8c9a8;
 
-  --color-text: #3e3a35;
-  --color-muted: #756d63;
-  --color-light-text: #9a9085;
+  --color-text: #2b2d2f;
+  --color-muted: #66645f;
+  --color-light-text: #8a867e;
 
   --color-success: #7fa88c;
   --color-warning: #c8a66a;
@@ -37,9 +37,9 @@
   --space-2xl: 48px;
 
   /* Shadow */
-  --shadow-sm: 0 4px 12px rgba(90, 65, 40, 0.06);
-  --shadow-md: 0 12px 32px rgba(90, 65, 40, 0.08);
-  --shadow-lg: 0 20px 48px rgba(90, 65, 40, 0.12);
+  --shadow-sm: 0 4px 12px rgba(43, 45, 47, 0.05);
+  --shadow-md: 0 12px 32px rgba(43, 45, 47, 0.07);
+  --shadow-lg: 0 20px 48px rgba(43, 45, 47, 0.1);
 
   /* Layout */
   --sidebar-width: 260px;

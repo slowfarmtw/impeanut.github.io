@@ -1,3 +1,6 @@
+if (window.PEANUT_PURCHASE_MODE === "myship") {
+  window.location.replace("order.html");
+} else {
 let checkoutSettings = {
   defaultShippingFee: 80,
   convenienceStoreShippingFee: 60,
@@ -464,3 +467,4 @@ async function initCheckout() {
 }
 
 initCheckout();
+}

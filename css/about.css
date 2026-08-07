@@ -1,0 +1,159 @@
+.about-intro,
+.about-origin {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  align-items: center;
+  gap: clamp(48px, 7vw, 104px);
+  padding: clamp(76px, 8vw, 118px) 6vw;
+}
+
+.about-copy {
+  max-width: 650px;
+}
+
+.about-copy .section-label {
+  margin: 0 0 14px;
+}
+
+.about-copy h2 {
+  margin: 0 0 28px;
+  font-size: clamp(36px, 4.2vw, 58px);
+  line-height: 1.28;
+}
+
+.about-copy p:not(.section-label) {
+  margin: 0 0 17px;
+  color: var(--brand-muted);
+  font-size: 17px;
+  line-height: 1.95;
+}
+
+.about-photo {
+  margin: 0;
+}
+
+.about-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 72%;
+  border-radius: 32px;
+  box-shadow: var(--brand-shadow);
+}
+
+.about-photo figcaption {
+  margin-top: 14px;
+  color: var(--brand-muted);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+
+.about-origin {
+  grid-template-columns: minmax(320px, 0.78fr) minmax(0, 1.22fr);
+  background: var(--brand-paper-2);
+}
+
+.about-place-card {
+  position: relative;
+  min-height: 360px;
+  padding: clamp(38px, 5vw, 64px);
+  border: 1px solid var(--brand-line);
+  border-radius: 32px;
+  background: var(--brand-green-dark);
+  color: #f8f2e6;
+  overflow: hidden;
+}
+
+.about-place-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  bottom: -95px;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background: rgba(216, 183, 133, 0.14);
+}
+
+.about-place-card .section-label {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 30px;
+  color: #d8b785;
+}
+
+.about-place-name {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 22px;
+  font-family: "Noto Serif TC", "Songti TC", serif;
+  font-size: clamp(38px, 4.2vw, 60px);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.about-place-card span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 240px;
+  color: #dddcd3;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .about-intro,
+  .about-origin {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    padding: 64px 20px;
+  }
+
+  .about-copy {
+    max-width: none;
+  }
+
+  .about-intro .about-photo {
+    grid-row: 1;
+  }
+
+  .about-photo img {
+    border-radius: 24px;
+  }
+
+  .about-place-card {
+    min-height: 300px;
+    border-radius: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-intro,
+  .about-origin {
+    gap: 34px;
+    padding-top: 54px;
+    padding-bottom: 54px;
+  }
+
+  .about-copy h2 {
+    margin-bottom: 22px;
+    font-size: 34px;
+  }
+
+  .about-copy p:not(.section-label) {
+    font-size: 16px;
+    line-height: 1.85;
+  }
+
+  .about-photo img {
+    aspect-ratio: 1 / 1;
+  }
+
+  .about-place-card {
+    min-height: 260px;
+    padding: 34px 30px;
+  }
+}

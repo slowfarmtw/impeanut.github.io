@@ -22,11 +22,21 @@
     repeatCustomers: document.getElementById("analyticsRepeatCustomers"),
     repeatRate: document.getElementById("analyticsRepeatRate"),
     topCustomer: document.getElementById("analyticsTopCustomer"),
+    orderSourceSummary: document.getElementById("orderSourceSummary"),
     paymentMethodSummary: document.getElementById("paymentMethodSummary"),
     deliveryMethodSummary: document.getElementById("deliveryMethodSummary")
   };
 
   const cancelledStatuses = new Set(["cancelled", "canceled", "已取消"]);
+  const orderSourceLabels = {
+    website: "官網",
+    myship: "賣貨便",
+    onsite: "現場購買",
+    friends_family: "親友訂購",
+    social: "LINE／IG",
+    other: "其他",
+    manual_legacy: "舊手動訂單"
+  };
 
   function formatCurrency(value) {
     return `NT$ ${Math.round(Number(value || 0)).toLocaleString("zh-TW")}`;
@@ -46,7 +56,7 @@
   }
 
   function getOrderDate(order) {
-    return new Date(order.created_at || order.order_date || 0);
+    return new Date(order.order_date || order.created_at || 0);
   }
 
   function getOrderTotal(order) {
@@ -62,12 +72,18 @@
   }
 
   function getCustomerKey(order) {
+    const customerName = String(order.customer_name || order.name || "").trim();
+    const phone = String(order.customer_phone || order.phone || "").replace(/\D/g, "");
+    const email = String(order.customer_email || order.email || "").trim().toLowerCase();
+    const hasContact = phone || email;
+
+    if (!hasContact && (!customerName || customerName === "散客")) return "";
+
+    if (phone) return `phone:${phone}`;
+    if (email) return `email:${email}`;
+
     return String(
-      order.customer_email ||
-        order.email ||
-        order.customer_phone ||
-        order.phone ||
-        order.customer_name ||
+      order.customer_name ||
         order.name ||
         ""
     )
@@ -93,6 +109,11 @@
 
   function getDeliveryMethod(order) {
     return String(order.delivery_method || order.shipping_method || "未設定").trim();
+  }
+
+  function getOrderSource(order) {
+    const source = String(order.order_source || "website").trim();
+    return orderSourceLabels[source] || source || "未設定";
   }
 
   function getDateRange(periodValue) {
@@ -528,6 +549,10 @@
       renderTrend(currentOrders, periodValue);
       renderOrderStatuses(currentOrders);
       renderCustomers(currentSummary);
+      renderProgressSummary(
+        elements.orderSourceSummary,
+        currentSummary.validOrders.map(getOrderSource)
+      );
       renderProgressSummary(
         elements.paymentMethodSummary,
         currentSummary.validOrders.map(getPaymentMethod)

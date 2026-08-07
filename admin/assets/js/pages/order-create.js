@@ -1,5 +1,5 @@
 // admin/assets/js/pages/order-create.js
-// 手動新增訂單：建立 orders + order_items，給 LINE、IG、電話、企業採購、親友代售等官網外訂單使用。
+// 新增銷售紀錄：建立 orders + order_items，統一記錄賣貨便、現場、親友與社群私訊訂單。
 // 商品明細會從 Supabase products 讀取，避免手動輸入造成品項名稱不一致。
 
 const orderCreateForm = document.getElementById("orderCreateForm");
@@ -11,10 +11,23 @@ const submitOrderBtn = document.getElementById("submitOrderBtn");
 const submitStatusText = document.getElementById("submitStatusText");
 
 const orderSource = document.getElementById("orderSource");
+const orderDate = document.getElementById("orderDate");
+const externalOrderField = document.getElementById("externalOrderField");
+const externalOrderNumber = document.getElementById("externalOrderNumber");
 const paymentMethod = document.getElementById("paymentMethod");
+const paymentStatus = document.getElementById("paymentStatus");
+const settlementStatus = document.getElementById("settlementStatus");
+const settledAmount = document.getElementById("settledAmount");
 const customerName = document.getElementById("customerName");
 const customerPhone = document.getElementById("customerPhone");
 const customerEmail = document.getElementById("customerEmail");
+const findCustomerBtn = document.getElementById("findCustomerBtn");
+const setGuestCustomerBtn = document.getElementById("setGuestCustomerBtn");
+const customerMatchCard = document.getElementById("customerMatchCard");
+const fulfillmentMethod = document.getElementById("fulfillmentMethod");
+const pickupStoreField = document.getElementById("pickupStoreField");
+const pickupStore = document.getElementById("pickupStore");
+const shippingAddressField = document.getElementById("shippingAddressField");
 const receiverName = document.getElementById("receiverName");
 const receiverPhone = document.getElementById("receiverPhone");
 const shippingAddress = document.getElementById("shippingAddress");
@@ -22,6 +35,127 @@ const customerNote = document.getElementById("customerNote");
 const adminNote = document.getElementById("adminNote");
 
 let availableProducts = [];
+
+const SOURCE_DEFAULTS = {
+  myship: { fulfillment: "myship", payment: "myship_collection" },
+  onsite: { fulfillment: "onsite", payment: "cash" },
+  friends_family: { fulfillment: "meetup", payment: "cash" },
+  social: { fulfillment: "myship", payment: "myship_collection" },
+  other: { fulfillment: "other", payment: "other" }
+};
+
+function toLocalDateTimeValue(date = new Date()) {
+  const offset = date.getTimezoneOffset();
+  return new Date(date.getTime() - offset * 60000).toISOString().slice(0, 16);
+}
+
+function normalizePhone(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+function getSourceLabel(value) {
+  return orderSource?.querySelector(`option[value="${value}"]`)?.textContent?.trim() || value;
+}
+
+function updateSourceFields() {
+  const source = orderSource?.value || "myship";
+  const defaults = SOURCE_DEFAULTS[source] || SOURCE_DEFAULTS.other;
+
+  if (fulfillmentMethod) fulfillmentMethod.value = defaults.fulfillment;
+  if (paymentMethod) paymentMethod.value = defaults.payment;
+  if (externalOrderField) externalOrderField.hidden = source !== "myship";
+
+  updateFulfillmentFields();
+}
+
+function updateFulfillmentFields() {
+  const method = fulfillmentMethod?.value || "other";
+
+  if (pickupStoreField) pickupStoreField.hidden = method !== "myship";
+  if (shippingAddressField) shippingAddressField.hidden = method !== "shipping";
+}
+
+function updateSettlementFields() {
+  const isSettled = settlementStatus?.value === "settled";
+
+  if (settledAmount) {
+    settledAmount.disabled = !isSettled;
+    if (!isSettled) settledAmount.value = "";
+  }
+}
+
+function setCustomerMatchMessage(html, tone = "") {
+  if (!customerMatchCard) return;
+
+  customerMatchCard.hidden = false;
+  customerMatchCard.className = `customer-match-card field-full ${tone}`.trim();
+  customerMatchCard.innerHTML = html;
+}
+
+async function findExistingCustomer() {
+  const targetPhone = normalizePhone(customerPhone?.value);
+
+  if (!targetPhone) {
+    setCustomerMatchMessage("請先輸入顧客電話；沒有資料時可直接按「設為散客」。", "is-neutral");
+    return;
+  }
+
+  if (targetPhone.length < 8) {
+    setCustomerMatchMessage("電話位數不足，請確認後再比對。", "is-warning");
+    return;
+  }
+
+  findCustomerBtn.disabled = true;
+  findCustomerBtn.textContent = "比對中…";
+
+  try {
+    const { data, error } = await window.supabaseClient
+      .from("orders")
+      .select("customer_name, customer_phone, customer_email, shipping_name, shipping_phone, total_amount, created_at, order_status")
+      .order("created_at", { ascending: false })
+      .limit(1000);
+
+    if (error) throw error;
+
+    const matches = (data || []).filter((order) => {
+      return [order.customer_phone, order.shipping_phone].some((phone) => normalizePhone(phone) === targetPhone);
+    });
+
+    if (!matches.length) {
+      setCustomerMatchMessage("查無既有顧客，儲存後會以這支電話建立新的顧客紀錄。", "is-neutral");
+      return;
+    }
+
+    const latest = matches[0];
+    const revenue = matches
+      .filter((order) => order.order_status !== "cancelled")
+      .reduce((sum, order) => sum + Number(order.total_amount || 0), 0);
+    const matchedName = latest.customer_name || latest.shipping_name || "未命名顧客";
+
+    if (customerName && !customerName.value.trim()) customerName.value = matchedName;
+    if (customerEmail && !customerEmail.value.trim() && latest.customer_email) customerEmail.value = latest.customer_email;
+
+    setCustomerMatchMessage(
+      `<strong>找到既有顧客：${escapeHtml(matchedName)}</strong><span>${matches.length} 筆訂單・累計 ${formatPrice(revenue)}・已自動帶入可用資料</span>`,
+      "is-match"
+    );
+  } catch (error) {
+    console.error("比對顧客失敗：", error);
+    setCustomerMatchMessage("目前無法比對顧客，仍可繼續建立銷售紀錄。", "is-warning");
+  } finally {
+    findCustomerBtn.disabled = false;
+    findCustomerBtn.textContent = "比對顧客";
+  }
+}
+
+function setGuestCustomer() {
+  if (customerName) customerName.value = "散客";
+  if (customerPhone) customerPhone.value = "";
+  if (customerEmail) customerEmail.value = "";
+  if (receiverName) receiverName.value = "";
+  if (receiverPhone) receiverPhone.value = "";
+  setCustomerMatchMessage("這筆會記為散客，不會建立可辨識的個人顧客資料。", "is-neutral");
+}
 
 function formatPrice(price) {
   return `NT$ ${Number(price || 0).toLocaleString()}`;
@@ -233,7 +367,7 @@ function copyCustomerToReceiver() {
 }
 
 function buildInternalNote() {
-  const sourceText = orderSource?.value || "官網外手動訂單";
+  const sourceText = getSourceLabel(orderSource?.value || "other");
   const adminNoteText = adminNote?.value.trim() || "";
 
   const noteParts = [
@@ -245,20 +379,30 @@ function buildInternalNote() {
 }
 
 function buildOrderPayload(total) {
+  const customerNameValue = customerName?.value.trim() || "散客";
+  const paymentStatusValue = paymentStatus?.value || "unpaid";
+  const settlementStatusValue = settlementStatus?.value || "unsettled";
+  const isSettled = settlementStatusValue === "settled";
+
   return {
     order_number: generateOrderNumber(),
-    customer_name: customerName?.value.trim() || "",
+    order_source: orderSource?.value || "other",
+    order_date: orderDate?.value ? new Date(orderDate.value).toISOString() : new Date().toISOString(),
+    external_order_number: externalOrderNumber?.value.trim() || null,
+    fulfillment_method: fulfillmentMethod?.value || "other",
+    pickup_store: pickupStore?.value.trim() || null,
+    customer_name: customerNameValue,
     customer_phone: customerPhone?.value.trim() || "",
     customer_email: customerEmail?.value.trim() || null,
-    shipping_name: receiverName?.value.trim() || customerName?.value.trim() || "",
+    shipping_name: receiverName?.value.trim() || (customerNameValue === "散客" ? "" : customerNameValue),
     shipping_phone: receiverPhone?.value.trim() || customerPhone?.value.trim() || "",
     shipping_address: shippingAddress?.value.trim() || "",
-    shipping_method: "手動建立",
+    shipping_method: fulfillmentMethod?.selectedOptions?.[0]?.textContent?.trim() || "手動建立",
     subtotal: total,
     shipping_fee: 0,
     total_amount: total,
     payment_method: paymentMethod?.value || "bank_transfer",
-    payment_status: "unpaid",
+    payment_status: paymentStatusValue,
     payment_reference: null,
     order_status: "new",
     packing_status: "not_started",
@@ -267,6 +411,10 @@ function buildOrderPayload(total) {
     internal_note: buildInternalNote(),
     accounting_note: null,
     workshop_note: null,
+    settlement_status: settlementStatusValue,
+    settled_amount: isSettled ? Number(settledAmount?.value || total) : null,
+    settled_at: isSettled ? new Date().toISOString() : null,
+    paid_at: paymentStatusValue === "paid" ? new Date().toISOString() : null,
     is_archived: false
   };
 }
@@ -288,7 +436,7 @@ function setSubmitting(isSubmitting) {
   if (!submitOrderBtn) return;
 
   submitOrderBtn.disabled = isSubmitting;
-  submitOrderBtn.textContent = isSubmitting ? "建立中..." : "建立手動訂單";
+  submitOrderBtn.textContent = isSubmitting ? "建立中..." : "建立銷售紀錄";
 }
 
 function validateOrder(items, total) {
@@ -361,7 +509,7 @@ async function createManualOrder(event) {
   if (!validateOrder(items, total)) return;
 
   setSubmitting(true);
-  if (submitStatusText) submitStatusText.textContent = "正在建立手動訂單...";
+  if (submitStatusText) submitStatusText.textContent = "正在建立銷售紀錄...";
 
   try {
     const orderPayload = buildOrderPayload(total);
@@ -386,16 +534,16 @@ async function createManualOrder(event) {
       submitStatusText.textContent = `訂單建立成功：${orderData.order_number || ""}`;
     }
 
-    window.alert("手動訂單建立成功。");
+    window.alert("銷售紀錄建立成功。");
     window.location.href = `order-detail.html?id=${encodeURIComponent(orderData.id)}`;
   } catch (error) {
-    console.error("建立手動訂單失敗：", error);
+    console.error("建立銷售紀錄失敗：", error);
 
     if (submitStatusText) {
       submitStatusText.textContent = "建立失敗，請檢查 Supabase 欄位設定。";
     }
 
-    window.alert(`建立手動訂單失敗：${error.message || "未知錯誤"}`);
+    window.alert(`建立銷售紀錄失敗：${error.message || "未知錯誤"}`);
   } finally {
     setSubmitting(false);
   }
@@ -403,6 +551,11 @@ async function createManualOrder(event) {
 
 addItemBtn?.addEventListener("click", addItemRow);
 copyCustomerBtn?.addEventListener("click", copyCustomerToReceiver);
+findCustomerBtn?.addEventListener("click", findExistingCustomer);
+setGuestCustomerBtn?.addEventListener("click", setGuestCustomer);
+orderSource?.addEventListener("change", updateSourceFields);
+fulfillmentMethod?.addEventListener("change", updateFulfillmentFields);
+settlementStatus?.addEventListener("change", updateSettlementFields);
 orderCreateForm?.addEventListener("submit", createManualOrder);
 
 orderItemsList?.addEventListener("input", (event) => {
@@ -427,5 +580,8 @@ orderItemsList?.addEventListener("click", (event) => {
   removeItemRow(button);
 });
 
+if (orderDate && !orderDate.value) orderDate.value = toLocalDateTimeValue();
+updateSourceFields();
+updateSettlementFields();
 loadProductsForOrderCreate();
 calculateTotal();

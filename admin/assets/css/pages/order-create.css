@@ -66,9 +66,48 @@
 }
 
 .field-group input[readonly] {
-  background: #f6efe4;
+  background: var(--color-bg);
   color: var(--color-muted);
   cursor: not-allowed;
+}
+
+.customer-phone-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.guest-customer-action {
+  justify-content: flex-end;
+}
+
+.customer-match-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.customer-match-card strong,
+.customer-match-card span {
+  display: block;
+}
+
+.customer-match-card span {
+  color: var(--color-muted);
+}
+
+.customer-match-card.is-match {
+  border-color: var(--color-primary);
+}
+
+.customer-match-card.is-warning {
+  border-color: var(--color-danger);
 }
 
 .item-product-field select {
@@ -105,7 +144,7 @@
   padding: 16px;
   border: 1px solid rgba(120, 88, 55, 0.12);
   border-radius: 20px;
-  background: #fffdf8;
+  background: var(--color-surface);
 }
 
 .item-subtotal {
@@ -183,6 +222,10 @@
 @media (max-width: 760px) {
   .form-grid,
   .order-item-row {
+    grid-template-columns: 1fr;
+  }
+
+  .customer-phone-row {
     grid-template-columns: 1fr;
   }
 
