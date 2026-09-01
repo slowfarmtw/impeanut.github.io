@@ -169,7 +169,7 @@ h1, h2, h3, h4,
 .article-feature-image-wrap img,
 .about-photo img {
   border: 1px solid var(--peanut-line);
-  border-radius: 0;
+  border-radius: 18px;
   box-shadow: none;
 }
 
@@ -194,7 +194,7 @@ h1, h2, h3, h4,
 .river-card,
 .about-place-card {
   border: 1px solid var(--peanut-line);
-  border-radius: 0;
+  border-radius: 18px;
   background: rgba(255, 253, 248, .88);
   box-shadow: none;
 }
@@ -219,7 +219,7 @@ h1, h2, h3, h4,
 .drawer-checkout-btn {
   min-height: 50px;
   padding-inline: 26px;
-  border-radius: 0;
+  border-radius: 10px;
   letter-spacing: .06em;
   box-shadow: none;
 }
@@ -281,14 +281,14 @@ h1, h2, h3, h4,
 .product-card-bottom strong,
 .cart-summary-total,
 .checkout-summary-total { color: var(--peanut-orange-dark); }
-.product-add-btn { border-radius: 0; background: var(--peanut-orange); color: var(--peanut-surface); }
+.product-add-btn { border-radius: 10px; background: var(--peanut-orange); color: var(--peanut-surface); }
 .product-add-btn:hover { background: var(--peanut-orange-dark); }
 
 .category-card {
   min-height: 46px;
   padding: 11px 18px;
   border: 1px solid var(--peanut-line);
-  border-radius: 0;
+  border-radius: 10px;
   background: var(--peanut-surface);
   color: var(--peanut-muted);
   box-shadow: none;
@@ -297,7 +297,7 @@ h1, h2, h3, h4,
 .category-card:hover { border-color: var(--peanut-tan); background: #fff6eb; color: var(--peanut-ink); }
 .category-card.active,
 .category-card.active:hover { border-color: var(--peanut-orange); background: var(--peanut-orange); color: var(--peanut-surface); }
-.article-category { border-radius: 0; background: #f5e6d6; }
+.article-category { border-radius: 999px; background: #f5e6d6; }
 .article-excerpt,
 .article-date,
 .product-desc,
@@ -315,13 +315,13 @@ h1, h2, h3, h4,
 .article-content { padding: clamp(30px, 5vw, 66px); }
 .article-content blockquote {
   border-left-color: var(--peanut-orange);
-  border-radius: 0;
+  border-radius: 0 14px 14px 0;
   background: var(--peanut-paper-soft);
 }
 
 .life-value-card {
   border: 1px solid var(--peanut-line);
-  border-radius: 0;
+  border-radius: 22px;
   background: var(--peanut-surface);
   color: var(--peanut-ink);
 }
@@ -339,7 +339,7 @@ h1, h2, h3, h4,
 .checkout-form select,
 .checkout-form textarea {
   border-color: var(--peanut-line);
-  border-radius: 0;
+  border-radius: 10px;
   background: var(--peanut-surface);
 }
 .checkout-form input:focus,
@@ -353,7 +353,7 @@ h1, h2, h3, h4,
 
 .floating-cart-button {
   border: 1px solid var(--peanut-orange-dark);
-  border-radius: 0;
+  border-radius: 14px;
   background: var(--peanut-orange);
   color: white;
   box-shadow: 0 12px 28px rgba(75, 48, 40, .15);
@@ -361,6 +361,46 @@ h1, h2, h3, h4,
 .floating-cart-button strong { background: white; color: var(--peanut-orange-dark); }
 .cart-drawer { background: var(--peanut-paper); }
 .cart-toast { background: var(--peanut-ink); }
+
+/* 花生的一生：明確覆蓋舊版專屬樣式，與其他分頁採同一品牌語言。 */
+.life-page-hero {
+  min-height: 286px;
+  padding: 68px 6vw 58px;
+  background-color: var(--peanut-paper-soft);
+  background-image:
+    linear-gradient(var(--peanut-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--peanut-grid) 1px, transparent 1px);
+  background-size: 54px 54px;
+}
+.life-page-hero .section-label { color: var(--peanut-orange-dark); }
+.life-page-hero h1 { color: var(--peanut-ink); }
+.life-river-section { background: transparent; }
+.life-river-heading h2 { color: var(--peanut-ink); }
+.life-river-heading p { color: var(--peanut-muted); }
+.river-line path { stroke: var(--peanut-tan); }
+.river-dot {
+  background: var(--peanut-orange);
+  color: white;
+  box-shadow: 0 9px 22px rgba(201, 120, 69, .2);
+}
+.river-card {
+  border: 1px solid var(--peanut-line);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, .92);
+  box-shadow: 0 12px 28px rgba(75, 48, 40, .06);
+}
+.river-image { border-radius: 12px; background: var(--peanut-paper-soft); }
+.river-text span { color: var(--peanut-orange-dark); }
+.river-card h3 { color: var(--peanut-ink); }
+.river-card p { color: var(--peanut-muted); }
+.life-value-section { background: var(--peanut-paper-soft); }
+.life-value-card {
+  border-color: var(--peanut-line);
+  border-radius: 22px;
+  background: var(--peanut-surface);
+  box-shadow: 0 14px 34px rgba(75, 48, 40, .07);
+}
+.life-value-image { border-radius: 16px; background: var(--peanut-paper-soft); }
 
 .site-footer {
   padding: 42px 6vw 32px;
@@ -379,6 +419,7 @@ h1, h2, h3, h4,
   .site-header { height: 80px; padding-inline: 20px; }
   .site-nav { top: 80px; gap: 0; background: var(--peanut-surface); font-family: var(--site-font); font-size: 15px; }
   .page-hero { min-height: 238px; padding: 56px 20px 48px !important; background-size: 44px 44px; }
+  .life-page-hero { min-height: 238px; padding: 56px 20px 48px !important; background-size: 44px 44px; }
   .page-hero::before { right: 24px; height: 48px; }
   .page-hero::after { left: 24px; bottom: 26px; width: 26px; height: 26px; }
   .section { padding-top: 64px; padding-bottom: 64px; }
@@ -387,6 +428,7 @@ h1, h2, h3, h4,
 
 @media (max-width: 560px) {
   .page-hero { min-height: 215px; padding-block: 47px 40px !important; }
+  .life-page-hero { min-height: 215px; padding-block: 47px 40px !important; }
   .page-hero h1 { font-size: 38px; }
   .page-hero::before,
   .page-hero::after { display: none; }

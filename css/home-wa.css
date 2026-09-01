@@ -50,7 +50,8 @@
 .home-page .home-marquee-label {
   padding-left: clamp(24px, 6vw, 92px);
   border-right: 1px solid rgba(75, 48, 40, .18);
-  color: var(--wa-ink);
+  background: var(--wa-ink);
+  color: var(--wa-surface);
   font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif;
   font-size: 13px;
   font-weight: 600;
@@ -171,7 +172,7 @@
 .home-page .home-btn {
   min-height: 52px;
   padding-inline: 27px;
-  border-radius: 0;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: .08em;
@@ -193,7 +194,7 @@
   width: 100%;
   height: 100%;
   border: 1px solid var(--wa-line);
-  border-radius: 0;
+  border-radius: 20px;
   object-fit: cover;
   box-shadow: none;
 }
@@ -238,7 +239,9 @@
   grid-template-columns: minmax(0, .9fr) minmax(520px, 1.1fr);
   border-inline: 1px solid var(--wa-line);
   border-bottom: 1px solid var(--wa-line);
+  border-radius: 22px;
   background: rgba(255, 253, 248, .7);
+  overflow: hidden;
 }
 .home-editorial-copy {
   padding: clamp(54px, 7vw, 100px);
@@ -256,7 +259,7 @@
 .home-editorial-copy > p:not(.home-kicker) { max-width: 560px; color: var(--wa-muted); font-size: 15px; line-height: 2.05; }
 .home-editorial-copy > a { display: inline-block; margin-top: 18px; color: var(--wa-green); font-weight: 700; }
 .home-editorial-photo { margin: 0; padding: clamp(28px, 4vw, 58px); border-left: 1px solid var(--wa-line); }
-.home-editorial-photo img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; filter: saturate(.76) contrast(.96); }
+.home-editorial-photo img { width: 100%; aspect-ratio: 4 / 3; border-radius: 14px; object-fit: cover; filter: saturate(.76) contrast(.96); }
 .home-editorial-photo figcaption { margin-top: 11px; color: var(--wa-muted); font-size: 11px; letter-spacing: .08em; }
 
 .home-page .home-articles-preview {
@@ -272,7 +275,7 @@
   font-weight: 500;
   letter-spacing: .05em;
 }
-.home-page .home-article-list { gap: 0; border-top: 1px solid var(--wa-line); border-left: 1px solid var(--wa-line); }
+.home-page .home-article-list { gap: 0; border-top: 1px solid var(--wa-line); border-left: 1px solid var(--wa-line); border-radius: 18px; overflow: hidden; }
 .home-page .home-article-card,
 .home-page .home-article-loading {
   min-height: 270px;
@@ -289,7 +292,7 @@
 .home-page .home-article-card h3 { font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; font-weight: 500; }
 
 .home-page .home-conversion-band { padding: 0 0 clamp(76px, 9vw, 126px); background: transparent; }
-.home-page .home-conversion-grid { width: min(1380px, calc(100% - 8vw)); gap: 0; border-top: 1px solid var(--wa-line); border-left: 1px solid var(--wa-line); }
+.home-page .home-conversion-grid { width: min(1380px, calc(100% - 8vw)); gap: 0; border-top: 1px solid var(--wa-line); border-left: 1px solid var(--wa-line); border-radius: 22px; overflow: hidden; }
 .home-page .home-conversion-card {
   min-height: 330px;
   padding: clamp(30px, 4vw, 52px);
@@ -308,7 +311,7 @@
 .home-page .home-conversion-card h3 { font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; font-weight: 500; }
 
 .home-page .home-cta { padding: clamp(70px, 8vw, 112px) 4vw; border-top: 1px solid var(--wa-line); background: var(--wa-paper); }
-.home-page .home-cta > div { max-width: 1180px; border: 1px solid var(--wa-line); border-radius: 0; background: var(--wa-surface); box-shadow: none; }
+.home-page .home-cta > div { max-width: 1180px; border: 1px solid var(--wa-line); border-radius: 24px; background: var(--wa-surface); box-shadow: none; }
 .home-page .home-cta h2 { color: var(--wa-ink); font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; font-weight: 500; }
 .home-page .home-cta .home-btn-light {
   border-color: var(--wa-gold);
