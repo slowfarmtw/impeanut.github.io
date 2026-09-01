@@ -32,6 +32,15 @@ let isEditMode = Boolean(currentProductId);
 
 let imageLibraryLoaded = false;
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function getFieldValue(name) {
   const field = productForm.elements[name];
 
@@ -294,16 +303,18 @@ function renderImageLibrary(files) {
   imageLibraryGrid.innerHTML = files.map((file) => {
     const filePath = `${PRODUCT_IMAGE_FOLDER}/${file.name}`;
     const publicUrl = getPublicImageUrl(filePath);
+    const safeFileName = escapeHtml(file.name);
+    const safePublicUrl = escapeHtml(publicUrl);
 
     return `
       <button
         type="button"
         class="image-library-item"
-        data-image-url="${publicUrl}"
-        title="${file.name}"
+        data-image-url="${safePublicUrl}"
+        title="${safeFileName}"
       >
-        <img src="${publicUrl}" alt="${file.name}">
-        <span>${file.name}</span>
+        <img src="${safePublicUrl}" alt="${safeFileName}">
+        <span>${safeFileName}</span>
       </button>
     `;
   }).join("");

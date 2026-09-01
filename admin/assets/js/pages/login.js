@@ -20,9 +20,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const { data: sessionData } = await supabaseClient.auth.getSession();
 
-  if (sessionData.session) {
+  if (sessionData.session?.user?.app_metadata?.role === "admin") {
     window.location.replace("index.html");
     return;
+  }
+
+  if (sessionData.session) {
+    await supabaseClient.auth.signOut();
+  }
+
+  if (new URLSearchParams(window.location.search).get("error") === "unauthorized") {
+    message.textContent = "此帳號沒有後台管理權限。";
+    message.dataset.state = "error";
   }
 
   form.addEventListener("submit", async event => {
@@ -44,13 +53,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     loginButton.textContent = "登入中…";
 
     try {
-      const { error } = await supabaseClient.auth.signInWithPassword({
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
         email,
         password
       });
 
       if (error) {
         throw error;
+      }
+
+      if (data.user?.app_metadata?.role !== "admin") {
+        await supabaseClient.auth.signOut();
+        throw new Error("此帳號沒有後台管理權限。");
       }
 
       message.textContent = "登入成功，正在進入後台…";

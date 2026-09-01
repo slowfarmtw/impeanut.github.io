@@ -11,11 +11,17 @@
     error
   } = await supabaseClient.auth.getSession();
 
-  if (error || !session) {
+  const isAdmin = session?.user?.app_metadata?.role === "admin";
+
+  if (error || !session || !isAdmin) {
     const isAdminSubPage = window.location.pathname.includes("/admin/pages/");
 
+    if (session && !isAdmin) {
+      await supabaseClient.auth.signOut();
+    }
+
     window.location.replace(
-      isAdminSubPage ? "../login.html" : "login.html"
+      isAdminSubPage ? "../login.html?error=unauthorized" : "login.html?error=unauthorized"
     );
 
     return;

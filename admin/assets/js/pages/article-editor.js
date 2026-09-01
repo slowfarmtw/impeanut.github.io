@@ -41,6 +41,15 @@ const articleCanonicalUrl = document.getElementById("articleCanonicalUrl");
 const articleMetaRobots = document.getElementById("articleMetaRobots");
 const staticArticlePreview = document.getElementById("staticArticlePreview");
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function updateStaticPreview(slug, status) {
   if (!staticArticlePreview) return;
   const canPreview = Boolean(slug) && status === "published";
@@ -677,7 +686,7 @@ function updateCoverPreview() {
   }
 
   articleCoverPreview.innerHTML = `
-    <img src="${imageSrc}" alt="封面圖片預覽" loading="lazy" onerror="this.parentElement.innerHTML='<span>圖片讀取失敗，請確認路徑或網址</span>'">
+    <img src="${escapeHtml(imageSrc)}" alt="封面圖片預覽" loading="lazy" onerror="this.parentElement.innerHTML='<span>圖片讀取失敗，請確認路徑或網址</span>'">
   `;
 }
 

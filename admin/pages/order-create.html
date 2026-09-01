@@ -26,7 +26,7 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260807-font-fix" />
 </head>
 
 <body>
@@ -35,7 +35,7 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="adminSidebar">
       <div class="brand">
-        <div class="brand-icon">🥜</div>
+        <div class="brand-icon" aria-hidden="true">◌</div>
         <div>
           <h1>花生一生</h1>
           <p>品牌營運系統</p>
@@ -43,18 +43,18 @@
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 儀表板</a>
-        <a href="products.html">📦 商品管理</a>
-        <a href="orders.html" class="active">🛒 訂單管理</a>
-        <a href="customers.html">👥 顧客管理</a>
-        <a href="articles.html">📝 品牌內容</a>
-        <a href="analytics.html">📊 品牌分析</a>
-        <a href="settings.html">⚙️ 系統設定</a>
+        <a href="../index.html"><span aria-hidden="true">一</span>儀表板</a>
+        <a href="products.html"><span aria-hidden="true">二</span>商品管理</a>
+        <a href="orders.html" class="active"><span aria-hidden="true">三</span>訂單管理</a>
+        <a href="customers.html"><span aria-hidden="true">四</span>顧客管理</a>
+        <a href="articles.html"><span aria-hidden="true">五</span>品牌內容</a>
+        <a href="analytics.html"><span aria-hidden="true">六</span>品牌分析</a>
+        <a href="settings.html"><span aria-hidden="true">七</span>系統設定</a>
       </nav>
 
       <div class="sidebar-footer">
         <button id="logoutButton" type="button" class="sidebar-logout">
-          🚪 登出後台
+          登出後台
         </button>
       </div>
     </aside>
@@ -335,7 +335,7 @@
       if (error) {
         console.error("登出失敗：", error);
         button.disabled = false;
-        button.textContent = "🚪 登出後台";
+        button.textContent = "登出後台";
         alert("登出失敗，請稍後再試。");
         return;
       }

@@ -1,32 +1,32 @@
 :root {
-  /* Brand Colors */
-  --color-bg: #f5f3ed;
-  --color-surface: #fbfaf6;
-  --color-surface-soft: #eae5da;
+  /* Modern Japanese paper, ink and botanical accents */
+  --color-bg: #f3f0e7;
+  --color-surface: #fcfaf4;
+  --color-surface-soft: #e8e3d6;
 
-  --color-primary: #c5a059;
-  --color-primary-dark: #2b2d2f;
-  --color-primary-soft: #efe8da;
+  --color-primary: #596555;
+  --color-primary-dark: #282b27;
+  --color-primary-soft: #dfe4d9;
 
-  --color-secondary: #8c867a;
-  --color-border: #d8c9a8;
+  --color-secondary: #77766d;
+  --color-border: #d5cfc0;
 
-  --color-text: #2b2d2f;
-  --color-muted: #66645f;
-  --color-light-text: #8a867e;
+  --color-text: #282b27;
+  --color-muted: #77766d;
+  --color-light-text: #918f86;
 
-  --color-success: #7fa88c;
-  --color-warning: #c8a66a;
-  --color-danger: #b97b73;
+  --color-success: #66745f;
+  --color-warning: #b59a66;
+  --color-danger: #a75b3b;
 
   /* Font */
   --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
 
   /* Radius */
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
-  --radius-xl: 30px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
 
   /* Space */
   --space-xs: 4px;
@@ -37,11 +37,11 @@
   --space-2xl: 48px;
 
   /* Shadow */
-  --shadow-sm: 0 4px 12px rgba(43, 45, 47, 0.05);
-  --shadow-md: 0 12px 32px rgba(43, 45, 47, 0.07);
-  --shadow-lg: 0 20px 48px rgba(43, 45, 47, 0.1);
+  --shadow-sm: 0 5px 18px rgba(40, 43, 39, 0.035);
+  --shadow-md: 0 10px 28px rgba(40, 43, 39, 0.05);
+  --shadow-lg: 0 18px 44px rgba(40, 43, 39, 0.07);
 
   /* Layout */
-  --sidebar-width: 260px;
+  --sidebar-width: 232px;
   --header-height: 72px;
 }

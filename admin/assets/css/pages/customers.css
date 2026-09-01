@@ -233,6 +233,11 @@
   color: #3f642e;
 }
 
+.customer-tag.repeat {
+  background: #e7eadf;
+  color: #53614b;
+}
+
 .customer-tag.problem {
   background: #efd6ce;
   color: #8a3e2f;

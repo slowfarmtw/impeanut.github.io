@@ -15,15 +15,15 @@
   <link rel="stylesheet" href="../assets/css/components/tables.css" />
   <link rel="stylesheet" href="../assets/css/components/badges.css" />
   <link rel="stylesheet" href="../assets/css/pages/dashboard.css" />
-  <link rel="stylesheet" href="../assets/css/pages/analytics.css?v=20260711-2" />
-  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
+  <link rel="stylesheet" href="../assets/css/pages/analytics.css?v=20260829-traffic" />
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260807-font-fix" />
 </head>
 
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-icon">🥜</div>
+        <div class="brand-icon" aria-hidden="true">◌</div>
         <div>
           <h1>花生一生</h1>
           <p>品牌營運系統</p>
@@ -31,18 +31,18 @@
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 儀表板</a>
-        <a href="products.html">📦 商品管理</a>
-        <a href="orders.html">🛒 訂單管理</a>
-        <a href="customers.html">👥 顧客管理</a>
-        <a href="articles.html">📝 品牌內容</a>
-        <a class="active" href="analytics.html">📊 品牌分析</a>
-        <a href="settings.html">⚙️ 系統設定</a>
+        <a href="../index.html"><span aria-hidden="true">一</span>儀表板</a>
+        <a href="products.html"><span aria-hidden="true">二</span>商品管理</a>
+        <a href="orders.html"><span aria-hidden="true">三</span>訂單管理</a>
+        <a href="customers.html"><span aria-hidden="true">四</span>顧客管理</a>
+        <a href="articles.html"><span aria-hidden="true">五</span>品牌內容</a>
+        <a class="active" href="analytics.html"><span aria-hidden="true">六</span>品牌分析</a>
+        <a href="settings.html"><span aria-hidden="true">七</span>系統設定</a>
       </nav>
 
       <div class="sidebar-footer">
         <button id="logoutButton" type="button" class="sidebar-logout">
-          🚪 登出後台
+          登出後台
         </button>
       </div>
     </aside>
@@ -78,6 +78,74 @@
 
       <section class="analytics-status" id="analyticsStatus" aria-live="polite">
         正在讀取品牌數據…
+      </section>
+
+      <section class="analytics-section-heading" aria-labelledby="websiteAnalyticsTitle">
+        <div>
+          <p>網站成效</p>
+          <h2 id="websiteAnalyticsTitle">網站流量</h2>
+        </div>
+        <span id="websiteAnalyticsStatus" aria-live="polite">正在讀取 GA4 數據…</span>
+      </section>
+
+      <section class="analytics-kpi-grid" aria-label="網站流量摘要">
+        <article class="analytics-kpi-card analytics-traffic-card">
+          <p class="analytics-kpi-label">訪客人數</p>
+          <strong id="websiteActiveUsers">—</strong>
+          <span>不重複的活躍使用者</span>
+        </article>
+        <article class="analytics-kpi-card analytics-traffic-card">
+          <p class="analytics-kpi-label">工作階段</p>
+          <strong id="websiteSessions">—</strong>
+          <span>訪客進站互動的次數</span>
+        </article>
+        <article class="analytics-kpi-card analytics-traffic-card">
+          <p class="analytics-kpi-label">瀏覽次數</p>
+          <strong id="websitePageViews">—</strong>
+          <span>所有頁面被瀏覽的次數</span>
+        </article>
+        <article class="analytics-kpi-card analytics-traffic-card">
+          <p class="analytics-kpi-label">新訪客</p>
+          <strong id="websiteNewUsers">—</strong>
+          <span>第一次造訪網站的使用者</span>
+        </article>
+      </section>
+
+      <section class="analytics-grid analytics-grid-wide">
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div><h3>流量趨勢</h3><p>依日期查看訪客與瀏覽次數。</p></div>
+          </div>
+          <div id="websiteTrendChart" class="analytics-chart" role="img" aria-label="網站流量趨勢圖">
+            <p class="analytics-empty">尚無網站流量資料。</p>
+          </div>
+        </article>
+        <article class="panel analytics-panel">
+          <div class="analytics-panel-heading">
+            <div><h3>流量來源</h3><p>訪客透過哪些管道來到網站。</p></div>
+          </div>
+          <div id="websiteSourceSummary" class="analytics-progress-list">
+            <p class="analytics-empty">尚無流量來源資料。</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel analytics-panel">
+        <div class="analytics-panel-heading">
+          <div><h3>熱門頁面</h3><p>依瀏覽次數排列最常被看的內容。</p></div>
+        </div>
+        <div class="analytics-table-wrap">
+          <table class="analytics-table analytics-traffic-table">
+            <thead><tr><th>頁面</th><th>訪客</th><th>瀏覽次數</th></tr></thead>
+            <tbody id="websiteTopPagesBody">
+              <tr><td colspan="3" class="analytics-empty-cell">尚無熱門頁面資料。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="analytics-section-heading" aria-labelledby="salesAnalyticsTitle">
+        <div><p>銷售成效</p><h2 id="salesAnalyticsTitle">營運與訂單</h2></div>
       </section>
 
       <section class="analytics-kpi-grid" aria-label="品牌營運摘要">
@@ -236,8 +304,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../assets/js/services/supabase-config.js"></script>
   <script src="../assets/js/services/auth-guard.js"></script>
+  <script src="../assets/js/services/website-analytics.js?v=20260829"></script>
   <script src="../assets/js/layout/sidebar.js?v=20260712"></script>
-  <script src="../assets/js/pages/analytics.js?v=20260805"></script>
+  <script src="../assets/js/pages/analytics.js?v=20260829-traffic2"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");
@@ -250,7 +319,7 @@
       if (error) {
         console.error("登出失敗：", error);
         button.disabled = false;
-        button.textContent = "🚪 登出後台";
+        button.textContent = "登出後台";
         alert("登出失敗，請稍後再試。");
         return;
       }

@@ -1,5 +1,4 @@
-// admin/assets/js/pages/customers.js
-// 顧客管理頁：從 Supabase orders 表整理顧客資料，顯示回購、累積消費、需關注顧客，並支援搜尋、篩選、排序與 CSV 匯出。
+// 顧客管理頁：以 customers 為主資料，彙整有效購買、累積消費與顧客狀態。
 
 const customersTableBody = document.getElementById("customersTableBody");
 const customersMobileList = document.getElementById("customersMobileList");
@@ -36,7 +35,6 @@ function formatDateTime(value) {
   if (!value) return "-";
 
   const date = new Date(value);
-
   if (Number.isNaN(date.getTime())) return "-";
 
   return date.toLocaleString("zh-TW", {
@@ -48,82 +46,58 @@ function formatDateTime(value) {
   });
 }
 
-function getCustomerKey(order) {
-  const phone = String(order.customer_phone || order.shipping_phone || "").replace(/\D/g, "");
-  const email = String(order.customer_email || "").trim().toLowerCase();
-  const name = String(order.customer_name || order.shipping_name || "未命名顧客").trim();
-
-  if (phone) return `phone:${phone}`;
-  if (email) return `email:${email}`;
-  return `name:${name}`;
+function isValidPurchase(order) {
+  return (
+    order.payment_status === "paid" &&
+    order.order_status !== "cancelled" &&
+    order.payment_status !== "refunded"
+  );
 }
 
-function isRevenueOrder(order) {
-  const paymentStatus = order.payment_status || "unpaid";
-  const orderStatus = order.order_status || "new";
-
-  return paymentStatus === "paid" && orderStatus !== "cancelled" && paymentStatus !== "refunded";
-}
-
-function buildCustomersFromOrders(orders) {
-  const customerMap = new Map();
+function buildCustomerSummaries(customers, orders) {
+  const ordersByCustomer = new Map();
 
   orders.forEach((order) => {
-    const contactPhone = String(order.customer_phone || order.shipping_phone || "").trim();
-    const contactEmail = String(order.customer_email || "").trim();
-    const contactName = String(order.customer_name || order.shipping_name || "").trim();
-
-    if (!contactPhone && !contactEmail && (!contactName || contactName === "散客")) return;
-
-    const key = getCustomerKey(order);
-    const name = order.customer_name || order.shipping_name || "未命名顧客";
-    const phone = order.customer_phone || order.shipping_phone || "";
-    const email = order.customer_email || "";
-    const createdAt = order.order_date || order.created_at || "";
-    const currentRevenue = isRevenueOrder(order) ? Number(order.total_amount || 0) : 0;
-    const isProblem = order.order_status === "problem";
-
-    if (!customerMap.has(key)) {
-      customerMap.set(key, {
-        key,
-        name,
-        phone,
-        email,
-        orderCount: 0,
-        revenue: 0,
-        latestOrderAt: createdAt,
-        latestOrderId: order.id,
-        hasProblemOrder: false,
-        orders: []
-      });
-    }
-
-    const customer = customerMap.get(key);
-    customer.orderCount += 1;
-    customer.revenue += currentRevenue;
-    customer.hasProblemOrder = customer.hasProblemOrder || isProblem;
-    customer.orders.push(order);
-
-    const latestDate = new Date(customer.latestOrderAt);
-    const currentDate = new Date(createdAt);
-
-    if (!customer.latestOrderAt || currentDate > latestDate) {
-      customer.latestOrderAt = createdAt;
-      customer.latestOrderId = order.id;
-    }
-
-    if (!customer.name || customer.name === "未命名顧客") customer.name = name;
-    if (!customer.phone && phone) customer.phone = phone;
-    if (!customer.email && email) customer.email = email;
+    if (!order.customer_id) return;
+    if (!ordersByCustomer.has(order.customer_id)) ordersByCustomer.set(order.customer_id, []);
+    ordersByCustomer.get(order.customer_id).push(order);
   });
 
-  return Array.from(customerMap.values());
+  return customers.map((customer) => {
+    const customerOrders = ordersByCustomer.get(customer.id) || [];
+    const validOrders = customerOrders.filter(isValidPurchase);
+    const latestOrder = [...customerOrders].sort(compareOrdersNewestFirst)[0];
+    const latestPurchase = [...validOrders].sort(compareOrdersNewestFirst)[0];
+
+    return {
+      ...customer,
+      orders: customerOrders,
+      totalOrderCount: customerOrders.length,
+      purchaseCount: validOrders.length,
+      revenue: validOrders.reduce((sum, order) => sum + Number(order.total_amount || 0), 0),
+      latestOrderAt: latestOrder?.order_date || latestOrder?.created_at || null,
+      latestPurchaseAt: latestPurchase?.order_date || latestPurchase?.created_at || null,
+      hasProblemOrder: customerOrders.some((order) => order.order_status === "problem")
+    };
+  });
+}
+
+function compareOrdersNewestFirst(a, b) {
+  const aDate = new Date(a.order_date || a.created_at).getTime();
+  const bDate = new Date(b.order_date || b.created_at).getTime();
+  return bDate - aDate;
 }
 
 function getCustomerTag(customer) {
-  if (customer.hasProblemOrder) return { label: "需關注", className: "problem" };
-  if (customer.revenue >= 3000 || customer.orderCount >= 3) return { label: "高價值", className: "vip" };
-  if (customer.orderCount > 1) return { label: "回購", className: "vip" };
+  if (customer.needs_review || customer.hasProblemOrder) {
+    return { label: "需關注", className: "problem" };
+  }
+  if (customer.revenue >= 3000 || customer.purchaseCount >= 3) {
+    return { label: "高價值", className: "vip" };
+  }
+  if (customer.purchaseCount > 1) {
+    return { label: "回購", className: "repeat" };
+  }
   return { label: "一般", className: "" };
 }
 
@@ -132,35 +106,43 @@ function getFilteredCustomers() {
   const type = customerTypeFilter?.value || "all";
   const sort = customerSortSelect?.value || "latest";
 
-  let customers = allCustomers.filter((customer) => {
-    const searchText = [customer.name, customer.phone, customer.email]
+  const filtered = allCustomers.filter((customer) => {
+    const searchText = [
+      customer.name,
+      customer.primary_phone,
+      customer.primary_email,
+      ...(customer.tags || [])
+    ]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();
 
     const matchKeyword = keyword ? searchText.includes(keyword) : true;
-
     let matchType = true;
-    if (type === "repeat") matchType = customer.orderCount > 1;
-    if (type === "vip") matchType = customer.revenue >= 3000 || customer.orderCount >= 3;
-    if (type === "problem") matchType = customer.hasProblemOrder;
+
+    if (type === "repeat") matchType = customer.purchaseCount > 1;
+    if (type === "vip") matchType = customer.revenue >= 3000 || customer.purchaseCount >= 3;
+    if (type === "problem") matchType = customer.needs_review || customer.hasProblemOrder;
 
     return matchKeyword && matchType;
   });
 
-  customers = [...customers].sort((a, b) => {
+  return [...filtered].sort((a, b) => {
     if (sort === "revenue") return b.revenue - a.revenue;
-    if (sort === "orders") return b.orderCount - a.orderCount;
-    return new Date(b.latestOrderAt) - new Date(a.latestOrderAt);
-  });
+    if (sort === "orders") return b.purchaseCount - a.purchaseCount;
 
-  return customers;
+    const aDate = new Date(a.latestPurchaseAt || a.latestOrderAt || 0).getTime();
+    const bDate = new Date(b.latestPurchaseAt || b.latestOrderAt || 0).getTime();
+    return bDate - aDate;
+  });
 }
 
 function renderSummary(customers) {
-  const repeatCount = customers.filter((customer) => customer.orderCount > 1).length;
-  const problemCount = customers.filter((customer) => customer.hasProblemOrder).length;
-  const revenue = customers.reduce((sum, customer) => sum + Number(customer.revenue || 0), 0);
+  const repeatCount = customers.filter((customer) => customer.purchaseCount > 1).length;
+  const problemCount = customers.filter(
+    (customer) => customer.needs_review || customer.hasProblemOrder
+  ).length;
+  const revenue = customers.reduce((sum, customer) => sum + customer.revenue, 0);
 
   totalCustomersEl.textContent = customers.length;
   repeatCustomersEl.textContent = repeatCount;
@@ -180,11 +162,7 @@ function renderCustomersTable(customers) {
   if (!customersTableBody) return;
 
   if (!customers.length) {
-    customersTableBody.innerHTML = `
-      <tr>
-        <td colspan="8">${getEmptyText()}</td>
-      </tr>
-    `;
+    customersTableBody.innerHTML = `<tr><td colspan="8">${getEmptyText()}</td></tr>`;
     return;
   }
 
@@ -194,21 +172,16 @@ function renderCustomersTable(customers) {
     return `
       <tr>
         <td><strong class="customer-name">${escapeHtml(customer.name || "-")}</strong></td>
-        <td>${escapeHtml(customer.phone || "-")}</td>
-        <td>${escapeHtml(customer.email || "-")}</td>
-        <td>${customer.orderCount}</td>
+        <td>${escapeHtml(customer.primary_phone || "-")}</td>
+        <td>${escapeHtml(customer.primary_email || "-")}</td>
+        <td>${customer.purchaseCount}</td>
         <td>${formatPrice(customer.revenue)}</td>
-        <td>${formatDateTime(customer.latestOrderAt)}</td>
+        <td>${formatDateTime(customer.latestPurchaseAt)}</td>
         <td><span class="customer-tag ${tag.className}">${tag.label}</span></td>
         <td>
-          <button
-            type="button"
-            class="customer-action-btn"
-            data-action="view-orders"
-            data-key="${escapeHtml(customer.key)}"
-          >
-            查看訂單
-          </button>
+          <a class="customer-action-btn" href="customer-detail.html?id=${encodeURIComponent(customer.id)}">
+            查看顧客
+          </a>
         </td>
       </tr>
     `;
@@ -231,38 +204,30 @@ function renderCustomersMobile(customers) {
         <div class="customer-mobile-head">
           <div>
             <strong class="customer-mobile-name">${escapeHtml(customer.name || "-")}</strong>
-            <p class="customer-mobile-phone">${escapeHtml(customer.phone || "-")}</p>
-            <p class="customer-mobile-email">${escapeHtml(customer.email || "-")}</p>
+            <p class="customer-mobile-phone">${escapeHtml(customer.primary_phone || "-")}</p>
+            <p class="customer-mobile-email">${escapeHtml(customer.primary_email || "-")}</p>
           </div>
-
           <div class="customer-mobile-total">${formatPrice(customer.revenue)}</div>
         </div>
 
         <div class="customer-mobile-grid">
           <div class="customer-mobile-item">
-            <span>訂單數</span>
-            <strong>${customer.orderCount}</strong>
+            <span>有效購買</span>
+            <strong>${customer.purchaseCount}</strong>
           </div>
-
           <div class="customer-mobile-item">
-            <span>最近下單</span>
-            <strong>${formatDateTime(customer.latestOrderAt)}</strong>
+            <span>最近購買</span>
+            <strong>${formatDateTime(customer.latestPurchaseAt)}</strong>
           </div>
-
           <div class="customer-mobile-item">
             <span>狀態</span>
             <strong>${tag.label}</strong>
           </div>
         </div>
 
-        <button
-          type="button"
-          class="customer-action-btn"
-          data-action="view-orders"
-          data-key="${escapeHtml(customer.key)}"
-        >
-          查看訂單
-        </button>
+        <a class="customer-action-btn" href="customer-detail.html?id=${encodeURIComponent(customer.id)}">
+          查看顧客
+        </a>
       </article>
     `;
   }).join("");
@@ -276,46 +241,35 @@ function renderCustomers() {
   renderCustomersMobile(customers);
 
   if (!customersStatusText) return;
-
-  if (customers.length === allCustomers.length) {
-    customersStatusText.textContent = `共 ${customers.length} 位顧客`;
-  } else {
-    customersStatusText.textContent = `共 ${allCustomers.length} 位顧客，篩選後 ${customers.length} 位`;
-  }
+  customersStatusText.textContent = customers.length === allCustomers.length
+    ? `共 ${customers.length} 位顧客`
+    : `共 ${allCustomers.length} 位顧客，篩選後 ${customers.length} 位`;
 }
 
 function convertRowsToCsv(rows) {
   if (!rows.length) return "";
 
   const headers = Object.keys(rows[0]);
-  const csvRows = [
+  return [
     headers.join(","),
-    ...rows.map((row) => {
-      return headers.map((header) => {
-        const value = row[header] ?? "";
-        const safeValue = String(value).replaceAll('"', '""');
-        return `"${safeValue}"`;
-      }).join(",");
-    })
-  ];
-
-  return csvRows.join("\n");
+    ...rows.map((row) => headers.map((header) => {
+      const safeValue = String(row[header] ?? "").replaceAll('"', '""');
+      return `"${safeValue}"`;
+    }).join(","))
+  ].join("\n");
 }
 
 function downloadCsv(filename, csvContent) {
-  const bom = "\uFEFF";
-  const blob = new Blob([bom + csvContent], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
 
   link.href = url;
   link.download = filename;
   link.style.display = "none";
-
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-
   URL.revokeObjectURL(url);
 }
 
@@ -324,7 +278,6 @@ function getTodayDateString() {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
-
   return `${year}-${month}-${day}`;
 }
 
@@ -338,98 +291,67 @@ function exportCustomers() {
 
   const rows = customers.map((customer) => {
     const tag = getCustomerTag(customer);
-
     return {
       顧客姓名: customer.name || "",
-      電話: customer.phone || "",
-      Email: customer.email || "",
-      訂單數: customer.orderCount,
+      電話: customer.primary_phone || "",
+      Email: customer.primary_email || "",
+      有效購買: customer.purchaseCount,
+      全部訂單: customer.totalOrderCount,
       累積消費: customer.revenue,
-      最近下單: formatDateTime(customer.latestOrderAt),
+      最近購買: formatDateTime(customer.latestPurchaseAt),
       顧客狀態: tag.label,
-      是否有問題訂單: customer.hasProblemOrder ? "是" : "否"
+      顧客標籤: (customer.tags || []).join("、")
     };
   });
 
-  const csvContent = convertRowsToCsv(rows);
-  downloadCsv(`花生一生_顧客列表_${getTodayDateString()}.csv`, csvContent);
-
-  if (customersStatusText) {
-    customersStatusText.textContent = `已匯出 ${customers.length} 位顧客`;
-  }
+  downloadCsv(
+    `花生一生_顧客列表_${getTodayDateString()}.csv`,
+    convertRowsToCsv(rows)
+  );
+  customersStatusText.textContent = `已匯出 ${customers.length} 位顧客`;
 }
 
 function resetFilters() {
   if (customerSearchInput) customerSearchInput.value = "";
   if (customerTypeFilter) customerTypeFilter.value = "all";
   if (customerSortSelect) customerSortSelect.value = "latest";
-
   renderCustomers();
 }
 
-function viewCustomerOrders(customerKey) {
-  const customer = allCustomers.find((item) => item.key === customerKey);
-  if (!customer || !customer.orders.length) return;
-
-  const latestOrder = customer.orders
-    .slice()
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
-
-  window.location.href = `order-detail.html?id=${encodeURIComponent(latestOrder.id)}`;
-}
-
-function showSupabaseNotConfigured() {
-  if (customersStatusText) customersStatusText.textContent = "Supabase 尚未設定";
-
-  if (customersTableBody) {
-    customersTableBody.innerHTML = `
-      <tr>
-        <td colspan="8">請先設定 admin/assets/js/services/supabase-config.js。</td>
-      </tr>
-    `;
-  }
-
-  if (customersMobileList) {
-    customersMobileList.innerHTML = `<p class="customers-empty-text">請先設定 Supabase。</p>`;
-  }
-}
-
-function showLoadError() {
+function showLoadError(message = "顧客資料讀取失敗。") {
   if (customersStatusText) customersStatusText.textContent = "讀取失敗";
-
   if (customersTableBody) {
-    customersTableBody.innerHTML = `
-      <tr>
-        <td colspan="8">顧客資料讀取失敗，請檢查 Supabase orders 資料表。</td>
-      </tr>
-    `;
+    customersTableBody.innerHTML = `<tr><td colspan="8">${escapeHtml(message)}</td></tr>`;
   }
-
   if (customersMobileList) {
-    customersMobileList.innerHTML = `<p class="customers-empty-text">顧客資料讀取失敗。</p>`;
+    customersMobileList.innerHTML = `<p class="customers-empty-text">${escapeHtml(message)}</p>`;
   }
 }
 
 async function loadCustomers() {
   if (!window.supabaseClient) {
-    showSupabaseNotConfigured();
+    showLoadError("Supabase 尚未設定。");
     return;
   }
 
-  if (customersStatusText) customersStatusText.textContent = "讀取顧客資料中...";
+  customersStatusText.textContent = "讀取顧客資料中...";
 
-  const { data, error } = await window.supabaseClient
-    .from("orders")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const [customersResult, ordersResult] = await Promise.all([
+    window.supabaseClient.from("customers").select("*").order("created_at", { ascending: true }),
+    window.supabaseClient
+      .from("orders")
+      .select("*")
+      .not("customer_id", "is", null)
+      .order("order_date", { ascending: false })
+  ]);
 
-  if (error) {
-    console.error("讀取顧客資料失敗：", error);
-    showLoadError();
+  if (customersResult.error || ordersResult.error) {
+    console.error("讀取顧客資料失敗：", customersResult.error || ordersResult.error);
+    showLoadError("顧客資料讀取失敗，請稍後再試。");
     return;
   }
 
-  allCustomers = buildCustomersFromOrders(data || []);
+  allCustomers = buildCustomerSummaries(customersResult.data || [], ordersResult.data || []);
   renderCustomers();
 }
 
@@ -439,19 +361,5 @@ customerSearchInput?.addEventListener("input", renderCustomers);
 customerTypeFilter?.addEventListener("change", renderCustomers);
 customerSortSelect?.addEventListener("change", renderCustomers);
 resetCustomerFiltersBtn?.addEventListener("click", resetFilters);
-
-customersTableBody?.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-action='view-orders']");
-  if (!button) return;
-
-  viewCustomerOrders(button.dataset.key);
-});
-
-customersMobileList?.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-action='view-orders']");
-  if (!button) return;
-
-  viewCustomerOrders(button.dataset.key);
-});
 
 loadCustomers();

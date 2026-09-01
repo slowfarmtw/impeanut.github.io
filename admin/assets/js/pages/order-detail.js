@@ -20,6 +20,7 @@ const orderShippingStatus = document.getElementById("orderShippingStatus");
 const customerName = document.getElementById("customerName");
 const customerPhone = document.getElementById("customerPhone");
 const customerEmail = document.getElementById("customerEmail");
+const customerProfileLink = document.getElementById("customerProfileLink");
 
 const shippingName = document.getElementById("shippingName");
 const shippingPhone = document.getElementById("shippingPhone");
@@ -372,6 +373,13 @@ function fillOrder(order) {
   setText(customerName, order.customer_name);
   setText(customerPhone, order.customer_phone);
   setText(customerEmail, order.customer_email);
+
+  if (customerProfileLink) {
+    customerProfileLink.hidden = !order.customer_id;
+    customerProfileLink.href = order.customer_id
+      ? `customer-detail.html?id=${encodeURIComponent(order.customer_id)}`
+      : "customers.html";
+  }
 
   setText(shippingName, order.shipping_name);
   setText(shippingPhone, order.shipping_phone);

@@ -1,8 +1,16 @@
 const PRODUCT_STORAGE_KEY = "brandOSProducts";
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 let annualTarget = 1000000;
 let defaultLowStockThreshold = 20;
-let currentRevenue = 0;
 let dashboardOrders = [];
 let dashboardProducts = [];
 
@@ -22,6 +30,10 @@ function formatPrice(value) {
   return `NT$ ${Number(value || 0).toLocaleString()}`;
 }
 
+function formatNumber(value) {
+  return Number(value || 0).toLocaleString("zh-TW");
+}
+
 function setText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
@@ -34,9 +46,9 @@ function setProgress(id, value) {
 
 function getGreeting() {
   const hour = new Date().getHours();
-  if (hour < 11) return "早安，揚！";
-  if (hour < 18) return "午安，揚！";
-  return "晚上好，揚！";
+  if (hour < 11) return "早安，阿揚。";
+  if (hour < 18) return "午安，阿揚。";
+  return "晚上好，阿揚。";
 }
 
 function isOrderCancelled(order) {
@@ -115,10 +127,6 @@ function hasProductCover(product) {
   return Boolean(product.cover_image || product.coverUrl);
 }
 
-function hasSeoData(product) {
-  return Boolean(product.slug || product.subtitle || product.description);
-}
-
 function getProductSafetyStock(product) {
   return Number(product.safety_stock ?? defaultLowStockThreshold);
 }
@@ -155,38 +163,12 @@ function renderHero(metrics = calcDashboardMetrics(dashboardOrders)) {
     weekday: "long"
   });
 
-  currentRevenue = metrics.revenue;
-
   setText("todayText", today);
   setText("greetingText", getGreeting());
-  setText("missionRevenue", formatPrice(metrics.revenue));
-  setText("missionPercent", `${metrics.percent}%`);
   setText("yearRevenue", formatPrice(metrics.revenue));
   setText("goalPercent", `${metrics.percent}%`);
   setText("goalRemain", `距離年度目標還差 ${formatPrice(metrics.remain)}`);
   setProgress("goalBar", metrics.percent);
-}
-
-function calcHealth(products) {
-  const total = products.length || 1;
-
-  const productHealth = Math.round(
-    (products.filter((product) => {
-      return product.name && product.sku && product.category && Number(product.price || 0) > 0;
-    }).length / total) * 100
-  );
-
-  const imageHealth = Math.round(
-    (products.filter(hasProductCover).length / total) * 100
-  );
-
-  const seoHealth = Math.round(
-    (products.filter(hasSeoData).length / total) * 100
-  );
-
-  const overall = Math.round((productHealth + imageHealth + seoHealth) / 3);
-
-  return { productHealth, imageHealth, seoHealth, overall };
 }
 
 function renderKpis(products, metrics = calcDashboardMetrics(dashboardOrders)) {
@@ -196,7 +178,6 @@ function renderKpis(products, metrics = calcDashboardMetrics(dashboardOrders)) {
     return Number(product.stock || 0) <= getProductSafetyStock(product);
   });
 
-  setText("totalRevenue", formatPrice(metrics.revenue));
   setText("productCount", products.length);
   setText("liveProductCount", liveProducts.length);
   setText("featuredProductCount", featuredProducts.length);
@@ -216,7 +197,7 @@ function renderBrandBrief(products) {
   const noImageProducts = products.filter((product) => !hasProductCover(product));
 
   const items = [
-    `目前 Brand OS 已建立 ${products.length} 件商品。`,
+    `目前後台已建立 ${products.length} 件商品。`,
     lowStockProducts.length
       ? `有 ${lowStockProducts.length} 件商品庫存低於安全庫存，建議確認。`
       : "目前沒有低庫存商品。",
@@ -229,20 +210,7 @@ function renderBrandBrief(products) {
   ];
 
   const list = document.getElementById("brandBriefList");
-  if (list) list.innerHTML = items.map(item => `<li>${item}</li>`).join("");
-}
-
-function renderHealth(products) {
-  const health = calcHealth(products);
-
-  setText("brandHealthScore", `${health.overall}%`);
-  setText("productHealthText", `${health.productHealth}%`);
-  setText("imageHealthText", `${health.imageHealth}%`);
-  setText("seoHealthText", `${health.seoHealth}%`);
-
-  setProgress("productHealthBar", health.productHealth);
-  setProgress("imageHealthBar", health.imageHealth);
-  setProgress("seoHealthBar", health.seoHealth);
+  if (list) list.innerHTML = items.map(item => `<li>${escapeHtml(item)}</li>`).join("");
 }
 
 function renderTopProducts(products) {
@@ -263,10 +231,10 @@ function renderTopProducts(products) {
 
   list.innerHTML = sorted.map(product => `
     <li>
-      <a href="pages/product-editor.html?id=${product.id}">
-        ${product.name || "未命名商品"}
+      <a href="pages/product-editor.html?id=${encodeURIComponent(product.id || "")}">
+        ${escapeHtml(product.name || "未命名商品")}
       </a>
-      <span>｜庫存 ${Number(product.stock || 0)}｜${product.weight || "未填重量"}</span>
+      <span>｜庫存 ${Number(product.stock || 0)}｜${escapeHtml(product.weight || "未填重量")}</span>
     </li>
   `).join("");
 }
@@ -286,7 +254,7 @@ function renderLowStock(products) {
 
   list.innerHTML = lowStockProducts.map(product => `
     <li>
-      <strong>${product.name || "未命名商品"}</strong>
+      <strong>${escapeHtml(product.name || "未命名商品")}</strong>
       剩下 ${Number(product.stock || 0)} 件
       <span>｜安全庫存 ${getProductSafetyStock(product)}</span>
     </li>
@@ -296,6 +264,45 @@ function renderLowStock(products) {
 function renderQuote() {
   const quote = quotes[new Date().getDate() % quotes.length];
   setText("dailyQuote", quote);
+}
+
+function setTrafficStatus(message, type = "") {
+  const status = document.getElementById("dashboardTrafficStatus");
+  if (!status) return;
+
+  status.textContent = message;
+  status.classList.remove("is-success", "is-error");
+  if (type) status.classList.add(type);
+}
+
+async function loadDashboardTraffic() {
+  if (!window.peanutWebsiteAnalytics) {
+    setTrafficStatus("網站流量模組尚未載入，請稍後重新整理。", "is-error");
+    return;
+  }
+
+  setTrafficStatus("正在讀取 GA4 網站數據…");
+
+  try {
+    const report = await window.peanutWebsiteAnalytics.load(30);
+    setText("dashboardActiveUsers", formatNumber(report.summary.activeUsers));
+    setText("dashboardSessions", formatNumber(report.summary.sessions));
+    setText("dashboardPageViews", formatNumber(report.summary.pageViews));
+    setText("dashboardNewUsers", formatNumber(report.summary.newUsers));
+
+    const updatedTime = new Intl.DateTimeFormat("zh-TW", {
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(new Date(report.fetchedAt || Date.now()));
+    setTrafficStatus(`GA4 數據已更新｜${updatedTime}`, "is-success");
+  } catch (error) {
+    if (String(error?.message || "").includes("GA4 尚未完成設定")) {
+      console.info("GA4 後台報表尚未完成設定。");
+    } else {
+      console.error("Dashboard 讀取網站流量失敗：", error);
+    }
+    setTrafficStatus(error.message || "GA4 尚未完成設定，請查看設定說明。", "is-error");
+  }
 }
 
 async function loadDashboardOrders() {
@@ -349,10 +356,10 @@ async function initDashboard() {
   renderHero(metrics);
   renderKpis(dashboardProducts, metrics);
   renderBrandBrief(dashboardProducts);
-  renderHealth(dashboardProducts);
   renderTopProducts(dashboardProducts);
   renderLowStock(dashboardProducts);
   renderQuote();
+  await loadDashboardTraffic();
 }
 
 initDashboard();

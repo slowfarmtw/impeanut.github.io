@@ -54,7 +54,7 @@
 
 .admin-table {
   width: 100%;
-  min-width: 1080px;
+  min-width: 1200px;
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
@@ -103,7 +103,7 @@
 
 .admin-table th:nth-child(9),
 .admin-table td:nth-child(9) {
-  width: 100px;
+  width: 120px;
 }
 
 .admin-table th:nth-child(10),
@@ -273,9 +273,12 @@ button.product-hidden {
 }
 
 .product-status-select {
-  min-width: 96px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   height: 34px;
-  padding: 0 28px 0 12px;
+  padding: 0 24px 0 8px;
+  box-sizing: border-box;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   font-size: 13px;
@@ -287,12 +290,18 @@ button.product-hidden {
   -webkit-appearance: none;
   background-repeat: no-repeat;
   background-position:
-    calc(100% - 14px) 50%,
-    calc(100% - 9px) 50%;
+    calc(100% - 12px) 50%,
+    calc(100% - 7px) 50%;
   background-size: 5px 5px, 5px 5px;
   background-image:
     linear-gradient(45deg, transparent 50%, currentColor 50%),
     linear-gradient(135deg, currentColor 50%, transparent 50%);
+}
+
+.admin-table td:nth-child(9) {
+  padding-right: 8px;
+  padding-left: 8px;
+  overflow: hidden;
 }
 
 .status-select-draft {

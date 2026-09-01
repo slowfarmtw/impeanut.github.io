@@ -76,8 +76,27 @@ function peanutGetCartProductImageSource(item) {
   return item.image_src || peanutGetCartItemImageSrc(item.cover_image || item.image);
 }
 
+function peanutEscapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function peanutReadStoredCart() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PEANUT_CART_KEY) || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn("購物車資料格式不正確，已忽略損壞資料。", error);
+    return [];
+  }
+}
+
 function peanutGetCart() {
-  return JSON.parse(localStorage.getItem(PEANUT_CART_KEY)) || [];
+  return peanutReadStoredCart();
 }
 
 function peanutSaveCart(cart) {
@@ -233,32 +252,37 @@ function peanutRenderFloatingCart() {
 
   body.innerHTML = cart.map(item => {
     const subtotal = Number(item.price) * Number(item.quantity);
+    const itemId = peanutEscapeHtml(item.id || item.product_id || "");
+    const itemName = peanutEscapeHtml(item.name || item.product_name || "未命名商品");
+    const itemWeight = peanutEscapeHtml(item.weight || "");
+    const imageSource = peanutEscapeHtml(peanutGetCartProductImageSource(item));
+    const quantity = Math.max(1, Number(item.quantity) || 1);
 
     return `
       <div class="drawer-cart-item">
         <div class="drawer-cart-image">
           <img 
-            src="${peanutGetCartProductImageSource(item)}" 
-            alt="${item.name}"
+            src="${imageSource}"
+            alt="${itemName}"
             onerror="this.onerror=null; this.src='images/placeholder.png';"
           >
         </div>
 
         <div class="drawer-cart-info">
-          <h3>${item.name}</h3>
-          <p>${item.weight || ""}</p>
+          <h3>${itemName}</h3>
+          <p>${itemWeight}</p>
           <strong>${peanutFormatPrice(item.price)}</strong>
 
           <div class="drawer-qty">
-            <button data-action="minus" data-id="${item.id}">−</button>
-            <span>${item.quantity}</span>
-            <button data-action="plus" data-id="${item.id}">＋</button>
+            <button data-action="minus" data-id="${itemId}">−</button>
+            <span>${quantity}</span>
+            <button data-action="plus" data-id="${itemId}">＋</button>
           </div>
         </div>
 
         <div class="drawer-cart-subtotal">
           <strong>${peanutFormatPrice(subtotal)}</strong>
-          <button data-action="remove" data-id="${item.id}">移除</button>
+          <button data-action="remove" data-id="${itemId}">移除</button>
         </div>
       </div>
     `;

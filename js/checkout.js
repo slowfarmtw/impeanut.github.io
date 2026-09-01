@@ -9,7 +9,22 @@ let checkoutSettings = {
 };
 
 function getCart() {
-  return JSON.parse(localStorage.getItem("peanutCart")) || [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem("peanutCart") || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn("購物車資料格式不正確，已忽略損壞資料。", error);
+    return [];
+  }
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function saveOrderDraft(order) {
@@ -200,13 +215,16 @@ function renderCheckoutSummary() {
 
   const itemsHtml = cart.map(item => {
     const itemSubtotal = Number(item.price) * Number(item.quantity);
+    const itemName = escapeHtml(item.name || item.product_name || "未命名商品");
+    const itemWeight = escapeHtml(item.weight || "");
+    const quantity = Math.max(1, Number(item.quantity) || 1);
     subtotal += itemSubtotal;
 
     return `
       <div class="checkout-summary-item">
         <div>
-          <strong>${item.name}</strong>
-          <p>${item.weight || ""} × ${item.quantity}</p>
+          <strong>${itemName}</strong>
+          <p>${itemWeight} × ${quantity}</p>
         </div>
         <strong>${formatPrice(itemSubtotal)}</strong>
       </div>

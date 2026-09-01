@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>儀表板｜花生一生</title>
-
   <link rel="stylesheet" href="assets/css/base/variables.css" />
   <link rel="stylesheet" href="assets/css/base/reset.css" />
   <link rel="stylesheet" href="assets/css/layout/layout.css" />
@@ -15,67 +13,44 @@
   <link rel="stylesheet" href="assets/css/components/cards.css" />
   <link rel="stylesheet" href="assets/css/components/tables.css" />
   <link rel="stylesheet" href="assets/css/components/badges.css" />
-  <link rel="stylesheet" href="assets/css/pages/dashboard.css?v=20260711-2" />
-  <link rel="stylesheet" href="assets/css/palette-system.css?v=20260805" />
+  <link rel="stylesheet" href="assets/css/pages/dashboard.css?v=20260829-japanese-layout" />
+  <link rel="stylesheet" href="assets/css/palette-system.css?v=20260829-japanese-layout" />
 </head>
 
 <body>
   <div class="admin-layout">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-icon">🥜</div>
-        <div>
-          <h1>花生一生</h1>
-          <p>品牌營運系統</p>
-        </div>
+        <div class="brand-icon" aria-hidden="true">◌</div>
+        <div><h1>花生一生</h1><p>品牌營運系統</p></div>
       </div>
 
-      <nav class="nav-menu">
-        <a class="active" href="index.html">🏠 儀表板</a>
-        <a href="pages/products.html">📦 商品管理</a>
-        <a href="pages/orders.html">🛒 訂單管理</a>
-        <a href="pages/customers.html">👥 顧客管理</a>
-        <a href="pages/articles.html">📝 品牌內容</a>
-        <a href="pages/analytics.html">📊 品牌分析</a>
-        <a href="pages/settings.html">⚙️ 系統設定</a>
+      <nav class="nav-menu" aria-label="主要選單">
+        <a class="active" href="index.html"><span aria-hidden="true">一</span>儀表板</a>
+        <a href="pages/products.html"><span aria-hidden="true">二</span>商品管理</a>
+        <a href="pages/orders.html"><span aria-hidden="true">三</span>訂單管理</a>
+        <a href="pages/customers.html"><span aria-hidden="true">四</span>顧客管理</a>
+        <a href="pages/articles.html"><span aria-hidden="true">五</span>品牌內容</a>
+        <a href="pages/analytics.html"><span aria-hidden="true">六</span>品牌分析</a>
+        <a href="pages/settings.html"><span aria-hidden="true">七</span>系統設定</a>
       </nav>
 
       <div class="sidebar-footer">
-        <button id="logoutButton" type="button" class="sidebar-logout">
-          🚪 登出後台
-        </button>
+        <button id="logoutButton" type="button" class="sidebar-logout">登出後台</button>
       </div>
     </aside>
 
     <main class="main dashboard-main">
-      <header class="dashboard-hero">
+      <header class="dashboard-topbar">
+        <div class="dashboard-date" id="todayText">今日營運</div>
+        <div class="dashboard-profile"><span>品牌營運中心</span><i class="dashboard-avatar">揚</i></div>
+      </header>
+
+      <section class="dashboard-hero">
         <div>
-          <p class="eyebrow" id="todayText">品牌營運中心</p>
-          <h2 id="greetingText">早安，士揚！</h2>
-          <p class="hero-copy">
-            今天距離品牌年度目標又更近一步。把每一包花生，都當成一位客人對品牌的信任。
-          </p>
-
-          <div class="mission-stats">
-            <div>
-              <span>累積營業額</span>
-              <strong id="missionRevenue">NT$ 0</strong>
-              <p>品牌一路累積下來的成果</p>
-            </div>
-
-            <div>
-              <span>年度目標</span>
-              <strong>NT$ 1,000,000</strong>
-              <p>2026 年品牌挑戰目標</p>
-            </div>
-
-            <div>
-              <span>目標完成率</span>
-              <strong id="missionPercent">0%</strong>
-              <p>每天多一點，就更靠近目標</p>
-            </div>
-          </div>
-
+          <p class="eyebrow">今天的工作</p>
+          <h2 id="greetingText">早安，阿揚。</h2>
+          <p class="hero-copy">先處理今天需要完成的事，再慢慢累積品牌的每一步。數據保持清楚，畫面留一點呼吸。</p>
           <div class="quick-actions">
             <a href="pages/orders.html" class="quick-action">處理訂單</a>
             <a href="pages/products.html" class="quick-action">管理商品</a>
@@ -84,132 +59,74 @@
           </div>
         </div>
 
-        <section class="goal-card">
-          <div class="goal-card-top">
-            <span>2026 年度目標</span>
-            <strong id="goalPercent">0%</strong>
-          </div>
-
+        <section class="goal-card" aria-label="年度營收目標">
+          <div class="goal-card-top"><span>2026 年度營收</span><strong id="goalPercent">0%</strong></div>
           <h3 id="yearRevenue">NT$ 0</h3>
           <p id="goalRemain">距離年度目標還差 NT$ 1,000,000</p>
-
-          <div class="progress">
-            <div id="goalBar" class="progress-bar"></div>
-          </div>
+          <div class="progress"><div id="goalBar" class="progress-bar"></div></div>
         </section>
-      </header>
+      </section>
 
-      <section class="kpi-grid">
-        <article class="kpi-card">
-          <span>💰 累積營業額</span>
-          <strong id="totalRevenue">NT$ 0</strong>
-          <p>依目前有效訂單即時計算</p>
+      <section class="dashboard-section" aria-labelledby="todayTasksTitle">
+        <div class="dashboard-section-heading">
+          <div><h3 id="todayTasksTitle">今日營運</h3><p>需要優先留意的事項</p></div>
+          <a href="pages/orders.html">查看全部訂單　→</a>
+        </div>
+        <div class="dashboard-task-grid">
+          <article class="dashboard-task-card"><span>今日訂單</span><strong id="todayOrderCount">0</strong><p>今天收到的有效訂單</p></article>
+          <article class="dashboard-task-card"><span>待付款</span><strong id="pendingPaymentCount">0</strong><p>需要確認付款狀態</p></article>
+          <article class="dashboard-task-card"><span>待出貨</span><strong id="pendingShippingCount">0</strong><p>付款完成，等待配送</p></article>
+          <article class="dashboard-task-card dashboard-task-card-alert"><span>異常訂單</span><strong id="problemOrderCount">0</strong><p>需要優先人工處理</p></article>
+        </div>
+      </section>
+
+      <section class="dashboard-content-grid">
+        <article class="dashboard-panel" aria-labelledby="websiteTrafficTitle">
+          <div class="panel-header"><h3 id="websiteTrafficTitle">網站流量</h3><span>過去 30 天</span></div>
+          <div class="dashboard-traffic-main">
+            <div class="dashboard-traffic-number">
+              <small>訪客人數</small>
+              <strong id="dashboardActiveUsers">—</strong>
+              <p class="dashboard-data-status" id="dashboardTrafficStatus" aria-live="polite">正在讀取 GA4 網站數據…</p>
+            </div>
+            <div class="dashboard-chart" aria-hidden="true">
+              <svg viewBox="0 0 500 100" preserveAspectRatio="none">
+                <path d="M0,76 C35,62 48,70 79,55 S135,68 168,43 S222,57 256,38 S311,44 344,25 S403,39 438,18 S480,25 500,12" fill="none" stroke="#596555" stroke-width="2" vector-effect="non-scaling-stroke" />
+                <path d="M0,76 C35,62 48,70 79,55 S135,68 168,43 S222,57 256,38 S311,44 344,25 S403,39 438,18 S480,25 500,12 L500,100 L0,100 Z" fill="rgba(89,101,85,.08)" />
+              </svg>
+            </div>
+          </div>
+          <div class="dashboard-traffic-meta">
+            <span>工作階段<strong id="dashboardSessions">—</strong></span>
+            <span>瀏覽次數<strong id="dashboardPageViews">—</strong></span>
+            <span>新訪客<strong id="dashboardNewUsers">—</strong></span>
+          </div>
         </article>
 
-        <article class="kpi-card">
-          <span>📦 商品總數</span>
-          <strong id="productCount">0</strong>
-          <p>目前後台建立的商品資料</p>
-        </article>
-
-        <article class="kpi-card">
-          <span>🟢 上架商品</span>
-          <strong id="liveProductCount">0</strong>
-          <p>正在官網銷售中的商品</p>
-        </article>
-
-        <article class="kpi-card">
-          <span>⭐ 首頁推薦</span>
-          <strong id="featuredProductCount">0</strong>
-          <p>會優先出現在首頁</p>
-        </article>
-
-        <article class="kpi-card">
-          <span>⚠️ 低庫存</span>
-          <strong id="lowStockCount">0</strong>
-          <p>庫存低於 20 的商品</p>
-        </article>
-
-        <article class="kpi-card">
-          <span>📝 品牌內容</span>
-          <strong>已啟用</strong>
-          <p>文章管理系統已可使用</p>
+        <article class="dashboard-panel">
+          <div class="panel-header"><h3>商品提醒</h3><span>目前狀態</span></div>
+          <div class="dashboard-todo">
+            <div class="dashboard-todo-item"><i class="dashboard-todo-dot"></i><div><b>商品總數</b><small>後台已建立的商品</small></div><strong id="productCount">0</strong></div>
+            <div class="dashboard-todo-item"><i class="dashboard-todo-dot"></i><div><b>上架商品</b><small>正在官網銷售</small></div><strong id="liveProductCount">0</strong></div>
+            <div class="dashboard-todo-item"><i class="dashboard-todo-dot"></i><div><b>首頁推薦</b><small>優先出現在首頁</small></div><strong id="featuredProductCount">0</strong></div>
+            <div class="dashboard-todo-item"><i class="dashboard-todo-dot alert"></i><div><b>低庫存</b><small>低於安全庫存</small></div><strong id="lowStockCount">0</strong></div>
+          </div>
         </article>
       </section>
 
-      <section class="dashboard-grid">
+      <section class="dashboard-bottom-grid">
         <article class="dashboard-panel">
-          <div class="panel-header">
-            <h3>📢 今日品牌簡報</h3>
-            <span>今日摘要</span>
-          </div>
-          <ul id="brandBriefList" class="brief-list"></ul>
-        </article>
-
-        <article class="dashboard-panel">
-          <div class="panel-header">
-            <h3>🩺 品牌健康度</h3>
-            <span id="brandHealthScore">0%</span>
-          </div>
-
-          <div class="health-list">
-            <div>
-              <span>商品完整度</span>
-              <div class="mini-progress"><b id="productHealthBar"></b></div>
-              <strong id="productHealthText">0%</strong>
-            </div>
-            <div>
-              <span>圖片完整度</span>
-              <div class="mini-progress"><b id="imageHealthBar"></b></div>
-              <strong id="imageHealthText">0%</strong>
-            </div>
-            <div>
-              <span>SEO 完整度</span>
-              <div class="mini-progress"><b id="seoHealthBar"></b></div>
-              <strong id="seoHealthText">0%</strong>
-            </div>
-          </div>
-        </article>
-
-        <article class="dashboard-panel">
-          <div class="panel-header">
-            <h3>🔥 商品排行榜</h3>
-            <span>商品排名</span>
-          </div>
+          <div class="panel-header"><h3>商品近況</h3><span>最近更新</span></div>
           <ol id="topProductsList" class="ranking-list"></ol>
         </article>
-
         <article class="dashboard-panel">
-          <div class="panel-header">
-            <h3>⚠️ 低庫存提醒</h3>
-            <span>庫存狀態</span>
-          </div>
+          <div class="panel-header"><h3>低庫存提醒</h3><span>庫存狀態</span></div>
           <ul id="lowStockList" class="stock-list"></ul>
         </article>
-
-        <article class="dashboard-panel">
-          <div class="panel-header">
-            <h3>🏆 品牌里程碑</h3>
-            <span>成長紀錄</span>
-          </div>
-          <div class="milestone-list">
-            <div class="done">☑ 第一件商品建立</div>
-            <div class="done">☑ 商品圖片上傳成功</div>
-            <div class="done">☑ 品牌營運系統建立</div>
-            <div>□ 第一筆訂單</div>
-            <div>□ 第一百包</div>
-            <div>□ 第一百萬營業額</div>
-          </div>
-        </article>
-
-        <article class="dashboard-panel">
-          <div class="panel-header">
-            <h3>🌱 今日一句話</h3>
-            <span>品牌筆記</span>
-          </div>
-          <blockquote id="dailyQuote">
-            今天的一包花生，可能就是一位客人第一次認識花生一生。
-          </blockquote>
+        <article class="dashboard-panel dashboard-panel-wide">
+          <div class="panel-header"><h3>營運小記</h3><span>今日摘要</span></div>
+          <ul id="brandBriefList" class="brief-list"></ul>
+          <blockquote id="dailyQuote">今天的一包花生，可能就是一位客人第一次認識花生一生。</blockquote>
         </article>
       </section>
     </main>
@@ -218,27 +135,24 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/services/supabase-config.js"></script>
   <script src="assets/js/services/auth-guard.js"></script>
+  <script src="assets/js/services/website-analytics.js?v=20260829"></script>
   <script src="assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
       const button = document.getElementById("logoutButton");
-
       button.disabled = true;
       button.textContent = "登出中…";
-
       const { error } = await supabaseClient.auth.signOut();
-
       if (error) {
         console.error("登出失敗：", error);
         button.disabled = false;
-        button.textContent = "🚪 登出後台";
+        button.textContent = "登出後台";
         alert("登出失敗，請稍後再試。");
         return;
       }
-
       window.location.replace("login.html");
     });
   </script>
-  <script src="assets/js/pages/dashboard.js?v=20260711"></script>
+  <script src="assets/js/pages/dashboard.js?v=20260829-japanese-layout"></script>
 </body>
 </html>

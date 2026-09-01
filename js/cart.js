@@ -22,8 +22,23 @@ function getCartProductImageSource(item) {
   return item.image_src || getCartItemImageSrc(item.cover_image || item.image);
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function getCart() {
-  return JSON.parse(localStorage.getItem("peanutCart")) || [];
+  try {
+    const parsed = JSON.parse(localStorage.getItem("peanutCart") || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.warn("購物車資料格式不正確，已忽略損壞資料。", error);
+    return [];
+  }
 }
 
 function saveCart(cart) {
@@ -79,34 +94,39 @@ function renderCart() {
   let total = 0;
 
   const cartItemsHtml = cart.map(item => {
-    const subtotal = item.price * item.quantity;
+    const subtotal = Number(item.price) * Number(item.quantity);
+    const itemId = escapeHtml(item.id || item.product_id || "");
+    const itemName = escapeHtml(item.name || item.product_name || "未命名商品");
+    const itemWeight = escapeHtml(item.weight || "");
+    const imageSource = escapeHtml(getCartProductImageSource(item));
+    const quantity = Math.max(1, Number(item.quantity) || 1);
     total += subtotal;
 
     return `
       <div class="cart-item">
         <div class="cart-item-image">
           <img 
-            src="${getCartProductImageSource(item)}" 
-            alt="${item.name}"
+            src="${imageSource}"
+            alt="${itemName}"
             onerror="this.src='images/placeholder.png'"
           >
         </div>
 
         <div class="cart-item-info">
-          <h2>${item.name}</h2>
-          <p>${item.weight || ""}</p>
+          <h2>${itemName}</h2>
+          <p>${itemWeight}</p>
           <strong>${formatPrice(item.price)}</strong>
         </div>
 
         <div class="cart-item-quantity">
-          <button type="button" onclick="changeQuantity('${item.id}', -1)">－</button>
-          <span>${item.quantity}</span>
-          <button type="button" onclick="changeQuantity('${item.id}', 1)">＋</button>
+          <button type="button" data-cart-action="minus" data-id="${itemId}">－</button>
+          <span>${quantity}</span>
+          <button type="button" data-cart-action="plus" data-id="${itemId}">＋</button>
         </div>
 
         <div class="cart-item-subtotal">
           <strong>${formatPrice(subtotal)}</strong>
-          <button type="button" onclick="removeItem('${item.id}')">移除</button>
+          <button type="button" data-cart-action="remove" data-id="${itemId}">移除</button>
         </div>
       </div>
     `;
@@ -142,6 +162,15 @@ function renderCart() {
       </aside>
     </div>
   `;
+
+  container.querySelectorAll("button[data-cart-action]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const productId = button.dataset.id || "";
+      if (button.dataset.cartAction === "minus") changeQuantity(productId, -1);
+      if (button.dataset.cartAction === "plus") changeQuantity(productId, 1);
+      if (button.dataset.cartAction === "remove") removeItem(productId);
+    });
+  });
 }
 
 function changeQuantity(productId, amount) {

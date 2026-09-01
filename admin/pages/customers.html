@@ -23,11 +23,11 @@
   <link rel="stylesheet" href="../assets/css/components/badges.css" />
 
   <!-- Page -->
-  <link rel="stylesheet" href="../assets/css/pages/customers.css?v=20260711-2" />
+  <link rel="stylesheet" href="../assets/css/pages/customers.css?v=20260831" />
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260805" />
+  <link rel="stylesheet" href="../assets/css/palette-system.css?v=20260807-font-fix" />
 </head>
 
 <body>
@@ -36,7 +36,7 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="adminSidebar">
       <div class="brand">
-        <div class="brand-icon">🥜</div>
+        <div class="brand-icon" aria-hidden="true">◌</div>
         <div>
           <h1>花生一生</h1>
           <p>品牌營運系統</p>
@@ -44,18 +44,18 @@
       </div>
 
       <nav class="nav-menu">
-        <a href="../index.html">🏠 儀表板</a>
-        <a href="products.html">📦 商品管理</a>
-        <a href="orders.html">🛒 訂單管理</a>
-        <a href="customers.html" class="active">👥 顧客管理</a>
-        <a href="articles.html">📝 品牌內容</a>
-        <a href="analytics.html">📊 品牌分析</a>
-        <a href="settings.html">⚙️ 系統設定</a>
+        <a href="../index.html"><span aria-hidden="true">一</span>儀表板</a>
+        <a href="products.html"><span aria-hidden="true">二</span>商品管理</a>
+        <a href="orders.html"><span aria-hidden="true">三</span>訂單管理</a>
+        <a href="customers.html" class="active"><span aria-hidden="true">四</span>顧客管理</a>
+        <a href="articles.html"><span aria-hidden="true">五</span>品牌內容</a>
+        <a href="analytics.html"><span aria-hidden="true">六</span>品牌分析</a>
+        <a href="settings.html"><span aria-hidden="true">七</span>系統設定</a>
       </nav>
 
       <div class="sidebar-footer">
         <button id="logoutButton" type="button" class="sidebar-logout">
-          🚪 登出後台
+          登出後台
         </button>
       </div>
     </aside>
@@ -69,7 +69,7 @@
           <p class="page-hero__eyebrow">顧客關係管理</p>
           <h1 class="page-hero__title">顧客管理</h1>
           <p class="page-hero__description">
-            從訂單紀錄整理顧客資料，追蹤回購、累積消費與售後狀況。第一版先不用會員系統，直接用電話或電子郵件合併同一位顧客。
+            集中查看顧客資料、有效購買、累積消費與完整訂單紀錄。
           </p>
         </div>
 
@@ -78,27 +78,27 @@
       <!-- KPI -->
       <section class="customers-kpi-grid">
         <article class="customer-kpi-card">
-          <span>👥 顧客總數</span>
+          <span>顧客總數</span>
           <strong id="totalCustomers">0</strong>
-          <p>依電話或 Email 合併後的人數</p>
+          <p>已建立正式顧客資料的人數</p>
         </article>
 
         <article class="customer-kpi-card">
-          <span>🔁 回購顧客</span>
+          <span>回購顧客</span>
           <strong id="repeatCustomers">0</strong>
-          <p>訂單數大於 1 的顧客</p>
+          <p>有效購買達 2 次以上</p>
         </article>
 
         <article class="customer-kpi-card">
-          <span>💰 顧客累積消費</span>
+          <span>顧客累積消費</span>
           <strong id="customerRevenue">NT$ 0</strong>
           <p>已付款且未取消的累積金額</p>
         </article>
 
         <article class="customer-kpi-card">
-          <span>⚠️ 需關注</span>
+          <span>需關注</span>
           <strong id="problemCustomers">0</strong>
-          <p>曾有問題訂單的顧客</p>
+          <p>問題訂單或資料待確認</p>
         </article>
       </section>
 
@@ -167,7 +167,7 @@
                 <th>顧客</th>
                 <th>電話</th>
                 <th>Email</th>
-                <th>訂單數</th>
+                <th>有效購買</th>
                 <th>累積消費</th>
                 <th>最近下單</th>
                 <th>狀態</th>
@@ -208,7 +208,7 @@
       if (error) {
         console.error("登出失敗：", error);
         button.disabled = false;
-        button.textContent = "🚪 登出後台";
+        button.textContent = "登出後台";
         alert("登出失敗，請稍後再試。");
         return;
       }
@@ -218,6 +218,6 @@
   </script>
 
   <!-- Page -->
-  <script src="../assets/js/pages/customers.js?v=20260805"></script>
+  <script src="../assets/js/pages/customers.js?v=20260831"></script>
 </body>
 </html>

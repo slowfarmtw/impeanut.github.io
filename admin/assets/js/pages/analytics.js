@@ -24,7 +24,15 @@
     topCustomer: document.getElementById("analyticsTopCustomer"),
     orderSourceSummary: document.getElementById("orderSourceSummary"),
     paymentMethodSummary: document.getElementById("paymentMethodSummary"),
-    deliveryMethodSummary: document.getElementById("deliveryMethodSummary")
+    deliveryMethodSummary: document.getElementById("deliveryMethodSummary"),
+    websiteStatus: document.getElementById("websiteAnalyticsStatus"),
+    websiteActiveUsers: document.getElementById("websiteActiveUsers"),
+    websiteSessions: document.getElementById("websiteSessions"),
+    websitePageViews: document.getElementById("websitePageViews"),
+    websiteNewUsers: document.getElementById("websiteNewUsers"),
+    websiteTrendChart: document.getElementById("websiteTrendChart"),
+    websiteSourceSummary: document.getElementById("websiteSourceSummary"),
+    websiteTopPagesBody: document.getElementById("websiteTopPagesBody")
   };
 
   const cancelledStatuses = new Set(["cancelled", "canceled", "已取消"]);
@@ -488,6 +496,126 @@
     if (type) elements.status.classList.add(type);
   }
 
+  function setWebsiteStatus(message, type = "") {
+    elements.websiteStatus.textContent = message;
+    elements.websiteStatus.classList.remove("is-success", "is-error");
+    if (type) elements.websiteStatus.classList.add(type);
+  }
+
+  function renderWebsiteTrend(points) {
+    if (!points.length) {
+      elements.websiteTrendChart.innerHTML = '<p class="analytics-empty">尚無網站流量資料。</p>';
+      return;
+    }
+
+    const width = Math.max(620, points.length * 46);
+    const height = 300;
+    const padding = { top: 24, right: 24, bottom: 48, left: 52 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+    const maxViews = Math.max(...points.map((point) => Number(point.pageViews || 0)), 1);
+    const xStep = points.length === 1 ? 0 : chartWidth / (points.length - 1);
+    const coordinates = points.map((point, index) => ({
+      ...point,
+      x: padding.left + index * xStep,
+      y: padding.top + chartHeight - (Number(point.pageViews || 0) / maxViews) * chartHeight
+    }));
+    const linePath = coordinates
+      .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
+      .join(" ");
+    const areaPath = `${linePath} L ${coordinates.at(-1).x} ${padding.top + chartHeight} L ${coordinates[0].x} ${padding.top + chartHeight} Z`;
+    const labelInterval = Math.max(1, Math.ceil(points.length / 8));
+    const labels = coordinates.map((point, index) => {
+      if (index % labelInterval !== 0 && index !== coordinates.length - 1) return "";
+      return `<text class="analytics-chart-label" x="${point.x}" y="${height - 16}" text-anchor="middle">${escapeHtml(String(point.date || "").slice(5).replace("-", "/"))}</text>`;
+    }).join("");
+    const dots = coordinates.map((point) => `
+      <circle class="analytics-chart-point" cx="${point.x}" cy="${point.y}" r="4">
+        <title>${escapeHtml(point.date)}｜${formatNumber(point.activeUsers)} 位訪客｜${formatNumber(point.pageViews)} 次瀏覽</title>
+      </circle>
+    `).join("");
+
+    elements.websiteTrendChart.innerHTML = `
+      <svg viewBox="0 0 ${width} ${height}" aria-hidden="true">
+        <path class="analytics-chart-area" d="${areaPath}"></path>
+        <path class="analytics-chart-line" d="${linePath}"></path>
+        ${dots}${labels}
+      </svg>
+    `;
+  }
+
+  function renderWebsiteSources(sources) {
+    if (!sources.length) {
+      elements.websiteSourceSummary.innerHTML = '<p class="analytics-empty">尚無流量來源資料。</p>';
+      return;
+    }
+
+    const maxSessions = Math.max(...sources.map((source) => Number(source.sessions || 0)), 1);
+    elements.websiteSourceSummary.innerHTML = sources.map((source) => {
+      const sessions = Number(source.sessions || 0);
+      const percentage = (sessions / maxSessions) * 100;
+      return `
+        <div class="analytics-progress-item">
+          <div class="analytics-progress-row">
+            <span class="analytics-progress-name">${escapeHtml(source.name || "未分類")}</span>
+            <span class="analytics-progress-count">${formatNumber(sessions)} 次</span>
+          </div>
+          <div class="analytics-progress-track" aria-hidden="true">
+            <div class="analytics-progress-bar" style="width: ${percentage}%"></div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderWebsiteTopPages(pages) {
+    if (!pages.length) {
+      elements.websiteTopPagesBody.innerHTML = '<tr><td colspan="3" class="analytics-empty-cell">尚無熱門頁面資料。</td></tr>';
+      return;
+    }
+
+    elements.websiteTopPagesBody.innerHTML = pages.map((page) => `
+      <tr>
+        <td><span class="analytics-page-title">${escapeHtml(page.title || "未命名頁面")}</span><span class="analytics-page-path">${escapeHtml(page.path || "")}</span></td>
+        <td>${formatNumber(page.activeUsers)}</td>
+        <td>${formatNumber(page.pageViews)}</td>
+      </tr>
+    `).join("");
+  }
+
+  async function loadWebsiteAnalytics(periodValue) {
+    if (!window.peanutWebsiteAnalytics) {
+      setWebsiteStatus("網站流量模組尚未載入。", "is-error");
+      return;
+    }
+
+    setWebsiteStatus("正在讀取 GA4 數據…");
+
+    try {
+      const days = periodValue === "all" ? 365 : Number(periodValue || 30);
+      const report = await window.peanutWebsiteAnalytics.load(days);
+      elements.websiteActiveUsers.textContent = formatNumber(report.summary.activeUsers);
+      elements.websiteSessions.textContent = formatNumber(report.summary.sessions);
+      elements.websitePageViews.textContent = formatNumber(report.summary.pageViews);
+      elements.websiteNewUsers.textContent = formatNumber(report.summary.newUsers);
+      renderWebsiteTrend(report.trend);
+      renderWebsiteSources(report.sources);
+      renderWebsiteTopPages(report.topPages);
+
+      const updatedTime = new Intl.DateTimeFormat("zh-TW", { hour: "2-digit", minute: "2-digit" })
+        .format(new Date(report.fetchedAt || Date.now()));
+      const rangeNote = periodValue === "all" ? "（網站流量顯示近 1 年）" : "";
+      setWebsiteStatus(`GA4 已更新｜${updatedTime}${rangeNote}`, "is-success");
+    } catch (error) {
+      if (String(error?.message || "").includes("GA4 尚未完成設定")) {
+        console.info("GA4 後台報表尚未完成設定。");
+      } else {
+        console.error("網站流量載入失敗：", error);
+      }
+      setWebsiteStatus(error.message || "GA4 尚未完成設定。", "is-error");
+    }
+  }
+
   async function fetchAnalyticsData() {
     const [ordersResult, itemsResult] = await Promise.all([
       supabase.from("orders").select("*").order("created_at", { ascending: true }),
@@ -514,8 +642,11 @@
     setStatus("正在讀取品牌數據…");
 
     try {
-      const { orders, orderItems } = await fetchAnalyticsData();
       const periodValue = elements.period.value;
+      const [{ orders, orderItems }] = await Promise.all([
+        fetchAnalyticsData(),
+        loadWebsiteAnalytics(periodValue)
+      ]);
       const range = getDateRange(periodValue);
       const currentOrders = filterByRange(orders, range.currentStart, range.currentEnd);
       const previousOrders = range.previousStart
