@@ -47,19 +47,6 @@
   box-shadow: none;
 }
 
-.home-page .home-marquee::before,
-.home-page .home-marquee::after {
-  content: "✣";
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  color: var(--wa-gold);
-  font-size: 13px;
-  transform: translateY(-50%);
-}
-
-.home-page .home-marquee::before { left: 31%; }
-.home-page .home-marquee::after { right: 9%; }
 .home-page .home-marquee-label {
   padding-left: clamp(24px, 6vw, 92px);
   border-right: 1px solid rgba(252, 250, 244, .22);
@@ -333,8 +320,6 @@
   .home-page .site-header { height: 80px; padding-inline: 20px; }
   .home-page .site-nav { top: 80px; gap: 0; background: var(--wa-surface); font-family: var(--site-font); font-size: 15px; }
   .home-page .home-marquee { top: 80px; height: 48px; }
-  .home-page .home-marquee::before,
-  .home-page .home-marquee::after { display: none; }
   .home-page .home-hero {
     min-height: auto;
     padding: 0 20px 48px;
