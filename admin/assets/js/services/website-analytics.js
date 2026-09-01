@@ -13,13 +13,22 @@
 
   function normalizeReport(data) {
     const summary = data?.summary || {};
+    const previousSummary = data?.previousSummary || {};
 
     return {
       summary: {
         activeUsers: normalizeNumber(summary.activeUsers),
+        totalUsers: normalizeNumber(summary.totalUsers),
         sessions: normalizeNumber(summary.sessions),
         pageViews: normalizeNumber(summary.pageViews),
         newUsers: normalizeNumber(summary.newUsers)
+      },
+      previousSummary: {
+        activeUsers: normalizeNumber(previousSummary.activeUsers),
+        totalUsers: normalizeNumber(previousSummary.totalUsers),
+        sessions: normalizeNumber(previousSummary.sessions),
+        pageViews: normalizeNumber(previousSummary.pageViews),
+        newUsers: normalizeNumber(previousSummary.newUsers)
       },
       trend: Array.isArray(data?.trend) ? data.trend : [],
       topPages: Array.isArray(data?.topPages) ? data.topPages : [],

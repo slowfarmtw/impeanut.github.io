@@ -117,6 +117,9 @@ function formatGaDate(value) {
 
 async function fetchAnalyticsReport(propertyId, accessToken, days) {
   const dateRanges = [{ startDate: `${days - 1}daysAgo`, endDate: "today" }];
+  const previousDateRanges = [{ startDate: `${days * 2 - 1}daysAgo`, endDate: `${days}daysAgo` }];
+  const summaryMetrics = ["activeUsers", "totalUsers", "sessions", "screenPageViews", "newUsers"]
+    .map((name) => ({ name }));
   const response = await fetch(
     `https://analyticsdata.googleapis.com/v1beta/properties/${encodeURIComponent(propertyId)}:batchRunReports`,
     {
@@ -124,7 +127,8 @@ async function fetchAnalyticsReport(propertyId, accessToken, days) {
       headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         requests: [
-          { dateRanges, metrics: ["activeUsers", "sessions", "screenPageViews", "newUsers"].map((name) => ({ name })) },
+          { dateRanges, metrics: summaryMetrics },
+          { dateRanges: previousDateRanges, metrics: summaryMetrics },
           {
             dateRanges,
             dimensions: [{ name: "date" }],
@@ -174,15 +178,24 @@ Deno.serve(async (request) => {
     }
 
     const accessToken = await getGoogleAccessToken(email, privateKey);
-    const [summaryReport, trendReport, pageReport, sourceReport] = await fetchAnalyticsReport(propertyId, accessToken, days);
+    const [summaryReport, previousSummaryReport, trendReport, pageReport, sourceReport] = await fetchAnalyticsReport(propertyId, accessToken, days);
     const summaryRow = summaryReport?.rows?.[0] || {};
+    const previousSummaryRow = previousSummaryReport?.rows?.[0] || {};
 
     return json(request, {
       summary: {
         activeUsers: metric(summaryReport, summaryRow, "activeUsers"),
+        totalUsers: metric(summaryReport, summaryRow, "totalUsers"),
         sessions: metric(summaryReport, summaryRow, "sessions"),
         pageViews: metric(summaryReport, summaryRow, "screenPageViews"),
         newUsers: metric(summaryReport, summaryRow, "newUsers")
+      },
+      previousSummary: {
+        activeUsers: metric(previousSummaryReport, previousSummaryRow, "activeUsers"),
+        totalUsers: metric(previousSummaryReport, previousSummaryRow, "totalUsers"),
+        sessions: metric(previousSummaryReport, previousSummaryRow, "sessions"),
+        pageViews: metric(previousSummaryReport, previousSummaryRow, "screenPageViews"),
+        newUsers: metric(previousSummaryReport, previousSummaryRow, "newUsers")
       },
       trend: (trendReport?.rows || []).map((row) => ({
         date: formatGaDate(dimension(trendReport, row, "date")),

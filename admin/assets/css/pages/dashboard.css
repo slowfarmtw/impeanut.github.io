@@ -119,18 +119,24 @@
 .dashboard-traffic-number { padding-right: 24px; border-right: 1px solid var(--color-border); }
 .dashboard-traffic-number small { color: var(--color-muted); font-size: 10px; }
 .dashboard-traffic-number strong { display: block; margin: 10px 0 7px; color: var(--color-text); font: 500 37px "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; }
+.dashboard-traffic-comparison { display: block; margin-bottom: 8px; color: var(--color-primary); font-size: 10px; font-weight: 700; }
 .dashboard-data-status { margin: 0; color: var(--color-muted); font-size: 10px; line-height: 1.6; }
 .dashboard-data-status.is-success { color: var(--color-primary); }
 .dashboard-data-status.is-error { color: var(--color-danger); }
-.dashboard-chart { position: relative; min-height: 108px; overflow: hidden; }
+.dashboard-chart { position: relative; min-height: 124px; overflow: hidden; }
 .dashboard-chart::before,
 .dashboard-chart::after { content: ""; position: absolute; left: 0; right: 0; border-top: 1px dashed #ded8cb; }
 .dashboard-chart::before { top: 28%; }
 .dashboard-chart::after { top: 68%; }
-.dashboard-chart svg { position: absolute; inset: 6px 0 0; width: 100%; height: 95px; overflow: visible; }
+.dashboard-chart > p { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--color-muted); font-size: 10px; }
+.dashboard-chart svg { position: absolute; inset: 6px 0 20px; width: 100%; height: 96px; overflow: visible; }
+.dashboard-chart-axis { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; color: var(--color-muted); font-size: 9px; }
 .dashboard-traffic-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border); }
-.dashboard-traffic-meta span { color: var(--color-muted); font-size: 10px; }
+.dashboard-traffic-meta > div { min-width: 0; }
+.dashboard-traffic-meta span { display: block; color: var(--color-muted); font-size: 10px; }
 .dashboard-traffic-meta strong { display: block; margin-top: 6px; color: var(--color-text); font: 500 17px "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; }
+.dashboard-traffic-meta small { display: block; margin-top: 5px; color: var(--color-muted); font-size: 9px; line-height: 1.5; }
+.dashboard-traffic-insight { margin: 16px 0 0; padding: 12px 14px; border-left: 2px solid var(--color-primary); color: #696b64; background: rgba(89, 101, 85, .045); font-size: 10px; line-height: 1.75; }
 
 .dashboard-todo { display: grid; gap: 13px; }
 .dashboard-todo-item { display: grid; grid-template-columns: 7px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-bottom: 13px; border-bottom: 1px solid #e0dbcf; }

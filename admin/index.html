@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="assets/css/components/cards.css" />
   <link rel="stylesheet" href="assets/css/components/tables.css" />
   <link rel="stylesheet" href="assets/css/components/badges.css" />
-  <link rel="stylesheet" href="assets/css/pages/dashboard.css?v=20260829-japanese-layout" />
+  <link rel="stylesheet" href="assets/css/pages/dashboard.css?v=20260901-evaluation" />
   <link rel="stylesheet" href="assets/css/palette-system.css?v=20260829-japanese-layout" />
 </head>
 
@@ -85,22 +85,21 @@
           <div class="panel-header"><h3 id="websiteTrafficTitle">網站流量</h3><span>過去 30 天</span></div>
           <div class="dashboard-traffic-main">
             <div class="dashboard-traffic-number">
-              <small>訪客人數</small>
+              <small>有效訪客</small>
               <strong id="dashboardActiveUsers">—</strong>
+              <span class="dashboard-traffic-comparison" id="dashboardTrafficComparison">等待前期比較</span>
               <p class="dashboard-data-status" id="dashboardTrafficStatus" aria-live="polite">正在讀取 GA4 網站數據…</p>
             </div>
-            <div class="dashboard-chart" aria-hidden="true">
-              <svg viewBox="0 0 500 100" preserveAspectRatio="none">
-                <path d="M0,76 C35,62 48,70 79,55 S135,68 168,43 S222,57 256,38 S311,44 344,25 S403,39 438,18 S480,25 500,12" fill="none" stroke="#596555" stroke-width="2" vector-effect="non-scaling-stroke" />
-                <path d="M0,76 C35,62 48,70 79,55 S135,68 168,43 S222,57 256,38 S311,44 344,25 S403,39 438,18 S480,25 500,12 L500,100 L0,100 Z" fill="rgba(89,101,85,.08)" />
-              </svg>
+            <div class="dashboard-chart" id="dashboardTrafficChart" role="img" aria-label="正在讀取每日有效訪客趨勢">
+              <p>正在建立真實流量趨勢…</p>
             </div>
           </div>
           <div class="dashboard-traffic-meta">
-            <span>工作階段<strong id="dashboardSessions">—</strong></span>
-            <span>瀏覽次數<strong id="dashboardPageViews">—</strong></span>
-            <span>新訪客<strong id="dashboardNewUsers">—</strong></span>
+            <div><span>造訪次數</span><strong id="dashboardSessions">—</strong><small id="dashboardSessionsPerUser">每位訪客 — 次</small></div>
+            <div><span>每次造訪瀏覽</span><strong id="dashboardViewsPerSession">—</strong><small id="dashboardPageViews">總瀏覽 — 次</small></div>
+            <div><span>首次訪客占比</span><strong id="dashboardNewUserRate">—</strong><small id="dashboardNewUsers">首次訪客 — 位</small></div>
           </div>
+          <p class="dashboard-traffic-insight" id="dashboardTrafficInsight">指標計算完成後，會直接顯示造訪頻率、瀏覽深度與新客占比。</p>
         </article>
 
         <article class="dashboard-panel">
@@ -135,7 +134,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/services/supabase-config.js"></script>
   <script src="assets/js/services/auth-guard.js"></script>
-  <script src="assets/js/services/website-analytics.js?v=20260829"></script>
+  <script src="assets/js/services/website-analytics.js?v=20260901-evaluation"></script>
   <script src="assets/js/layout/sidebar.js?v=20260712"></script>
   <script>
     document.getElementById("logoutButton")?.addEventListener("click", async () => {
@@ -153,6 +152,6 @@
       window.location.replace("login.html");
     });
   </script>
-  <script src="assets/js/pages/dashboard.js?v=20260829-japanese-layout"></script>
+  <script src="assets/js/pages/dashboard.js?v=20260901-evaluation"></script>
 </body>
 </html>

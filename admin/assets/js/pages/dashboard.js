@@ -275,6 +275,73 @@ function setTrafficStatus(message, type = "") {
   if (type) status.classList.add(type);
 }
 
+function formatDecimal(value, digits = 1) {
+  const number = Number(value || 0);
+  return Number.isFinite(number) ? number.toLocaleString("zh-TW", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  }) : "0.0";
+}
+
+function formatPeriodComparison(current, previous) {
+  const currentValue = Number(current || 0);
+  const previousValue = Number(previous || 0);
+
+  if (previousValue <= 0) {
+    return currentValue > 0 ? "前 30 天無可比較資料" : "目前尚無訪客資料";
+  }
+
+  const change = ((currentValue - previousValue) / previousValue) * 100;
+  const sign = change > 0 ? "+" : "";
+  return `較前 30 天 ${sign}${formatDecimal(change)}%`;
+}
+
+function formatChartDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value || "";
+  return `${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+function renderTrafficTrend(points) {
+  const chart = document.getElementById("dashboardTrafficChart");
+  if (!chart) return;
+
+  const trend = (Array.isArray(points) ? points : []).filter((point) => {
+    return point?.date && Number.isFinite(Number(point.activeUsers));
+  });
+
+  if (!trend.length) {
+    chart.innerHTML = "<p>近 30 天尚無每日訪客資料。</p>";
+    chart.setAttribute("aria-label", "近 30 天尚無每日訪客資料");
+    return;
+  }
+
+  const width = 500;
+  const height = 92;
+  const topPadding = 8;
+  const bottomPadding = 8;
+  const values = trend.map((point) => Number(point.activeUsers || 0));
+  const maximum = Math.max(...values, 1);
+  const step = trend.length > 1 ? width / (trend.length - 1) : 0;
+  const coordinates = values.map((value, index) => ({
+    x: trend.length > 1 ? index * step : width / 2,
+    y: topPadding + (height - topPadding - bottomPadding) * (1 - value / maximum)
+  }));
+  const linePath = coordinates.map((point, index) => `${index ? "L" : "M"}${point.x.toFixed(2)},${point.y.toFixed(2)}`).join(" ");
+  const areaPath = `${linePath} L${coordinates.at(-1).x.toFixed(2)},${height} L${coordinates[0].x.toFixed(2)},${height} Z`;
+  const firstDate = formatChartDate(trend[0].date);
+  const lastDate = formatChartDate(trend.at(-1).date);
+
+  chart.innerHTML = `
+    <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true">
+      <path d="${areaPath}" fill="rgba(89,101,85,.08)"></path>
+      <path d="${linePath}" fill="none" stroke="#596555" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+    </svg>
+    <div class="dashboard-chart-axis"><span>${escapeHtml(firstDate)}</span><span>${escapeHtml(lastDate)}</span></div>
+  `;
+  chart.setAttribute("aria-label", `近 30 天每日有效訪客趨勢，最高單日 ${formatNumber(maximum)} 位`);
+}
+
 async function loadDashboardTraffic() {
   if (!window.peanutWebsiteAnalytics) {
     setTrafficStatus("網站流量模組尚未載入，請稍後重新整理。", "is-error");
@@ -285,10 +352,28 @@ async function loadDashboardTraffic() {
 
   try {
     const report = await window.peanutWebsiteAnalytics.load(30);
-    setText("dashboardActiveUsers", formatNumber(report.summary.activeUsers));
-    setText("dashboardSessions", formatNumber(report.summary.sessions));
-    setText("dashboardPageViews", formatNumber(report.summary.pageViews));
-    setText("dashboardNewUsers", formatNumber(report.summary.newUsers));
+    const activeUsers = Number(report.summary.activeUsers || 0);
+    const totalUsers = Number(report.summary.totalUsers || 0);
+    const sessions = Number(report.summary.sessions || 0);
+    const pageViews = Number(report.summary.pageViews || 0);
+    const newUsers = Number(report.summary.newUsers || 0);
+    const sessionsPerUser = activeUsers > 0 ? sessions / activeUsers : 0;
+    const viewsPerSession = sessions > 0 ? pageViews / sessions : 0;
+    const newUserRate = totalUsers > 0 ? (newUsers / totalUsers) * 100 : 0;
+
+    setText("dashboardActiveUsers", formatNumber(activeUsers));
+    setText("dashboardTrafficComparison", formatPeriodComparison(activeUsers, report.previousSummary.activeUsers));
+    setText("dashboardSessions", formatNumber(sessions));
+    setText("dashboardSessionsPerUser", `每位有效訪客 ${formatDecimal(sessionsPerUser)} 次`);
+    setText("dashboardViewsPerSession", `${formatDecimal(viewsPerSession)} 頁`);
+    setText("dashboardPageViews", `總瀏覽 ${formatNumber(pageViews)} 次`);
+    setText("dashboardNewUserRate", `${formatDecimal(newUserRate, 0)}%`);
+    setText("dashboardNewUsers", `首次訪客 ${formatNumber(newUsers)} / ${formatNumber(totalUsers)} 位`);
+    setText(
+      "dashboardTrafficInsight",
+      `近 30 天每位有效訪客平均造訪 ${formatDecimal(sessionsPerUser)} 次，每次造訪平均瀏覽 ${formatDecimal(viewsPerSession)} 頁；首次訪客占全部訪客 ${formatDecimal(newUserRate, 0)}%。`
+    );
+    renderTrafficTrend(report.trend);
 
     const updatedTime = new Intl.DateTimeFormat("zh-TW", {
       hour: "2-digit",
