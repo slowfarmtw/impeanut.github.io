@@ -1,17 +1,17 @@
 /* 首頁和風版型：只作用於 .home-page，不改動其他官網頁面。 */
 .home-page {
-  --wa-paper: #f3f0e7;
-  --wa-surface: #fcfaf4;
-  --wa-ink: #282b27;
-  --wa-muted: #77766d;
-  --wa-green: #596555;
-  --wa-gold: #b59a66;
-  --wa-line: #d5cfc0;
-  --wa-seal: #a75b3b;
+  --wa-paper: #fbf7ef;
+  --wa-surface: #fffdf8;
+  --wa-ink: #4b3028;
+  --wa-muted: #7b6d63;
+  --wa-green: #78864b;
+  --wa-gold: #c97845;
+  --wa-line: #e4d3bd;
+  --wa-seal: #c97845;
   background-color: var(--wa-paper);
   background-image:
-    radial-gradient(circle at 18% 12%, rgba(89, 101, 85, .035), transparent 28%),
-    repeating-linear-gradient(0deg, rgba(40, 43, 39, .018) 0, rgba(40, 43, 39, .018) 1px, transparent 1px, transparent 4px);
+    radial-gradient(circle at 18% 12%, rgba(201, 120, 69, .035), transparent 28%),
+    repeating-linear-gradient(0deg, rgba(75, 48, 40, .016) 0, rgba(75, 48, 40, .016) 1px, transparent 1px, transparent 4px);
   color: var(--wa-ink);
 }
 
@@ -19,7 +19,7 @@
   height: 90px;
   padding: 0 clamp(24px, 4.2vw, 68px);
   border-bottom: 1px solid var(--wa-line);
-  background: rgba(252, 250, 244, .96);
+  background: rgba(255, 253, 248, .96);
   backdrop-filter: blur(8px);
 }
 
@@ -43,20 +43,20 @@
   top: 90px;
   height: 58px;
   border-block: 1px solid rgba(181, 154, 102, .65);
-  background: var(--wa-green);
+  background: #d6ad82;
   box-shadow: none;
 }
 
 .home-page .home-marquee-label {
   padding-left: clamp(24px, 6vw, 92px);
-  border-right: 1px solid rgba(252, 250, 244, .22);
-  color: var(--wa-gold);
+  border-right: 1px solid rgba(75, 48, 40, .18);
+  color: var(--wa-ink);
   font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif;
   font-size: 13px;
   font-weight: 600;
 }
 .home-page .home-marquee-track {
-  color: var(--wa-surface);
+  color: var(--wa-ink);
   font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif;
   font-size: 14px;
   font-weight: 500;
@@ -71,10 +71,10 @@
   grid-template-columns: minmax(380px, .82fr) minmax(520px, 1.18fr);
   gap: clamp(24px, 4vw, 64px);
   border-bottom: 1px solid var(--wa-line);
-  background-color: rgba(252, 250, 244, .52);
+  background-color: rgba(255, 253, 248, .6);
   background-image:
-    linear-gradient(rgba(89, 101, 85, .075) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(89, 101, 85, .075) 1px, transparent 1px);
+    linear-gradient(rgba(201, 120, 69, .065) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 120, 69, .065) 1px, transparent 1px);
   background-size: 60px 60px;
   overflow: hidden;
 }
@@ -89,8 +89,8 @@
   pointer-events: none;
   opacity: .38;
   background:
-    radial-gradient(ellipse at 0 100%, rgba(40, 43, 39, .7), transparent 52%),
-    linear-gradient(155deg, transparent 48%, rgba(40, 43, 39, .22) 49%, transparent 51%);
+    radial-gradient(ellipse at 0 100%, rgba(201, 120, 69, .42), transparent 52%),
+    linear-gradient(155deg, transparent 48%, rgba(120, 134, 75, .22) 49%, transparent 51%);
   clip-path: polygon(0 18%, 35% 40%, 62% 64%, 100% 100%, 0 100%);
 }
 
@@ -107,7 +107,7 @@
   gap: 14px;
   padding-top: 50px;
   border-inline: 1px solid rgba(89, 101, 85, .24);
-  background: rgba(252, 250, 244, .4);
+  background: rgba(255, 253, 248, .55);
 }
 .home-origin-rail > svg { width: 20px; fill: none; stroke: var(--wa-green); stroke-width: 1.5; }
 .home-origin-rail > span {
@@ -178,9 +178,9 @@
   box-shadow: none;
 }
 .home-page .home-btn-primary { border-color: var(--wa-gold); background: var(--wa-gold); color: var(--wa-surface); }
-.home-page .home-btn-primary:hover { border-color: var(--wa-green); background: var(--wa-green); }
-.home-page .home-btn-secondary { border-color: var(--wa-line); color: var(--wa-ink); background: rgba(252, 250, 244, .68); }
-.home-page .home-btn-secondary:hover { border-color: var(--wa-green); background: var(--wa-green); color: var(--wa-surface); }
+.home-page .home-btn-primary:hover { border-color: #ad6038; background: #ad6038; }
+.home-page .home-btn-secondary { border-color: var(--wa-line); color: var(--wa-ink); background: rgba(255, 253, 248, .76); }
+.home-page .home-btn-secondary:hover { border-color: var(--wa-gold); background: #fff3e6; color: var(--wa-ink); }
 .home-page .purchase-platform-note { color: var(--wa-muted); font-size: 10px; }
 
 .home-page .home-hero-visual {
@@ -203,7 +203,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-bottom: 1px solid var(--wa-line);
-  background: rgba(252, 250, 244, .84);
+  background: rgba(255, 253, 248, .88);
 }
 .home-proof-item {
   min-width: 0;
@@ -238,7 +238,7 @@
   grid-template-columns: minmax(0, .9fr) minmax(520px, 1.1fr);
   border-inline: 1px solid var(--wa-line);
   border-bottom: 1px solid var(--wa-line);
-  background: rgba(252, 250, 244, .62);
+  background: rgba(255, 253, 248, .7);
 }
 .home-editorial-copy {
   padding: clamp(54px, 7vw, 100px);
@@ -281,7 +281,7 @@
   border-right: 1px solid var(--wa-line);
   border-bottom: 1px solid var(--wa-line);
   border-radius: 0;
-  background: rgba(252, 250, 244, .72);
+  background: rgba(255, 253, 248, .78);
   box-shadow: none;
 }
 .home-page .home-article-card:hover { transform: none; border-color: var(--wa-line); background: var(--wa-surface); box-shadow: none; }
@@ -300,15 +300,26 @@
   background: rgba(252, 250, 244, .7);
   box-shadow: none;
 }
-.home-page .home-conversion-card.is-primary { background: var(--wa-green); color: var(--wa-surface); }
+.home-page .home-conversion-card.is-primary { background: #f1d9c2; color: var(--wa-ink); }
 .home-page .home-conversion-card.is-primary .home-kicker,
-.home-page .home-conversion-card.is-primary p { color: #ece9df; }
-.home-page .home-conversion-card.is-primary .home-btn-light { border-color: var(--wa-surface); background: var(--wa-surface); color: var(--wa-green); }
+.home-page .home-conversion-card.is-primary p { color: var(--wa-muted); }
+.home-page .home-conversion-card.is-primary .home-kicker { color: #9f5531; }
+.home-page .home-conversion-card.is-primary .home-btn-light { border-color: var(--wa-gold); background: var(--wa-gold); color: var(--wa-surface); }
 .home-page .home-conversion-card h3 { font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; font-weight: 500; }
 
 .home-page .home-cta { padding: clamp(70px, 8vw, 112px) 4vw; border-top: 1px solid var(--wa-line); background: var(--wa-paper); }
 .home-page .home-cta > div { max-width: 1180px; border: 1px solid var(--wa-line); border-radius: 0; background: var(--wa-surface); box-shadow: none; }
 .home-page .home-cta h2 { color: var(--wa-ink); font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif; font-weight: 500; }
+.home-page .home-cta .home-btn-light {
+  border-color: var(--wa-gold);
+  background: var(--wa-gold);
+  color: var(--wa-surface);
+}
+.home-page .home-cta .home-btn-light:hover {
+  border-color: #ad6038;
+  background: #ad6038;
+  color: var(--wa-surface);
+}
 
 @media (max-width: 1100px) {
   .home-page .home-hero { padding-left: 105px; grid-template-columns: minmax(340px, .9fr) minmax(420px, 1.1fr); }
