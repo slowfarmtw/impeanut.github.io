@@ -43,21 +43,21 @@
   top: 90px;
   height: 58px;
   border-block: 1px solid rgba(181, 154, 102, .65);
-  background: #d6ad82;
+  background: #ead1b6;
   box-shadow: none;
 }
 
 .home-page .home-marquee-label {
   padding-left: clamp(24px, 6vw, 92px);
-  border-right: 1px solid rgba(75, 48, 40, .18);
-  background: var(--wa-ink);
-  color: var(--wa-surface);
+  border-right: 1px solid rgba(75, 48, 40, .12);
+  background: #d7a477;
+  color: #4b3028;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif;
   font-size: 13px;
   font-weight: 600;
 }
 .home-page .home-marquee-track {
-  color: var(--wa-ink);
+  color: #594039;
   font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif;
   font-size: 14px;
   font-weight: 500;

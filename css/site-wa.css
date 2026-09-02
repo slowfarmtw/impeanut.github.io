@@ -7,6 +7,8 @@
   --peanut-paper-soft: #f5ede1;
   --peanut-surface: #fffdf8;
   --peanut-ink: #4b3028;
+  --peanut-title: #38231d;
+  --peanut-hero: #efd7bf;
   --peanut-text: #574a43;
   --peanut-muted: #7b6d63;
   --peanut-orange: #c97845;
@@ -84,8 +86,8 @@ h1, h2, h3, h4,
   min-height: 286px;
   padding: 68px 6vw 58px;
   border-bottom: 1px solid var(--peanut-line);
-  color: var(--peanut-ink);
-  background-color: var(--peanut-paper-soft);
+  color: var(--peanut-title);
+  background-color: var(--peanut-hero);
   background-image:
     linear-gradient(var(--peanut-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--peanut-grid) 1px, transparent 1px);
@@ -131,7 +133,7 @@ h1, h2, h3, h4,
 
 .page-hero h1 {
   margin: 7px 0 10px;
-  color: var(--peanut-ink);
+  color: var(--peanut-title);
   font-size: clamp(40px, 5vw, 62px);
   line-height: 1.25;
 }
@@ -308,10 +310,17 @@ h1, h2, h3, h4,
 .article-page { background: transparent; }
 .article-hero {
   max-width: 920px;
-  padding-top: 92px;
+  padding: 64px clamp(24px, 6vw, 72px);
+  border: 1px solid var(--peanut-line);
+  border-radius: 22px;
+  background-color: var(--peanut-hero);
+  background-image:
+    linear-gradient(var(--peanut-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--peanut-grid) 1px, transparent 1px);
+  background-size: 54px 54px;
   text-align: center;
 }
-.article-hero h1 { color: var(--peanut-ink); font-weight: 500; }
+.article-hero h1 { color: var(--peanut-title); font-weight: 500; }
 .article-content { padding: clamp(30px, 5vw, 66px); }
 .article-content blockquote {
   border-left-color: var(--peanut-orange);
@@ -366,14 +375,23 @@ h1, h2, h3, h4,
 .life-page-hero {
   min-height: 286px;
   padding: 68px 6vw 58px;
-  background-color: var(--peanut-paper-soft);
+  background-color: var(--peanut-hero);
   background-image:
     linear-gradient(var(--peanut-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--peanut-grid) 1px, transparent 1px);
   background-size: 54px 54px;
 }
 .life-page-hero .section-label { color: var(--peanut-orange-dark); }
-.life-page-hero h1 { color: var(--peanut-ink); }
+.life-page-hero h1 { color: var(--peanut-title); }
+
+/* 商品詳細頁沒有共用 page-hero，補上同一套暖花生色標題區。 */
+#productDetail .product-top-info {
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid var(--peanut-line);
+  border-radius: 18px;
+  background: var(--peanut-hero);
+}
+#productDetail .product-top-info h1 { color: var(--peanut-title); }
 .life-river-section { background: transparent; }
 .life-river-heading h2 { color: var(--peanut-ink); }
 .life-river-heading p { color: var(--peanut-muted); }
@@ -423,7 +441,7 @@ h1, h2, h3, h4,
   .page-hero::before { right: 24px; height: 48px; }
   .page-hero::after { left: 24px; bottom: 26px; width: 26px; height: 26px; }
   .section { padding-top: 64px; padding-bottom: 64px; }
-  .article-hero { padding-top: 64px; }
+  .article-hero { padding: 48px 28px; }
 }
 
 @media (max-width: 560px) {
@@ -433,6 +451,7 @@ h1, h2, h3, h4,
   .page-hero::before,
   .page-hero::after { display: none; }
   .article-hero h1 { font-size: 40px; }
+  #productDetail .product-top-info { padding: 28px 22px; }
   .contact-card,
   .notice-box,
   .step-card { padding: 26px; }
