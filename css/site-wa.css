@@ -58,25 +58,26 @@ h1, h2, h3, h4,
 }
 
 .site-header {
-  height: 88px;
-  padding-inline: clamp(24px, 4.5vw, 70px);
+  height: 90px;
+  padding: 0 clamp(24px, 4.2vw, 68px);
   border-bottom: 1px solid var(--peanut-line);
-  background: rgba(255, 253, 248, .95);
+  background: rgba(255, 253, 248, .96);
+  backdrop-filter: blur(8px);
   box-shadow: none;
 }
 
 .site-header .logo-area img {
-  width: clamp(150px, 13vw, 198px);
+  width: clamp(150px, 13vw, 205px);
   filter: none;
 }
 
 .site-nav {
-  gap: clamp(18px, 2vw, 32px);
+  gap: clamp(18px, 2.1vw, 34px);
   color: var(--peanut-ink);
   font-family: var(--peanut-serif);
   font-size: 14px;
-  font-weight: 600;
-  letter-spacing: .04em;
+  font-weight: 500;
+  letter-spacing: .05em;
 }
 
 .site-nav a::after { height: 1px; background: var(--peanut-orange); }
