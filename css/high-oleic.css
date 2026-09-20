@@ -1,0 +1,76 @@
+.high-oleic-page { background: #fbf7ef; color: #2d2522; }
+
+.oleic-hero {
+  min-height: 430px;
+  padding: 138px 24px 92px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #2d2522;
+  color: #fbf7ef;
+}
+
+.oleic-hero-inner { max-width: 760px; }
+.oleic-hero .section-label { color: #d6ad82; }
+.oleic-hero h1 { margin: 10px 0 20px; color: inherit; font-size: clamp(42px, 6vw, 68px); letter-spacing: .06em; }
+.oleic-hero p:last-child { margin: 0; color: #e8dccd; font-size: 17px; line-height: 2; }
+
+.oleic-section { width: min(1080px, calc(100% - 48px)); margin-inline: auto; }
+
+.oleic-intro {
+  padding: 112px 0 96px;
+  display: grid;
+  grid-template-columns: minmax(260px, .9fr) minmax(0, 1.1fr);
+  gap: clamp(48px, 8vw, 132px);
+  align-items: start;
+}
+
+.oleic-intro h2,
+.oleic-report-heading h2,
+.oleic-note-section h2 { margin: 10px 0 0; color: #2d2522; font-size: clamp(32px, 4.4vw, 54px); line-height: 1.34; }
+.oleic-intro-body { padding-top: 48px; }
+.oleic-intro-body p,
+.oleic-note-section > p { margin: 0 0 22px; color: #6f625c; font-size: 17px; line-height: 2; }
+
+.oleic-principles {
+  padding: 0 0 112px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(75, 48, 40, .18);
+}
+
+.oleic-principles article { min-height: 290px; padding: 38px 36px 28px 0; border-right: 1px solid rgba(75, 48, 40, .18); }
+.oleic-principles article + article { padding-left: 36px; }
+.oleic-principles article:last-child { border-right: 0; }
+.oleic-principles span { color: #c97845; font-size: 13px; font-weight: 800; letter-spacing: .15em; }
+.oleic-principles h2 { margin: 56px 0 14px; font-size: 26px; color: #2d2522; }
+.oleic-principles p { margin: 0; color: #6f625c; line-height: 1.85; }
+
+.oleic-report-section { padding: 88px 0 108px; border-top: 1px solid rgba(75, 48, 40, .18); }
+.oleic-report-heading { max-width: 660px; }
+.oleic-report-heading > p:last-child { color: #6f625c; line-height: 1.9; }
+
+.oleic-report-empty { margin-top: 44px; padding: 44px 46px; border: 1px solid rgba(75, 48, 40, .2); border-radius: 4px; background: #f4eadb; }
+.oleic-report-status { margin: 0 0 18px; color: #c97845; font-size: 12px; font-weight: 800; letter-spacing: .16em; }
+.oleic-report-empty h3 { margin: 0 0 12px; color: #2d2522; font-size: 25px; }
+.oleic-report-empty p:last-child { margin: 0; color: #6f625c; line-height: 1.8; }
+
+.oleic-note-section { margin-bottom: 112px; padding: 54px 0; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 8vw, 150px); border-top: 1px solid rgba(75, 48, 40, .18); border-bottom: 1px solid rgba(75, 48, 40, .18); }
+.oleic-note-section > p { align-self: end; margin: 0; }
+
+@media (max-width: 760px) {
+  .oleic-hero { min-height: 350px; padding: 112px 24px 66px; }
+  .oleic-hero h1 { font-size: 40px; }
+  .oleic-hero p:last-child { font-size: 15px; }
+  .oleic-section { width: min(100% - 40px, 600px); }
+  .oleic-intro { padding: 72px 0 64px; grid-template-columns: 1fr; gap: 8px; }
+  .oleic-intro-body { padding-top: 0; }
+  .oleic-intro-body p, .oleic-note-section > p { font-size: 16px; }
+  .oleic-principles { padding-bottom: 72px; grid-template-columns: 1fr; }
+  .oleic-principles article, .oleic-principles article + article { min-height: auto; padding: 28px 0; border-right: 0; border-bottom: 1px solid rgba(75, 48, 40, .18); }
+  .oleic-principles article:last-child { border-bottom: 0; }
+  .oleic-principles h2 { margin-top: 30px; }
+  .oleic-report-section { padding: 64px 0 72px; }
+  .oleic-report-empty { margin-top: 32px; padding: 30px 26px; }
+  .oleic-note-section { margin-bottom: 72px; padding: 42px 0; grid-template-columns: 1fr; gap: 26px; }
+}
