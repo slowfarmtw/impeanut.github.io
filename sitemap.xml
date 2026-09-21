@@ -25,12 +25,6 @@
   </url>
 
   <url>
-    <loc>https://impeanut.com/peanut-candy.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
     <loc>https://impeanut.com/knowledge.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
