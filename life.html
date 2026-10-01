@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>花生的一生｜花生一生</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="refresh" content="0; url=index.html">
+  <script>window.location.replace("index.html");</script>
 
   <link rel="stylesheet" href="css/style.css?v=20260713">
   <link rel="stylesheet" href="css/footer.css">
@@ -13,7 +16,7 @@
   <link rel="stylesheet" href="css/brand-system.css?v=20260713">
   <link rel="stylesheet" href="css/palette-system.css?v=20260807-font-fix">
   <link rel="stylesheet" href="css/site-wa.css?v=20260902-2">
-  <link rel="stylesheet" href="css/packaging-site.css?v=20261001">
+  <link rel="stylesheet" href="css/packaging-site.css?v=20261001-dense">
 </head>
 
 <body>
@@ -28,8 +31,7 @@
    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
       <a href="index.html">首頁</a>
       <a href="about.html">品牌理念</a>
-      <a href="life.html">花生的一生</a>
-      <a href="products.html">產品介紹</a>
+      <a href="products.html">花生產品</a>
       <a href="knowledge.html">花生知識</a>
       <a href="order.html" data-purchase-link>前往購買</a>
       <a href="contact.html">聯絡我們</a>
@@ -54,6 +56,11 @@
           花生不是突然出現在包裝裡的商品。它從土壤開始，經過種植、採收、乾燥、篩選、烘焙與包裝，
           才慢慢成為可以被分享的日常風味。
         </p>
+        <nav class="life-chapter-nav" aria-label="花生成長章節">
+          <a href="#life-field"><b>01</b><span>在田裡生長</span><small>播種・照顧・結莢</small></a>
+          <a href="#life-material"><b>02</b><span>成為原料</span><small>採收・乾燥</small></a>
+          <a href="#life-product"><b>03</b><span>做成產品</span><small>篩選・烘焙・包裝</small></a>
+        </nav>
       </div>
 
       <div class="life-river-map">
@@ -68,7 +75,7 @@
           />
         </svg>
 
-        <article class="river-step step-left" style="--top: 3%;">
+        <article class="river-step step-left" id="life-field" style="--top: 3%;">
           <div class="river-dot">01</div>
           <div class="river-card">
             <div class="river-image">
@@ -116,7 +123,7 @@
           </div>
         </article>
 
-        <article class="river-step step-right" style="--top: 45%;">
+        <article class="river-step step-right" id="life-material" style="--top: 45%;">
           <div class="river-dot">04</div>
           <div class="river-card">
             <div class="river-image">
@@ -148,7 +155,7 @@
           </div>
         </article>
 
-        <article class="river-step step-right" style="--top: 73%;">
+        <article class="river-step step-right" id="life-product" style="--top: 73%;">
           <div class="river-dot">06</div>
           <div class="river-card">
             <div class="river-image">
@@ -208,13 +215,13 @@
   <footer class="site-footer">
     <div>
       <h3>從從農農｜花生一生</h3>
-      <p>來自雲林元長的花生品牌。</p>
+      <p>來自雲林的花生品牌。</p>
     </div>
 
     <div>
       <h4>網站導覽</h4>
       <a href="about.html">品牌理念</a>
-      <a href="products.html">產品介紹</a>
+      <a href="products.html">花生產品</a>
       <a href="order.html">訂購方式</a>
       <a href="contact.html">聯絡我們</a>
     </div>
@@ -230,7 +237,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="admin/assets/js/services/supabase-config.js?v=20260709"></script>
   <script src="js/analytics.js?v=20260711"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=20261001-nav"></script>
   <script src="js/cart-ui.js?v=20260713"></script>
   <script src="js/life.js"></script>
 

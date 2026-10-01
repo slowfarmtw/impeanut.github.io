@@ -1,6 +1,6 @@
 const PEANUT_CART_KEY = "peanutCart";
 const PEANUT_PURCHASE_MODE = "myship";
-const PEANUT_MYSHIP_URL = "";
+const PEANUT_MYSHIP_URL = "https://myship.7-11.com.tw/general/detail/GM2608033951720";
 
 window.PEANUT_PURCHASE_MODE = PEANUT_PURCHASE_MODE;
 window.PEANUT_MYSHIP_URL = PEANUT_MYSHIP_URL;

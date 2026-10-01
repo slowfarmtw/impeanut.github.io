@@ -34,9 +34,18 @@ function getProductImageSrc(image) {
   return `images/${imageText}`;
 }
 
+function getProductDisplayImage(product, image) {
+  // 原味花生糖採用網站內已確認的產品形象照，不受後台舊 placeholder 影響。
+  if (String(product?.name || "").includes("原味花生糖")) {
+    return "images/products/peanut-candy-original-cutout.webp";
+  }
+
+  return getProductImageSrc(image);
+}
+
 function normalizeProduct(product) {
   const image = product.cover_image || product.image || "placeholder.png";
-  const imageSrc = getProductImageSrc(image);
+  const imageSrc = getProductDisplayImage(product, image);
 
   return {
     ...product,
@@ -73,71 +82,39 @@ function getCartProductPayload(product) {
     sku: product.sku || "",
     price: Number(product.price || 0),
     image: product.cover_image || product.image || "placeholder.png",
-    image_src: getProductImageSrc(product.cover_image || product.image),
+    image_src: getProductDisplayImage(product, product.cover_image || product.image),
     weight: product.weight || ""
   };
 }
 
 function renderProductCard(product) {
-  const imageSrc = product.image_src || getProductImageSrc(product.cover_image || product.image);
+  const imageSrc = product.image_src || getProductDisplayImage(product, product.cover_image || product.image);
   const productUrl = `product.html?id=${encodeURIComponent(product.id)}`;
-  const usesMyShip = window.PEANUT_PURCHASE_MODE === "myship";
   const subtitleParts = [
     product.subtitle,
     product.weight
   ].filter(Boolean);
-  const buyRow = usesMyShip
-    ? `
-      <div class="product-buy-row">
-        <a href="order.html" class="product-add-btn" data-purchase-link>
-          前往賣貨便購買
-        </a>
-      </div>
-    `
-    : `
-      <div class="product-buy-row">
-        <div class="product-list-qty">
-          <button type="button" class="list-qty-minus">−</button>
-          <span class="list-qty-number">1</span>
-          <button type="button" class="list-qty-plus">＋</button>
-        </div>
-
-        <button
-          type="button"
-          class="product-add-btn"
-          data-product-id="${escapeHtml(product.id)}"
-        >
-          加入購物車
-        </button>
-      </div>
-    `;
 
   return `
     <article class="product-card">
-      <div class="product-image-wrap">
-        <a href="${productUrl}">
-          <img
-            src="${escapeHtml(imageSrc)}"
-            alt="${escapeHtml(product.name)}"
-            onerror="this.onerror=null; this.src='images/products/placeholder.png';"
-          >
-        </a>
-      </div>
+      <a class="product-image-wrap" href="${productUrl}" aria-label="查看 ${escapeHtml(product.name)}">
+        <img
+          src="${escapeHtml(imageSrc)}"
+          alt="${escapeHtml(product.name)}"
+          onerror="this.onerror=null; this.src='images/products/placeholder.png';"
+        >
+      </a>
 
       <div class="product-card-body">
-        <h2>${escapeHtml(product.name)}</h2>
+        <h2><a href="${productUrl}">${escapeHtml(product.name)}</a></h2>
 
         ${subtitleParts.length ? `<p class="product-subtitle">${escapeHtml(subtitleParts.join("｜"))}</p>` : ""}
 
         <p class="product-desc">${escapeHtml(product.description)}</p>
 
-        <div class="product-card-actions">
-          <div class="product-card-bottom">
-            <strong>${formatPrice(product.price)}</strong>
-            <a href="${productUrl}" class="product-btn">查看詳情</a>
-          </div>
-
-          ${buyRow}
+        <div class="product-card-bottom">
+          <strong>${formatPrice(product.price)}</strong>
+          <a href="${productUrl}" class="product-btn">查看商品</a>
         </div>
       </div>
     </article>
@@ -177,11 +154,6 @@ async function loadProducts() {
     }
 
     container.innerHTML = products.map(renderProductCard).join("");
-    if (window.PEANUT_PURCHASE_MODE === "myship") {
-      window.peanutApplyPurchaseModeLinks?.(container);
-    } else {
-      setupProductListActions(products);
-    }
   } catch (error) {
     console.error("商品載入失敗：", error);
     container.innerHTML = "<p>商品載入失敗，請稍後再試。</p>";
