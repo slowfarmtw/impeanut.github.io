@@ -38,18 +38,9 @@ function getProductImageSrc(image) {
   return `images/${imageText}`;
 }
 
-function getProductDisplayImage(product, image) {
-  // 原味花生糖採用網站內已確認的產品形象照，不受後台舊 placeholder 影響。
-  if (String(product?.name || "").includes("原味花生糖")) {
-    return "images/products/peanut-candy-original-cutout.webp";
-  }
-
-  return getProductImageSrc(image);
-}
-
 function normalizeProduct(product) {
   const image = product.cover_image || product.image || "placeholder.png";
-  const imageSrc = getProductDisplayImage(product, image);
+  const imageSrc = getProductImageSrc(image);
 
   return {
     ...product,
@@ -121,7 +112,7 @@ function getCartProductPayload(product) {
     sku: product.sku || "",
     price: Number(product.price || 0),
     image: product.cover_image || product.image || "placeholder.png",
-    image_src: product.image_src || getProductDisplayImage(product, product.cover_image || product.image),
+    image_src: product.image_src || getProductImageSrc(product.cover_image || product.image),
     cover_image: product.cover_image || product.image || "",
     weight: product.weight || ""
   };
@@ -240,7 +231,7 @@ function renderProductNotFound() {
 }
 
 function renderProductDetailContent(product) {
-  const imageSrc = product.image_src || getProductDisplayImage(product, product.cover_image || product.image);
+  const imageSrc = product.image_src || getProductImageSrc(product.cover_image || product.image);
   const subtitleParts = [product.subtitle, product.weight].filter(Boolean);
   const introText = product.description || "內容整理中。";
   const usesMyShip = window.PEANUT_PURCHASE_MODE === "myship";
