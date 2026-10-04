@@ -134,7 +134,11 @@ async function loadProducts() {
 
   if (!container) return;
 
-  container.innerHTML = "<p>商品載入中...</p>";
+  // Keep the server-rendered product card visible until the current catalog
+  // has loaded. This gives visitors a working purchase path if Supabase is
+  // slow or temporarily unavailable, and gives crawlers meaningful HTML.
+  const fallbackMarkup = container.innerHTML;
+  container.setAttribute("aria-busy", "true");
 
   try {
     const products = await fetchProductsFromSupabase();
@@ -147,7 +151,20 @@ async function loadProducts() {
     container.innerHTML = products.map(renderProductCard).join("");
   } catch (error) {
     console.error("商品載入失敗：", error);
-    container.innerHTML = "<p>商品載入失敗，請稍後再試。</p>";
+    container.innerHTML = fallbackMarkup;
+
+    // The purchase destination is the source of truth when the live catalog
+    // cannot be refreshed, so avoid presenting a possibly stale fallback price.
+    const fallbackPrice = container.querySelector("[data-static-price]");
+    if (fallbackPrice) fallbackPrice.textContent = "請至購買頁確認最新價格";
+
+    const syncNotice = document.createElement("p");
+    syncNotice.className = "product-subtitle";
+    syncNotice.setAttribute("role", "status");
+    syncNotice.textContent = "商品資料暫時無法同步，請前往購買頁確認最新資訊。";
+    container.append(syncNotice);
+  } finally {
+    container.removeAttribute("aria-busy");
   }
 }
 
