@@ -230,8 +230,18 @@ function renderProductNotFound() {
   `;
 }
 
+function getProductDisplayName(name) {
+  const cleaned = String(name || "")
+    .replace(/^花生一生\s*[｜|]\s*(?:＃|#)\s*\d+\s*/, "")
+    .replace(/^花生一生\s*[｜|]\s*/, "")
+    .trim();
+
+  return cleaned || String(name || "商品名稱整理中。");
+}
+
 function renderProductDetailContent(product) {
   const imageSrc = product.image_src || getProductImageSrc(product.cover_image || product.image);
+  const displayName = getProductDisplayName(product.name);
   const subtitleParts = [product.subtitle, product.weight].filter(Boolean);
   const introText = product.description || "內容整理中。";
   const usesMyShip = window.PEANUT_PURCHASE_MODE === "myship";
@@ -256,55 +266,56 @@ function renderProductDetailContent(product) {
 
   productDetail.innerHTML = `
     <section class="product-detail-page">
-      <div class="product-top-card">
-        <div class="product-top-image">
+      <article class="product-top-card product-showcase">
+        <div class="product-top-image product-showcase-image">
           <img
             src="${escapeHtml(imageSrc)}"
-            alt="${escapeHtml(product.name)}"
+            alt="${escapeHtml(displayName)}"
             onerror="this.onerror=null; this.src='images/products/placeholder.png';"
           >
         </div>
 
-        <div class="product-top-info">
-          <p class="section-label">商品資訊</p>
-          <h1>${escapeHtml(product.name)}</h1>
+        <div class="product-top-info product-showcase-info">
+          <p class="section-label">PEANUT LIFE · PRODUCT</p>
+          <p class="product-showcase-category">${escapeHtml(product.category || "花生產品")}</p>
+          <h1>${escapeHtml(displayName)}</h1>
           <p class="product-detail-subtitle">${escapeHtml(subtitleParts.join("｜"))}</p>
 
-          <p class="product-detail-desc">
-            ${escapeHtml(product.description || "")}
-          </p>
+          <p class="product-detail-desc">${escapeHtml(introText)}</p>
 
-          <p class="product-detail-price">${formatPrice(product.price)}</p>
-          ${purchaseControls}
+          <div class="product-buy-row">
+            <p class="product-detail-price">${formatPrice(product.price)}</p>
+            ${purchaseControls}
+          </div>
         </div>
-      </div>
+      </article>
 
-      <div class="product-info-panel">
-        <section class="product-info-section">
-          <h2>產品介紹</h2>
-          <p>${escapeHtml(introText)}</p>
-        </section>
-
-        <section class="product-info-section">
+      <section class="product-essentials" aria-label="商品重點">
+        <article>
+          <span>FLAVOUR</span>
+          <h2>風味</h2>
+          <p>${escapeHtml(product.subtitle || "風味資訊整理中。")}</p>
+        </article>
+        <article>
+          <span>INGREDIENTS</span>
           <h2>主要成分</h2>
           <p>${escapeHtml(product.ingredients || "內容整理中。")}</p>
-        </section>
+        </article>
+        <article>
+          <span>NET WEIGHT</span>
+          <h2>規格</h2>
+          <p>${escapeHtml(product.weight || "依包裝標示")}</p>
+        </article>
+      </section>
 
-        <section class="product-info-section">
-          <h2>風味特色</h2>
-          ${renderList(product.subtitle)}
-        </section>
-
-        <section class="product-info-section">
-          <h2>規格資訊</h2>
-          <ul class="product-spec-list">
-            <li>品名：${escapeHtml(product.name)}</li>
-            <li>分類：${escapeHtml(product.category || "未分類")}</li>
-            <li>規格：${escapeHtml(product.weight || "依包裝標示")}</li>
-            <li>售價：${formatPrice(product.price)}</li>
-          </ul>
-        </section>
-      </div>
+      <details class="product-details">
+        <summary>商品資訊 <span>＋</span></summary>
+        <dl>
+          <div><dt>品名</dt><dd>${escapeHtml(displayName)}</dd></div>
+          <div><dt>分類</dt><dd>${escapeHtml(product.category || "未分類")}</dd></div>
+          <div><dt>售價</dt><dd>${formatPrice(product.price)}</dd></div>
+        </dl>
+      </details>
     </section>
   `;
 

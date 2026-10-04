@@ -19,6 +19,33 @@ if (menuToggle && siteNav) {
   });
 }
 
+function syncCurrentNavLink() {
+  const navLinks = document.querySelectorAll(".site-nav a[href]");
+  if (!navLinks.length) return;
+
+  let currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+  if (currentPath === "/") currentPath = "/index.html";
+
+  if (currentPath.startsWith("/articles/") || /\/(article\.html|high-oleic\.html)$/.test(currentPath)) {
+    currentPath = "/knowledge.html";
+  } else if (/\/product\.html$/.test(currentPath)) {
+    currentPath = "/products.html";
+  } else if (/\/(cart|checkout|thank-you)\.html$/.test(currentPath)) {
+    currentPath = "/order.html";
+  }
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || /^(https?:|#)/i.test(href)) return;
+
+    const linkPath = new URL(href, window.location.href).pathname.replace(/\/+$/, "") || "/";
+    link.toggleAttribute("aria-current", linkPath === currentPath);
+    if (linkPath === currentPath) link.setAttribute("aria-current", "page");
+  });
+}
+
+syncCurrentNavLink();
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
